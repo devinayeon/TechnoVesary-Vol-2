@@ -93,5 +93,8 @@ test('registrasi akun baru otomatis menjadi customer dan diarahkan ke layar veri
     $newUser = User::where('email', $email)->first();
     expect($newUser)->not->toBeNull();
     expect($newUser->role)->toBe(UserRole::CUSTOMER);
+    expect($newUser->customer)->not->toBeNull();
+    expect($newUser->customer->points)->toBe(0);
+    expect($newUser->customer->is_member)->toBeFalse();
     $response->assertRedirect(route('verification.notice'));
 });
