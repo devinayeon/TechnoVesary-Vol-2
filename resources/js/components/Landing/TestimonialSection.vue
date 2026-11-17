@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+const sectionRef = ref<HTMLElement | null>(null);
+let gsapCtx: gsap.Context | null = null;
+
 const testimonials = [
   {
     id: 1,
@@ -25,10 +32,46 @@ const testimonials = [
       'Setiap setoran terasa lebih berarti. Ada angka nyata di saldo poin yang bisa saya tukarkan kapan saja.',
   },
 ];
+
+onMounted(async () => {
+  if (typeof window === 'undefined' || !sectionRef.value) return;
+  await nextTick();
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsapCtx = gsap.context(() => {
+    const root = sectionRef.value;
+    if (!root) return;
+
+    const cards = root.querySelectorAll('.testi-card');
+    if (cards.length > 0) {
+      gsap.fromTo(
+        cards,
+        { y: 55, opacity: 0, scale: 0.94 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.16,
+          ease: 'back.out(1.3)',
+          scrollTrigger: {
+            trigger: cards[0],
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
+  }, sectionRef.value);
+});
+
+onUnmounted(() => {
+  gsapCtx?.revert();
+});
 </script>
 
 <template>
-  <section id="testimoni" class="bg-paper-white py-16 lg:py-20">
+  <section id="testimoni" ref="sectionRef" class="bg-paper-white py-16 lg:py-20 overflow-hidden">
     <div class="max-w-[1200px] mx-auto px-6">
       <!-- Header -->
       <div class="text-center mb-12">
@@ -44,11 +87,11 @@ const testimonials = [
       </div>
 
       <!-- Testimonial Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="testi-grid grid grid-cols-1 md:grid-cols-3 gap-6">
         <div
           v-for="t in testimonials"
           :key="t.id"
-          class="bg-paper-white border border-border-gray rounded-[28px] p-7 flex flex-col justify-between hover:-translate-y-2 hover:shadow-xl transition-all duration-200 cursor-default"
+          class="testi-card bg-paper-white border border-border-gray rounded-[28px] p-7 flex flex-col justify-between hover:-translate-y-2 hover:shadow-xl transition-all duration-200 cursor-default"
         >
           <div>
             <span class="inline-block font-bold text-[12px] sm:text-[13px] tracking-[1.6px] uppercase text-charcoal mb-4">
@@ -59,16 +102,17 @@ const testimonials = [
             </p>
           </div>
 
-          <!-- Author -->
-          <div class="flex items-center gap-4 pt-4 border-t border-border-gray/60">
-            <div
-              class="size-12 rounded-full bg-cloud-surface border-2 border-border-gray flex items-center justify-center text-2xl shrink-0"
-            >
+          <div class="flex items-center gap-3 pt-4 border-t border-border-gray/50">
+            <div class="w-11 h-11 rounded-full bg-cloud-surface flex items-center justify-center text-xl shrink-0">
               {{ t.avatar }}
             </div>
             <div>
-              <p class="font-bold text-[18px] sm:text-[19px] text-night-ink leading-tight">{{ t.name }}</p>
-              <p class="font-medium text-[13px] text-charcoal mt-0.5">{{ t.role }}</p>
+              <p class="font-bold text-[16px] text-night-ink leading-tight">
+                {{ t.name }}
+              </p>
+              <p class="font-medium text-[13px] text-charcoal">
+                {{ t.role }}
+              </p>
             </div>
           </div>
         </div>

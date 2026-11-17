@@ -1,4 +1,10 @@
 import { createInertiaApp } from '@inertiajs/vue3';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

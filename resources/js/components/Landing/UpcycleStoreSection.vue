@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AppButton from './AppButton.vue';
 
 interface Product {
@@ -17,6 +20,9 @@ interface Product {
 
 defineProps<{ products: Product[] }>();
 
+const sectionRef = ref<HTMLElement | null>(null);
+let gsapCtx: gsap.Context | null = null;
+
 function formatRupiah(amount: number): string {
   return new Intl.NumberFormat('id-ID', {
     style: 'currency',
@@ -24,10 +30,46 @@ function formatRupiah(amount: number): string {
     minimumFractionDigits: 0,
   }).format(amount);
 }
+
+onMounted(async () => {
+  if (typeof window === 'undefined' || !sectionRef.value) return;
+  await nextTick();
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsapCtx = gsap.context(() => {
+    const root = sectionRef.value;
+    if (!root) return;
+
+    const cards = root.querySelectorAll('.upcycle-bento-card');
+    if (cards.length > 0) {
+      gsap.fromTo(
+        cards,
+        { y: 55, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: cards[0],
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
+  }, sectionRef.value);
+});
+
+onUnmounted(() => {
+  gsapCtx?.revert();
+});
 </script>
 
 <template>
-  <section id="upcycle" class="bg-paper-white py-16 lg:py-20">
+  <section id="upcycle" ref="sectionRef" class="bg-paper-white py-16 lg:py-20 overflow-hidden scroll-mt-28">
     <div class="max-w-[1200px] mx-auto px-6">
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
@@ -36,9 +78,9 @@ function formatRupiah(amount: number): string {
         </h2>
         <a
           href="#"
-          class="font-bold text-[15px] tracking-wider uppercase text-night-ink hover:text-eco-green transition-colors inline-flex items-center gap-1.5"
+          class="font-bold text-[15px] tracking-wider uppercase text-night-ink hover:text-eco-green transition-colors inline-flex items-center gap-1.5 group"
         >
-          Jelajahi toko →
+          Jelajahi toko <span class="transition-transform group-hover:translate-x-1">→</span>
         </a>
       </div>
       <p class="font-medium text-[16px] sm:text-[17px] text-charcoal max-w-4xl mb-10 leading-relaxed">
@@ -46,10 +88,10 @@ function formatRupiah(amount: number): string {
       </p>
 
       <!-- Bento Grid (3 Columns) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="upcycle-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Bento Top Left: Info Card (Span 2 cols on desktop) -->
         <div
-          class="lg:col-span-2 bg-cloud-surface rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:shadow-md transition-all duration-200"
+          class="upcycle-bento-card lg:col-span-2 bg-cloud-surface rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:shadow-md transition-all duration-200"
         >
           <p class="font-bold text-[13px] tracking-[1.6px] uppercase text-charcoal mb-2">
             PILIH KARYANYA &nbsp;/&nbsp; GUNAKAN POINMU &nbsp;/&nbsp; PAKAI KEMBALI
@@ -65,7 +107,7 @@ function formatRupiah(amount: number): string {
         <!-- Product 1 -->
         <div
           v-if="products.length > 0"
-          class="bg-paper-white border-2 border-border-gray rounded-[20px] drop-shadow-[0px_4px_0px_var(--color-border-gray)] p-5 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-lg transition-all duration-200 cursor-default"
+          class="upcycle-bento-card bg-paper-white border-2 border-border-gray rounded-[20px] drop-shadow-[0px_4px_0px_var(--color-border-gray)] p-5 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-lg transition-all duration-200 cursor-default"
         >
           <div class="bg-gold-tint rounded-[14px] h-[140px] flex items-center justify-center overflow-hidden mb-4 p-2">
             <img
@@ -105,7 +147,7 @@ function formatRupiah(amount: number): string {
         <!-- Product 2 -->
         <div
           v-if="products.length > 1"
-          class="bg-paper-white border-2 border-border-gray rounded-[20px] drop-shadow-[0px_4px_0px_var(--color-border-gray)] p-5 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-lg transition-all duration-200 cursor-default"
+          class="upcycle-bento-card bg-paper-white border-2 border-border-gray rounded-[20px] drop-shadow-[0px_4px_0px_var(--color-border-gray)] p-5 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-lg transition-all duration-200 cursor-default"
         >
           <div class="bg-gold-tint rounded-[14px] h-[140px] flex items-center justify-center overflow-hidden mb-4 p-2">
             <img
@@ -145,7 +187,7 @@ function formatRupiah(amount: number): string {
         <!-- Product 3 -->
         <div
           v-if="products.length > 2"
-          class="bg-paper-white border-2 border-border-gray rounded-[20px] drop-shadow-[0px_4px_0px_var(--color-border-gray)] p-5 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-lg transition-all duration-200 cursor-default"
+          class="upcycle-bento-card bg-paper-white border-2 border-border-gray rounded-[20px] drop-shadow-[0px_4px_0px_var(--color-border-gray)] p-5 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-lg transition-all duration-200 cursor-default"
         >
           <div class="bg-gold-tint rounded-[14px] h-[140px] flex items-center justify-center overflow-hidden mb-4 p-2">
             <img
@@ -184,7 +226,7 @@ function formatRupiah(amount: number): string {
 
         <!-- Bento Bottom Right: Circular Banner -->
         <div
-          class="bg-night-ink text-paper-white rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:shadow-xl transition-all duration-200"
+          class="upcycle-bento-card bg-night-ink text-paper-white rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:shadow-xl transition-all duration-200"
         >
           <p class="font-bold text-[13px] tracking-[1.6px] uppercase text-sprout-tint mb-2">
             SATU PUTARAN BARU

@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+const sectionRef = ref<HTMLElement | null>(null);
+let gsapCtx: gsap.Context | null = null;
+
 const steps = [
     {
         num: "01",
@@ -31,13 +38,87 @@ const steps = [
         illustration: "/assets/Maskot/Pose=Celebrate-Coins.png",
     },
 ];
+
+onMounted(async () => {
+    if (typeof window === "undefined" || !sectionRef.value) return;
+    await nextTick();
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsapCtx = gsap.context(() => {
+        const root = sectionRef.value;
+        if (!root) return;
+
+        // Entrance animation untuk Header
+        const header = root.querySelector(".how-header");
+        if (header) {
+            gsap.fromTo(
+                header,
+                { y: 30, opacity: 0 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.7,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: header,
+                        start: "top 85%",
+                        toggleActions: "play none none none",
+                    },
+                },
+            );
+        }
+
+        // Entrance animation untuk 3 Kartu Langkah
+        const cards = root.querySelectorAll(".how-step-card");
+        if (cards.length > 0) {
+            gsap.fromTo(
+                cards,
+                { y: 55, opacity: 0, scale: 0.94 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    stagger: 0.16,
+                    ease: "back.out(1.3)",
+                    scrollTrigger: {
+                        trigger: cards[0],
+                        start: "top 85%",
+                        toggleActions: "play none none none",
+                    },
+                },
+            );
+        }
+
+        // Idle floating/breathing animation for mascots
+        const mascots = root.querySelectorAll(".how-mascot-img");
+        if (mascots.length > 0) {
+            gsap.to(mascots, {
+                y: -10,
+                duration: 2.2,
+                repeat: -1,
+                yoyo: true,
+                stagger: 0.25,
+                ease: "sine.inOut",
+            });
+        }
+    }, sectionRef.value); // Gunakan sectionRef.value (DOM element nyata)
+});
+
+onUnmounted(() => {
+    gsapCtx?.revert();
+});
 </script>
 
 <template>
-    <section id="cara-kerja" class="bg-paper-white py-16 lg:py-20">
+    <section
+        id="cara-kerja"
+        ref="sectionRef"
+        class="bg-paper-white py-16 lg:py-20 overflow-hidden scroll-mt-28"
+    >
         <div class="max-w-[1200px] mx-auto px-6">
             <!-- Header -->
-            <div class="text-center mb-12">
+            <div class="how-header text-center mb-12">
                 <p
                     class="font-bold text-[13px] tracking-[1.6px] uppercase text-charcoal mb-3"
                 >
@@ -50,12 +131,12 @@ const steps = [
                 </h2>
             </div>
 
-            <!-- 3 Step Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- 3 Step Cards Grid -->
+            <div class="how-cards-grid grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div
                     v-for="step in steps"
                     :key="step.num"
-                    class="rounded-[28px] p-7 flex flex-col min-h-[400px] transition-all duration-200 hover:-translate-y-2 hover:shadow-xl cursor-default"
+                    class="how-step-card rounded-[28px] p-7 flex flex-col min-h-[400px] transition-all duration-200 hover:-translate-y-2 hover:shadow-xl cursor-default"
                     :class="step.bg"
                 >
                     <!-- Step Number -->
@@ -73,7 +154,7 @@ const steps = [
                         <img
                             :src="step.illustration"
                             :alt="step.title"
-                            class="w-full h-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105"
+                            class="how-mascot-img w-full h-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105"
                         />
                     </div>
 

@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 import type { Map as LeafletMap } from 'leaflet';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Car, Clock, LocateFixed, Plus, Minus } from 'lucide-vue-next';
 
 const props = defineProps<{
   basemapApiKey?: string;
 }>();
+
+const sectionRef = ref<HTMLElement | null>(null);
+const destinationCardRef = ref<HTMLElement | null>(null);
+let gsapCtx: gsap.Context | null = null;
 
 // --- Jember Coordinates (Data Dummy Statis) ---
 const JEMBER_CENTER: [number, number] = [-8.178, 113.682];
@@ -215,6 +221,46 @@ onMounted(async () => {
     } finally {
       routeLoading.value = false;
     }
+    // GSAP ScrollTrigger Entrance Animation with fromTo
+    if (sectionRef.value) {
+      gsap.registerPlugin(ScrollTrigger);
+      gsapCtx = gsap.context(() => {
+        gsap.fromTo(
+          '.map-card-wrapper',
+          { scale: 0.94, y: 50, opacity: 0 },
+          {
+            scale: 1,
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: '.map-card-wrapper',
+              start: 'top 85%',
+            },
+          }
+        );
+
+        if (destinationCardRef.value) {
+          gsap.fromTo(
+            destinationCardRef.value,
+            { x: -40, opacity: 0, scale: 0.9 },
+            {
+              x: 0,
+              opacity: 1,
+              scale: 1,
+              duration: 0.7,
+              delay: 0.2,
+              ease: 'back.out(1.4)',
+              scrollTrigger: {
+                trigger: '.map-card-wrapper',
+                start: 'top 85%',
+              },
+            }
+          );
+        }
+      }, sectionRef.value);
+    }
   } catch (err) {
     console.error('Failed to init Leaflet Map:', err);
     routeLoading.value = false;
@@ -222,13 +268,14 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
+  gsapCtx?.revert();
   map?.remove();
   map = null;
 });
 </script>
 
 <template>
-  <section class="bg-paper-white py-12 lg:py-16">
+  <section ref="sectionRef" class="bg-paper-white py-12 lg:py-16 overflow-hidden">
     <div class="max-w-[1200px] mx-auto px-4 sm:px-6">
       <!-- Section Title & Subtitle -->
       <div class="flex flex-col sm:flex-row sm:items-baseline justify-between mb-6 gap-2">
@@ -242,13 +289,14 @@ onUnmounted(() => {
 
       <!-- Tactile Card Container -->
       <div
-        class="relative h-[480px] sm:h-[530px] rounded-[24px] sm:rounded-[28px] overflow-hidden border-4 border-border-gray shadow-[0px_6px_0px_0px_var(--color-border-gray)] bg-cloud-surface"
+        class="map-card-wrapper relative h-[480px] sm:h-[530px] rounded-[24px] sm:rounded-[28px] overflow-hidden border-4 border-border-gray shadow-[0px_6px_0px_0px_var(--color-border-gray)] bg-cloud-surface"
       >
         <!-- Map Canvas (Mendukung drag/bergeser dan zoom) -->
         <div :id="mapContainerId" class="w-full h-full z-0 cursor-grab active:cursor-grabbing" />
 
         <!-- Overlay: Destination Card (100% Responsif di Mobile & Desktop) -->
         <div
+          ref="destinationCardRef"
           class="absolute bottom-4 left-4 right-4 sm:right-auto sm:bottom-6 sm:left-6 sm:w-[411px] bg-paper-white border border-border-gray rounded-xl p-4 sm:p-5 shadow-[2px_2px_0px_0px_var(--color-border-gray)] hover:shadow-[3px_3px_0px_0px_var(--color-border-gray)] transition-shadow z-[1000]"
         >
           <div class="flex items-center justify-between mb-1">

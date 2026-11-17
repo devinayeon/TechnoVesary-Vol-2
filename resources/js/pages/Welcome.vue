@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { Head } from "@inertiajs/vue3";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TheNavbar from "@/components/Landing/TheNavbar.vue";
 import HeroSection from "@/components/Landing/HeroSection.vue";
 import MapPickupSection from "@/components/Landing/MapPickupSection.vue";
@@ -67,6 +70,21 @@ defineProps<{
     articles: Article[];
     basemapApiKey?: string;
 }>();
+
+onMounted(() => {
+    if (typeof window !== "undefined") {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Pastikan ScrollTrigger menghitung posisi akurat setelah layout dan gambar termuat
+        setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 300);
+
+        window.addEventListener("load", () => {
+            ScrollTrigger.refresh();
+        });
+    }
+});
 </script>
 
 <template>

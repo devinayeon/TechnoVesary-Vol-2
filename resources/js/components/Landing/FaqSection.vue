@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const openIndex = ref<number | null>(0);
+const sectionRef = ref<HTMLElement | null>(null);
+let gsapCtx: gsap.Context | null = null;
 
 const faqs = [
   {
@@ -29,10 +33,45 @@ const faqs = [
 function toggle(index: number) {
   openIndex.value = openIndex.value === index ? null : index;
 }
+
+onMounted(async () => {
+  if (typeof window === 'undefined' || !sectionRef.value) return;
+  await nextTick();
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsapCtx = gsap.context(() => {
+    const root = sectionRef.value;
+    if (!root) return;
+
+    const items = root.querySelectorAll('.faq-item');
+    if (items.length > 0) {
+      gsap.fromTo(
+        items,
+        { y: 35, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: items[0],
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
+    }
+  }, sectionRef.value);
+});
+
+onUnmounted(() => {
+  gsapCtx?.revert();
+});
 </script>
 
 <template>
-  <section id="faq" class="bg-paper-white py-16 lg:py-20">
+  <section id="faq" ref="sectionRef" class="bg-paper-white py-16 lg:py-20 overflow-hidden scroll-mt-28">
     <div class="max-w-[1200px] mx-auto px-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         <!-- Left Side -->
@@ -48,36 +87,36 @@ function toggle(index: number) {
           </p>
           <a
             href="#"
-            class="font-bold text-[15px] tracking-wider uppercase text-night-ink hover:text-eco-green transition-colors inline-flex items-center gap-2"
+            class="font-bold text-[15px] tracking-wider uppercase text-night-ink hover:text-eco-green transition-colors inline-flex items-center gap-2 group"
           >
-            Hubungi kami →
+            Hubungi kami <span class="transition-transform group-hover:translate-x-1">→</span>
           </a>
         </div>
 
         <!-- Right Side: Accordion -->
-        <div class="lg:col-span-7 flex flex-col gap-3.5">
+        <div class="faq-list lg:col-span-7 flex flex-col gap-3.5">
           <div
             v-for="(faq, index) in faqs"
-            :key="index"
-            class="bg-cloud-surface rounded-2xl p-5 sm:p-6 transition-all duration-200 hover:shadow-xs border border-transparent hover:border-border-gray/50 cursor-pointer"
-            @click="toggle(index)"
+            :key="faq.question"
+            class="faq-item bg-cloud-surface border border-border-gray/80 rounded-2xl overflow-hidden transition-all duration-200"
+            :class="openIndex === index ? 'shadow-xs border-night-ink/30' : ''"
           >
-            <!-- Question & Toggle -->
-            <div class="flex items-center justify-between gap-4 select-none">
-              <h3 class="font-bold text-[17px] sm:text-[19px] text-night-ink leading-snug">
-                {{ faq.question }}
-              </h3>
+            <button
+              type="button"
+              class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-bold text-[17px] sm:text-[18px] text-night-ink cursor-pointer select-none"
+              @click="toggle(index)"
+            >
+              <span>{{ faq.question }}</span>
               <span
-                class="font-bold text-2xl text-night-ink size-8 flex items-center justify-center shrink-0 transition-transform duration-200"
+                class="size-8 rounded-full bg-paper-white border border-border-gray flex items-center justify-center text-lg font-bold shrink-0 transition-transform duration-200"
+                :class="openIndex === index ? 'rotate-45' : ''"
               >
-                {{ openIndex === index ? '−' : '+' }}
+                +
               </span>
-            </div>
-
-            <!-- Answer -->
+            </button>
             <div
               v-show="openIndex === index"
-              class="font-medium text-[15px] sm:text-[16px] text-charcoal leading-relaxed mt-3 pt-3 border-t border-border-gray/60 animate-in fade-in duration-150"
+              class="px-6 pb-5 pt-1 text-[15px] sm:text-[16px] font-medium text-charcoal leading-relaxed border-t border-border-gray/40"
             >
               {{ faq.answer }}
             </div>

@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import { Link } from "@inertiajs/vue3";
+import gsap from "gsap";
 import AppButton from "./AppButton.vue";
 
 const isScrolled = ref(false);
 const isMobileMenuOpen = ref(false);
+const headerRef = ref<HTMLElement | null>(null);
+let gsapCtx: gsap.Context | null = null;
 
 function handleScroll() {
     if (typeof window !== "undefined") {
@@ -15,21 +18,59 @@ function handleScroll() {
 onMounted(() => {
     if (typeof window !== "undefined") {
         window.addEventListener("scroll", handleScroll, { passive: true });
+
+        if (headerRef.value) {
+            gsapCtx = gsap.context(() => {
+                gsap.fromTo(
+                    headerRef.value,
+                    { y: -50, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: "power3.out",
+                    }
+                );
+            }, headerRef.value);
+        }
     }
 });
 
 onUnmounted(() => {
     if (typeof window !== "undefined") {
         window.removeEventListener("scroll", handleScroll);
+        gsapCtx?.revert();
     }
 });
 
 const navLinks = [
-    { label: "Beranda", href: "#" },
+    { label: "Beranda", href: "#beranda" },
     { label: "Tentang", href: "#cara-kerja" },
+    { label: "Subscribtion", href: "#langganan" },
+    { label: "Produk", href: "#upcycle" },
     { label: "Edukasi", href: "#artikel" },
     { label: "Kontak", href: "#faq" },
 ];
+
+function handleNavClick(e: MouseEvent, href: string) {
+    if (typeof window === "undefined") return;
+
+    if (href === "#" || href === "#beranda") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        isMobileMenuOpen.value = false;
+        return;
+    }
+
+    if (href.startsWith("#")) {
+        const target = document.querySelector(href);
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth" });
+            isMobileMenuOpen.value = false;
+        }
+    }
+}
 </script>
 
 <template>
@@ -41,7 +82,11 @@ const navLinks = [
             :class="isScrolled ? 'shadow-md border-border-gray' : ''"
         >
             <!-- Logo -->
-            <a href="/" class="flex items-center gap-2.5 group">
+            <a
+                href="/"
+                class="flex items-center gap-2.5 group cursor-pointer"
+                @click="handleNavClick($event, '#beranda')"
+            >
                 <img
                     src="/assets/Logo/logo_hijau_biru.png"
                     alt="ReValue"
@@ -69,6 +114,7 @@ const navLinks = [
                             ? 'text-night-ink'
                             : 'text-charcoal hover:text-night-ink'
                     "
+                    @click="handleNavClick($event, link.href)"
                 >
                     {{ link.label }}
                 </a>
@@ -135,8 +181,8 @@ const navLinks = [
                     v-for="link in navLinks"
                     :key="link.label"
                     :href="link.href"
-                    class="px-4 py-2 text-base font-bold text-night-ink hover:bg-cloud-surface rounded-xl transition-colors"
-                    @click="isMobileMenuOpen = false"
+                    class="px-4 py-2 text-base font-bold text-night-ink hover:bg-cloud-surface rounded-xl transition-colors cursor-pointer"
+                    @click="handleNavClick($event, link.href)"
                 >
                     {{ link.label }}
                 </a>

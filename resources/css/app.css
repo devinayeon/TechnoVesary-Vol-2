@@ -24,3 +24,8 @@
     --color-gold-tint: #fff5cc;
     --color-silver-tier: #b8c4d0;
 }
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.5rem;
+}
