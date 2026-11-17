@@ -40,6 +40,14 @@ class ArticleSeeder extends Seeder
                 'photo' => null,
                 'content' => 'Ekonomi sirkular berfokus pada perpanjangan siklus hidup material melalui daur ulang, perbaikan, dan pemanfaatan kembali guna meminimalisasi timbunan residu ke Tempat Pembuangan Akhir (TPA).',
             ],
+            [
+                'admin_id' => $admin->id,
+                'category_id' => $cat1->id,
+                'title' => 'Pilah kaca dengan aman di rumah',
+                'slug' => Str::slug('Pilah kaca dengan aman di rumah'),
+                'photo' => null,
+                'content' => 'Pisahkan botol kaca dan bungkus pecahannya agar aman saat dijemput.',
+            ],
         ];
 
         foreach ($articles as $art) {

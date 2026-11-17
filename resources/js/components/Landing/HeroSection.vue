@@ -238,12 +238,12 @@ onUnmounted(() => {
         <!-- Benefits Bar -->
         <div class="hero-benefits max-w-[1200px] mx-auto px-6 mt-16">
             <div
-                class="bg-cloud-surface rounded-3xl h-auto sm:h-16 px-6 sm:px-10 py-4 sm:py-0 flex flex-col sm:flex-row items-center justify-between gap-3 text-[17px] sm:text-[19px] font-bold text-night-ink"
+                class="bg-cloud-surface border-2 border-b-[4px] border-border-gray/70 rounded-3xl h-auto sm:h-16 px-6 sm:px-10 py-4 sm:py-0 flex flex-col sm:flex-row items-center justify-between gap-3 text-[17px] sm:text-[19px] font-bold text-night-ink"
             >
                 <span
                     v-for="b in benefits"
                     :key="b"
-                    class="hover:text-eco-green transition-colors cursor-default"
+                    class="hover:text-eco-green hover:scale-105 transition-all duration-200 cursor-default inline-block py-1"
                 >
                     {{ b }}
                 </span>

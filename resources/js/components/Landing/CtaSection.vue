@@ -68,7 +68,7 @@ onUnmounted(() => {
     <section id="cta" ref="sectionRef" class="bg-paper-white py-12 lg:py-16 overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-6">
             <div
-                class="cta-banner bg-sprout-tint rounded-[32px] p-8 lg:p-12 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8 min-h-[330px] hover:shadow-xl transition-all duration-300"
+                class="cta-banner bg-sprout-tint border-2 border-b-[6px] border-[#b5f084] rounded-[32px] p-8 lg:p-12 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8 min-h-[330px] hover:border-eco-green hover:border-b-eco-green-dark hover:shadow-[0_20px_40px_-10px_rgba(88,204,2,0.3)] transition-all duration-300 ease-out"
             >
                 <!-- Text & Action -->
                 <div class="max-w-[650px] z-10">

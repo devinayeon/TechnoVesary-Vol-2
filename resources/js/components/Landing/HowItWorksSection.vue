@@ -136,12 +136,17 @@ onUnmounted(() => {
                 <div
                     v-for="step in steps"
                     :key="step.num"
-                    class="how-step-card rounded-[28px] p-7 flex flex-col min-h-[400px] transition-all duration-200 hover:-translate-y-2 hover:shadow-xl cursor-default"
-                    :class="step.bg"
+                    class="how-step-card group rounded-[28px] p-7 flex flex-col min-h-[400px] border-2 border-transparent transition-all duration-300 ease-out hover:-translate-y-2.5 cursor-default"
+                    :class="[
+                        step.bg,
+                        step.num === '01' ? 'hover:shadow-[0_20px_40px_-10px_rgba(0,4,55,0.4)] hover:border-night-ink' : '',
+                        step.num === '02' ? 'hover:shadow-[0_20px_40px_-10px_rgba(184,196,208,0.7)] hover:border-[#9ba9b7]' : '',
+                        step.num === '03' ? 'hover:shadow-[0_20px_40px_-10px_rgba(255,200,0,0.5)] hover:border-[#e0b000]' : '',
+                    ]"
                 >
                     <!-- Step Number -->
                     <div
-                        class="font-bold text-[19px] mb-4"
+                        class="font-bold text-[19px] mb-4 transition-transform duration-300 group-hover:scale-105"
                         :class="step.numColor"
                     >
                         {{ step.num }}
@@ -154,14 +159,14 @@ onUnmounted(() => {
                         <img
                             :src="step.illustration"
                             :alt="step.title"
-                            class="how-mascot-img w-full h-full object-contain filter drop-shadow-md transition-transform duration-300 hover:scale-105"
+                            class="how-mascot-img w-full h-full object-contain filter drop-shadow-md transition-all duration-300 ease-out group-hover:scale-110 group-hover:-rotate-3"
                         />
                     </div>
 
                     <!-- Content -->
                     <div class="mt-auto pt-4">
                         <h3
-                            class="font-bold text-[24px] sm:text-[26px] tracking-tight mb-2 leading-tight"
+                            class="font-bold text-[24px] sm:text-[26px] tracking-tight mb-2 leading-tight transition-transform duration-300 group-hover:translate-x-0.5"
                             :class="step.titleColor"
                         >
                             {{ step.title }}

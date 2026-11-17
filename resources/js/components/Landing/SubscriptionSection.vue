@@ -150,21 +150,21 @@ onUnmounted(() => {
                 <div
                     v-for="tier in tiers"
                     :key="tier.key"
-                    class="sub-card rounded-[28px] p-7 min-h-[500px] flex flex-col justify-between transition-all duration-200 hover:-translate-y-2 cursor-default"
+                    class="sub-card group rounded-[28px] p-7 min-h-[500px] flex flex-col justify-between transition-all duration-300 ease-out hover:-translate-y-2.5 cursor-default relative"
                     :class="
                         tier.isFeatured
-                            ? 'bg-night-ink text-paper-white shadow-[0px_6px_0px_0px_#00021c] hover:shadow-[0px_10px_0px_0px_#00021c] border-2 border-night-ink'
-                            : 'bg-paper-white text-night-ink border-2 border-border-gray shadow-[0px_4px_0px_0px_var(--color-border-gray)] hover:shadow-[0px_8px_0px_0px_var(--color-border-gray)]'
+                            ? 'bg-night-ink text-paper-white border-2 border-b-[6px] border-night-ink shadow-[0px_6px_0px_0px_#00021c] hover:shadow-[0_20px_40px_-10px_rgba(0,4,55,0.45),0px_8px_0px_0px_#00021c]'
+                            : 'bg-paper-white text-night-ink border-2 border-b-[6px] border-border-gray shadow-[0px_4px_0px_0px_var(--color-border-gray)] hover:border-eco-green hover:border-b-[6px] hover:border-b-eco-green-dark hover:shadow-[0_16px_36px_-8px_rgba(88,204,2,0.22),0px_6px_0px_0px_var(--color-eco-green-dark)]'
                     "
                 >
                     <!-- Top Info -->
                     <div>
                         <p
-                            class="font-bold text-[13px] tracking-[1.6px] uppercase mb-4"
+                            class="font-bold text-[13px] tracking-[1.6px] uppercase mb-4 transition-colors duration-200"
                             :class="
                                 tier.isFeatured
                                     ? 'text-sprout-tint'
-                                    : 'text-charcoal'
+                                    : 'text-charcoal group-hover:text-eco-green-dark'
                             "
                         >
                             {{ tier.tag }}

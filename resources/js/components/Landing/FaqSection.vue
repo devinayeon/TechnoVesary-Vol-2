@@ -98,25 +98,25 @@ onUnmounted(() => {
           <div
             v-for="(faq, index) in faqs"
             :key="faq.question"
-            class="faq-item bg-cloud-surface border border-border-gray/80 rounded-2xl overflow-hidden transition-all duration-200"
-            :class="openIndex === index ? 'shadow-xs border-night-ink/30' : ''"
+            class="faq-item group bg-cloud-surface border-2 border-b-[4px] border-border-gray rounded-2xl overflow-hidden transition-all duration-300 ease-out hover:border-night-ink/30 hover:border-b-night-ink/50 hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
+            :class="openIndex === index ? 'bg-paper-white border-eco-green border-b-eco-green-dark shadow-sm' : ''"
           >
             <button
               type="button"
               class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-bold text-[17px] sm:text-[18px] text-night-ink cursor-pointer select-none"
               @click="toggle(index)"
             >
-              <span>{{ faq.question }}</span>
+              <span class="transition-colors duration-200 group-hover:text-night-ink">{{ faq.question }}</span>
               <span
-                class="size-8 rounded-full bg-paper-white border border-border-gray flex items-center justify-center text-lg font-bold shrink-0 transition-transform duration-200"
-                :class="openIndex === index ? 'rotate-45' : ''"
+                class="size-8.5 rounded-full bg-paper-white border-2 border-b-[3px] border-border-gray group-hover:border-eco-green flex items-center justify-center text-lg font-bold shrink-0 transition-all duration-300"
+                :class="openIndex === index ? 'rotate-45 bg-sprout-tint border-eco-green text-eco-green-dark' : 'group-hover:bg-sprout-tint/50'"
               >
                 +
               </span>
             </button>
             <div
               v-show="openIndex === index"
-              class="px-6 pb-5 pt-1 text-[15px] sm:text-[16px] font-medium text-charcoal leading-relaxed border-t border-border-gray/40"
+              class="px-6 pb-5 pt-1 text-[15px] sm:text-[16px] font-medium text-charcoal leading-relaxed border-t border-border-gray/40 animate-in fade-in duration-200"
             >
               {{ faq.answer }}
             </div>

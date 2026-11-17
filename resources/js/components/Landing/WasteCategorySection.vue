@@ -95,11 +95,11 @@ onUnmounted(() => {
                 <div
                     v-for="cat in categories"
                     :key="cat.id"
-                    class="waste-cat-card bg-cloud-surface rounded-[20px] p-4 flex items-center gap-4 hover:-translate-y-1 hover:shadow-md hover:bg-white hover:border hover:border-border-gray transition-all duration-200 cursor-default"
+                    class="waste-cat-card group bg-cloud-surface border-2 border-b-[4px] border-border-gray/80 rounded-[20px] p-4 flex items-center gap-4 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:bg-paper-white hover:border-eco-green hover:border-b-[4px] hover:border-b-eco-green-dark hover:shadow-[0_12px_24px_-6px_rgba(88,204,2,0.25)] cursor-default"
                 >
                     <!-- Squircle Sticker Icon -->
                     <div
-                        class="size-[72px] shrink-0 flex items-center justify-center transition-transform duration-200 hover:rotate-6"
+                        class="size-[72px] shrink-0 flex items-center justify-center transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-6"
                     >
                         <img
                             :src="getCategoryIcon(cat.name)"
@@ -111,12 +111,12 @@ onUnmounted(() => {
                     <!-- Name & Points -->
                     <div>
                         <h3
-                            class="font-bold text-[18px] sm:text-[19px] text-night-ink leading-tight"
+                            class="font-bold text-[18px] sm:text-[19px] text-night-ink leading-tight transition-colors duration-200"
                         >
                             {{ cat.name }}
                         </h3>
                         <p
-                            class="font-extrabold text-[14px] text-eco-green-dark mt-1"
+                            class="font-extrabold text-[14px] text-eco-green-dark mt-1 transition-transform duration-200 group-hover:translate-x-0.5"
                         >
                             {{ cat.points_per_kg.toLocaleString("id-ID") }} Poin
                             / Kg

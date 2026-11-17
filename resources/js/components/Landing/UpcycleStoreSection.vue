@@ -91,7 +91,7 @@ onUnmounted(() => {
       <div class="upcycle-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Bento Top Left: Info Card (Span 2 cols on desktop) -->
         <div
-          class="upcycle-bento-card lg:col-span-2 bg-cloud-surface rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:shadow-md transition-all duration-200"
+          class="upcycle-bento-card lg:col-span-2 bg-cloud-surface border-2 border-b-[5px] border-border-gray/70 rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:border-night-ink/20 hover:-translate-y-1 hover:shadow-md transition-all duration-300 ease-out cursor-default"
         >
           <p class="font-bold text-[13px] tracking-[1.6px] uppercase text-charcoal mb-2">
             PILIH KARYANYA &nbsp;/&nbsp; GUNAKAN POINMU &nbsp;/&nbsp; PAKAI KEMBALI
@@ -107,19 +107,19 @@ onUnmounted(() => {
         <!-- Product 1 -->
         <div
           v-if="products.length > 0"
-          class="upcycle-bento-card bg-paper-white border-2 border-border-gray rounded-[20px] drop-shadow-[0px_4px_0px_var(--color-border-gray)] p-5 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-lg transition-all duration-200 cursor-default"
+          class="upcycle-bento-card group bg-paper-white border-2 border-b-[5px] border-border-gray rounded-[20px] p-5 flex flex-col justify-between hover:border-sky-blue hover:border-b-[5px] hover:border-b-sky-blue-dark hover:-translate-y-2 hover:shadow-[0_16px_32px_-8px_rgba(28,176,246,0.25)] transition-all duration-300 ease-out cursor-default"
         >
           <div class="bg-gold-tint rounded-[14px] h-[140px] flex items-center justify-center overflow-hidden mb-4 p-2">
             <img
               v-if="products[0]?.photo || products[0]?.foto"
               :src="`/storage/${products[0]?.photo || products[0]?.foto}`"
               :alt="products[0]?.name || products[0]?.nama_produk || 'Produk'"
-              class="w-full h-full object-cover rounded-lg"
+              class="w-full h-full object-cover rounded-lg transition-transform duration-300 ease-out group-hover:scale-108"
             />
-            <div v-else class="text-5xl">🛍️</div>
+            <div v-else class="text-5xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">🛍️</div>
           </div>
           <div>
-            <h4 class="font-extrabold text-[20px] text-night-ink leading-snug mb-1">
+            <h4 class="font-extrabold text-[20px] text-night-ink leading-snug mb-1 transition-colors duration-200 group-hover:text-sky-blue-dark">
               {{ products[0]?.name ?? products[0]?.nama_produk }}
             </h4>
             <p class="text-[14px] text-night-ink/80 line-clamp-2 leading-relaxed mb-4">
@@ -147,19 +147,19 @@ onUnmounted(() => {
         <!-- Product 2 -->
         <div
           v-if="products.length > 1"
-          class="upcycle-bento-card bg-paper-white border-2 border-border-gray rounded-[20px] drop-shadow-[0px_4px_0px_var(--color-border-gray)] p-5 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-lg transition-all duration-200 cursor-default"
+          class="upcycle-bento-card group bg-paper-white border-2 border-b-[5px] border-border-gray rounded-[20px] p-5 flex flex-col justify-between hover:border-sky-blue hover:border-b-[5px] hover:border-b-sky-blue-dark hover:-translate-y-2 hover:shadow-[0_16px_32px_-8px_rgba(28,176,246,0.25)] transition-all duration-300 ease-out cursor-default"
         >
           <div class="bg-gold-tint rounded-[14px] h-[140px] flex items-center justify-center overflow-hidden mb-4 p-2">
             <img
               v-if="products[1]?.photo || products[1]?.foto"
               :src="`/storage/${products[1]?.photo || products[1]?.foto}`"
               :alt="products[1]?.name || products[1]?.nama_produk || 'Produk'"
-              class="w-full h-full object-cover rounded-lg"
+              class="w-full h-full object-cover rounded-lg transition-transform duration-300 ease-out group-hover:scale-108"
             />
-            <div v-else class="text-5xl">🪴</div>
+            <div v-else class="text-5xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">🪴</div>
           </div>
           <div>
-            <h4 class="font-extrabold text-[20px] text-night-ink leading-snug mb-1">
+            <h4 class="font-extrabold text-[20px] text-night-ink leading-snug mb-1 transition-colors duration-200 group-hover:text-sky-blue-dark">
               {{ products[1]?.name ?? products[1]?.nama_produk }}
             </h4>
             <p class="text-[14px] text-night-ink/80 line-clamp-2 leading-relaxed mb-4">
@@ -187,19 +187,19 @@ onUnmounted(() => {
         <!-- Product 3 -->
         <div
           v-if="products.length > 2"
-          class="upcycle-bento-card bg-paper-white border-2 border-border-gray rounded-[20px] drop-shadow-[0px_4px_0px_var(--color-border-gray)] p-5 flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-lg transition-all duration-200 cursor-default"
+          class="upcycle-bento-card group bg-paper-white border-2 border-b-[5px] border-border-gray rounded-[20px] p-5 flex flex-col justify-between hover:border-sky-blue hover:border-b-[5px] hover:border-b-sky-blue-dark hover:-translate-y-2 hover:shadow-[0_16px_32px_-8px_rgba(28,176,246,0.25)] transition-all duration-300 ease-out cursor-default"
         >
           <div class="bg-gold-tint rounded-[14px] h-[140px] flex items-center justify-center overflow-hidden mb-4 p-2">
             <img
               v-if="products[2]?.photo || products[2]?.foto"
               :src="`/storage/${products[2]?.photo || products[2]?.foto}`"
               :alt="products[2]?.name || products[2]?.nama_produk || 'Produk'"
-              class="w-full h-full object-cover rounded-lg"
+              class="w-full h-full object-cover rounded-lg transition-transform duration-300 ease-out group-hover:scale-108"
             />
-            <div v-else class="text-5xl">💡</div>
+            <div v-else class="text-5xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">💡</div>
           </div>
           <div>
-            <h4 class="font-extrabold text-[20px] text-night-ink leading-snug mb-1">
+            <h4 class="font-extrabold text-[20px] text-night-ink leading-snug mb-1 transition-colors duration-200 group-hover:text-sky-blue-dark">
               {{ products[2]?.name ?? products[2]?.nama_produk }}
             </h4>
             <p class="text-[14px] text-night-ink/80 line-clamp-2 leading-relaxed mb-4">
@@ -226,7 +226,7 @@ onUnmounted(() => {
 
         <!-- Bento Bottom Right: Circular Banner -->
         <div
-          class="upcycle-bento-card bg-night-ink text-paper-white rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:shadow-xl transition-all duration-200"
+          class="upcycle-bento-card bg-night-ink text-paper-white border-2 border-b-[5px] border-night-ink rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:-translate-y-1.5 hover:shadow-[0_16px_36px_-6px_rgba(0,4,55,0.45)] transition-all duration-300 ease-out cursor-default"
         >
           <p class="font-bold text-[13px] tracking-[1.6px] uppercase text-sprout-tint mb-2">
             SATU PUTARAN BARU

@@ -105,7 +105,7 @@ onUnmounted(() => {
     <section ref="sectionRef" class="bg-paper-white py-12 lg:py-16 overflow-hidden">
         <div class="max-w-[1200px] mx-auto px-6">
             <div
-                class="points-container bg-lavender-tint rounded-[32px] p-8 lg:p-12 min-h-[470px] relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-10 hover:shadow-md transition-shadow"
+                class="points-container bg-lavender-tint border-2 border-b-[6px] border-[#dfcdfa] rounded-[32px] p-8 lg:p-12 min-h-[470px] relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-10 hover:border-[#ceb4f7] hover:shadow-[0_20px_40px_-10px_rgba(147,51,234,0.18)] transition-all duration-300 ease-out"
             >
                 <!-- Left Content -->
                 <div class="points-left-content max-w-[570px] z-10">
@@ -182,7 +182,7 @@ onUnmounted(() => {
                     <!-- Overlay Pill: SETORAN SELESAI -->
                     <div
                         ref="overlayPillRef"
-                        class="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 w-[280px] sm:w-[292px] bg-paper-white rounded-2xl p-4 shadow-md border border-border-gray/50 hover:shadow-xl transition-all cursor-default"
+                        class="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 w-[280px] sm:w-[292px] bg-paper-white rounded-2xl p-4 border-2 border-b-[4px] border-border-gray hover:border-eco-green hover:border-b-[4px] hover:border-b-eco-green-dark hover:-translate-y-1 hover:shadow-lg transition-all duration-300 ease-out cursor-default"
                     >
                         <p
                             class="font-bold text-[12px] sm:text-[13px] tracking-wide text-charcoal mb-0.5"

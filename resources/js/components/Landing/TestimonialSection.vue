@@ -1,122 +1,141 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from 'vue';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const sectionRef = ref<HTMLElement | null>(null);
 let gsapCtx: gsap.Context | null = null;
 
 const testimonials = [
-  {
-    id: 1,
-    avatar: '👨',
-    name: 'Bima',
-    role: 'Rumah tangga',
-    quote:
-      'Dulu botol dan kardus menumpuk di rumah. Sekarang tiap minggu disetorkan dan saldo poin terus bertambah. Nggak nyangka bisa sebermanfaat ini.',
-  },
-  {
-    id: 2,
-    avatar: '👩',
-    name: 'Ibu Sari',
-    role: 'Pengrajin lokal',
-    quote:
-      'Senang melihat bahan bekas punya cerita baru. Produk upcycle saya laris, dan sampah berkurang dari sumbernya.',
-  },
-  {
-    id: 3,
-    avatar: '🧕',
-    name: 'Maya',
-    role: 'Kebiasaan berkelanjutan',
-    quote:
-      'Setiap setoran terasa lebih berarti. Ada angka nyata di saldo poin yang bisa saya tukarkan kapan saja.',
-  },
+    {
+        id: 1,
+        avatar: "/assets/placeholder/Ilustrasi Bima.png",
+        name: "Bima",
+        role: "Rumah tangga",
+        quote: "Dulu botol dan kardus menumpuk di rumah. Sekarang tiap minggu disetorkan dan saldo poin terus bertambah. Nggak nyangka bisa sebermanfaat ini.",
+    },
+    {
+        id: 2,
+        avatar: "/assets/placeholder/Ilustrasi Ibu Sari.png",
+        name: "Ibu Sari",
+        role: "Pengrajin lokal",
+        quote: "Senang melihat bahan bekas punya cerita baru. Produk upcycle saya laris, dan sampah berkurang dari sumbernya.",
+    },
+    {
+        id: 3,
+        avatar: "/assets/placeholder/Ilustrasi Maya.png",
+        name: "Maya",
+        role: "Kebiasaan berkelanjutan",
+        quote: "Setiap setoran terasa lebih berarti. Ada angka nyata di saldo poin yang bisa saya tukarkan kapan saja.",
+    },
 ];
 
 onMounted(async () => {
-  if (typeof window === 'undefined' || !sectionRef.value) return;
-  await nextTick();
-  gsap.registerPlugin(ScrollTrigger);
+    if (typeof window === "undefined" || !sectionRef.value) return;
+    await nextTick();
+    gsap.registerPlugin(ScrollTrigger);
 
-  gsapCtx = gsap.context(() => {
-    const root = sectionRef.value;
-    if (!root) return;
+    gsapCtx = gsap.context(() => {
+        const root = sectionRef.value;
+        if (!root) return;
 
-    const cards = root.querySelectorAll('.testi-card');
-    if (cards.length > 0) {
-      gsap.fromTo(
-        cards,
-        { y: 55, opacity: 0, scale: 0.94 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.7,
-          stagger: 0.16,
-          ease: 'back.out(1.3)',
-          scrollTrigger: {
-            trigger: cards[0],
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
+        const cards = root.querySelectorAll(".testi-card");
+        if (cards.length > 0) {
+            gsap.fromTo(
+                cards,
+                { y: 55, opacity: 0, scale: 0.94 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.7,
+                    stagger: 0.16,
+                    ease: "back.out(1.3)",
+                    scrollTrigger: {
+                        trigger: cards[0],
+                        start: "top 85%",
+                        toggleActions: "play none none none",
+                    },
+                },
+            );
         }
-      );
-    }
-  }, sectionRef.value);
+    }, sectionRef.value);
 });
 
 onUnmounted(() => {
-  gsapCtx?.revert();
+    gsapCtx?.revert();
 });
 </script>
 
 <template>
-  <section id="testimoni" ref="sectionRef" class="bg-paper-white py-16 lg:py-20 overflow-hidden">
-    <div class="max-w-[1200px] mx-auto px-6">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <p class="font-bold text-[13px] tracking-[1.6px] uppercase text-charcoal mb-3">
-          CERITA TEMAN REVALUE
-        </p>
-        <h2 class="font-extrabold text-3xl sm:text-5xl text-night-ink tracking-tight mb-4">
-          Cerita baik, berawal dari rumah.
-        </h2>
-        <p class="font-medium text-[16px] sm:text-[17px] text-charcoal max-w-2xl mx-auto">
-          Contoh testimoni untuk menggambarkan pengalaman nasabah kami.
-        </p>
-      </div>
-
-      <!-- Testimonial Cards -->
-      <div class="testi-grid grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div
-          v-for="t in testimonials"
-          :key="t.id"
-          class="testi-card bg-paper-white border border-border-gray rounded-[28px] p-7 flex flex-col justify-between hover:-translate-y-2 hover:shadow-xl transition-all duration-200 cursor-default"
-        >
-          <div>
-            <span class="inline-block font-bold text-[12px] sm:text-[13px] tracking-[1.6px] uppercase text-charcoal mb-4">
-              ILUSTRASI PENGALAMAN
-            </span>
-            <p class="font-medium text-[16px] sm:text-[17px] text-charcoal leading-relaxed mb-6 italic">
-              “{{ t.quote }}”
-            </p>
-          </div>
-
-          <div class="flex items-center gap-3 pt-4 border-t border-border-gray/50">
-            <div class="w-11 h-11 rounded-full bg-cloud-surface flex items-center justify-center text-xl shrink-0">
-              {{ t.avatar }}
+    <section
+        id="testimoni"
+        ref="sectionRef"
+        class="bg-paper-white py-16 lg:py-20 overflow-hidden"
+    >
+        <div class="max-w-[1200px] mx-auto px-6">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <p
+                    class="font-bold text-[13px] tracking-[1.6px] uppercase text-charcoal mb-3"
+                >
+                    CERITA TEMAN REVALUE
+                </p>
+                <h2
+                    class="font-extrabold text-3xl sm:text-5xl text-night-ink tracking-tight mb-4"
+                >
+                    Cerita baik, berawal dari rumah.
+                </h2>
+                <p
+                    class="font-medium text-[16px] sm:text-[17px] text-charcoal max-w-2xl mx-auto"
+                >
+                    Contoh testimoni untuk menggambarkan pengalaman nasabah
+                    kami.
+                </p>
             </div>
-            <div>
-              <p class="font-bold text-[16px] text-night-ink leading-tight">
-                {{ t.name }}
-              </p>
-              <p class="font-medium text-[13px] text-charcoal">
-                {{ t.role }}
-              </p>
+
+            <!-- Testimonial Cards -->
+            <div class="testi-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div
+                    v-for="t in testimonials"
+                    :key="t.id"
+                    class="testi-card group bg-paper-white border-2 border-b-[5px] border-border-gray rounded-[28px] p-7 flex flex-col justify-between hover:border-sunlight-gold hover:border-b-[5px] hover:border-b-[#d9a700] hover:-translate-y-2 hover:shadow-[0_16px_36px_-8px_rgba(255,200,0,0.28)] transition-all duration-300 ease-out cursor-default"
+                >
+                    <div>
+                        <span
+                            class="inline-block font-bold text-[12px] sm:text-[13px] tracking-[1.6px] uppercase text-charcoal group-hover:text-night-ink transition-colors mb-4"
+                        >
+                            ILUSTRASI PENGALAMAN
+                        </span>
+                        <p
+                            class="font-medium text-[16px] sm:text-[17px] text-charcoal leading-relaxed mb-6 italic"
+                        >
+                            “{{ t.quote }}”
+                        </p>
+                    </div>
+
+                    <div
+                        class="flex items-center gap-3 pt-4 border-t border-border-gray/70"
+                    >
+                        <img
+                            :src="t.avatar"
+                            :alt="t.name"
+                            class="w-12 h-12 rounded-full object-cover bg-cloud-surface border border-border-gray shrink-0 transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-6"
+                        />
+
+                        <div>
+                            <p
+                                class="font-bold text-[16px] text-night-ink leading-tight"
+                            >
+                                {{ t.name }}
+                            </p>
+                            <p class="font-medium text-[13px] text-charcoal">
+                                {{ t.role }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 </template>

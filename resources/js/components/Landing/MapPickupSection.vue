@@ -297,7 +297,7 @@ onUnmounted(() => {
         <!-- Overlay: Destination Card (100% Responsif di Mobile & Desktop) -->
         <div
           ref="destinationCardRef"
-          class="absolute bottom-4 left-4 right-4 sm:right-auto sm:bottom-6 sm:left-6 sm:w-[411px] bg-paper-white border border-border-gray rounded-xl p-4 sm:p-5 shadow-[2px_2px_0px_0px_var(--color-border-gray)] hover:shadow-[3px_3px_0px_0px_var(--color-border-gray)] transition-shadow z-[1000]"
+          class="group absolute bottom-4 left-4 right-4 sm:right-auto sm:bottom-6 sm:left-6 sm:w-[411px] bg-paper-white border-2 border-b-[5px] border-border-gray rounded-2xl p-4 sm:p-5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] hover:border-night-ink/30 hover:border-b-night-ink/50 hover:-translate-y-1 hover:shadow-[0_16px_32px_-6px_rgba(0,4,55,0.18)] transition-all duration-300 ease-out z-[1000] cursor-default"
         >
           <div class="flex items-center justify-between mb-1">
             <p class="font-bold text-[13px] sm:text-[15px] text-night-ink">
@@ -315,14 +315,14 @@ onUnmounted(() => {
           <div class="flex items-center gap-5 sm:gap-6">
             <!-- Distance (Lucide Car) -->
             <div class="flex items-center gap-2">
-              <Car class="size-4.5 sm:size-5 text-night-ink stroke-[2.2]" />
+              <Car class="size-4.5 sm:size-5 text-night-ink stroke-[2.2] transition-transform duration-200 group-hover:scale-110" />
               <span class="font-extrabold text-[14px] sm:text-[15px] text-night-ink">
                 {{ routeInfo ? `${routeInfo.distanceKm} Km` : '3 Km' }}
               </span>
             </div>
             <!-- Duration (Lucide Clock) -->
             <div class="flex items-center gap-2">
-              <Clock class="size-4 sm:size-4.5 text-night-ink stroke-[2.2]" />
+              <Clock class="size-4 sm:size-4.5 text-night-ink stroke-[2.2] transition-transform duration-200 group-hover:scale-110" />
               <span class="font-extrabold text-[14px] sm:text-[15px] text-night-ink">
                 {{ routeInfo ? `${routeInfo.durationMinutes} Menit` : '5 Menit' }}
               </span>
@@ -337,7 +337,7 @@ onUnmounted(() => {
           <!-- Current Location GPS Button (Sky Blue Tactile + Lucide LocateFixed) -->
           <button
             type="button"
-            class="size-[42px] sm:size-[47px] bg-sky-blue border border-sky-blue-dark rounded-xl shadow-[1px_2px_0px_0px_var(--color-sky-blue-dark)] active:translate-y-0.5 active:shadow-none flex items-center justify-center cursor-pointer hover:brightness-105 transition-all"
+            class="size-[42px] sm:size-[47px] bg-sky-blue border-2 border-b-[4px] border-sky-blue-dark rounded-xl shadow-xs active:translate-y-0.5 active:border-b-2 flex items-center justify-center cursor-pointer hover:brightness-105 hover:scale-105 transition-all duration-200"
             title="Pusatkan ke lokasi"
             @click="panToCurrentLocation"
           >
@@ -347,7 +347,7 @@ onUnmounted(() => {
           <!-- Zoom In Button (Eco Green Tactile + Lucide Plus) -->
           <button
             type="button"
-            class="size-[42px] sm:size-[47px] bg-eco-green border border-eco-green-dark rounded-xl shadow-[1px_2px_0px_0px_var(--color-eco-green-dark)] active:translate-y-0.5 active:shadow-none flex items-center justify-center cursor-pointer hover:brightness-105 transition-all"
+            class="size-[42px] sm:size-[47px] bg-eco-green border-2 border-b-[4px] border-eco-green-dark rounded-xl shadow-xs active:translate-y-0.5 active:border-b-2 flex items-center justify-center cursor-pointer hover:brightness-105 hover:scale-105 transition-all duration-200"
             title="Perbesar Peta"
             @click="zoomIn"
           >
@@ -357,7 +357,7 @@ onUnmounted(() => {
           <!-- Zoom Out Button (Eco Green Tactile + Lucide Minus) -->
           <button
             type="button"
-            class="size-[42px] sm:size-[47px] bg-eco-green border border-eco-green-dark rounded-xl shadow-[1px_2px_0px_0px_var(--color-eco-green-dark)] active:translate-y-0.5 active:shadow-none flex items-center justify-center cursor-pointer hover:brightness-105 transition-all"
+            class="size-[42px] sm:size-[47px] bg-eco-green border-2 border-b-[4px] border-eco-green-dark rounded-xl shadow-xs active:translate-y-0.5 active:border-b-2 flex items-center justify-center cursor-pointer hover:brightness-105 hover:scale-105 transition-all duration-200"
             title="Perkecil Peta"
             @click="zoomOut"
           >
