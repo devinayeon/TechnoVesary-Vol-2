@@ -1,0 +1,16 @@
+export { default as SectionLabel } from './SectionLabel.vue';
+export { default as SectionTitle } from './SectionTitle.vue';
+export { default as AppButton } from './AppButton.vue';
+export { default as TheNavbar } from './TheNavbar.vue';
+export { default as HeroSection } from './HeroSection.vue';
+export { default as MapPickupSection } from './MapPickupSection.vue';
+export { default as HowItWorksSection } from './HowItWorksSection.vue';
+export { default as WasteCategorySection } from './WasteCategorySection.vue';
+export { default as PointsAchievementSection } from './PointsAchievementSection.vue';
+export { default as SubscriptionSection } from './SubscriptionSection.vue';
+export { default as UpcycleStoreSection } from './UpcycleStoreSection.vue';
+export { default as ArticleSection } from './ArticleSection.vue';
+export { default as TestimonialSection } from './TestimonialSection.vue';
+export { default as FaqSection } from './FaqSection.vue';
+export { default as CtaSection } from './CtaSection.vue';
+export { default as TheFooter } from './TheFooter.vue';

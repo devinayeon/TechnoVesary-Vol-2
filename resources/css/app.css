@@ -4,8 +4,23 @@
 @source '../../storage/framework/views/*.php';
 
 @theme inline {
-    --font-sans:
-        Instrument Sans, ui-sans-serif, system-ui, sans-serif,
+    --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+
+    --color-paper-white: #ffffff;
+    --color-cloud-surface: #f7f7f7;
+    --color-night-ink: #000437;
+    --color-charcoal: #4b4b4b;
+    --color-border-gray: #e5e5e5;
+    --color-eco-green: #58cc02;
+    --color-eco-green-dark: #46a302;
+    --color-sprout-tint: #d7ffb8;
+    --color-sky-blue: #1cb0f6;
+    --color-sky-blue-dark: #1899d6;
+    --color-sky-tint: #ddf4ff;
+    --color-lavender-tint: #f3e5ff;
+    --color-sunlight-gold: #ffc800;
+    --color-gold-tint: #fff5cc;
+    --color-silver-tier: #b8c4d0;
 }

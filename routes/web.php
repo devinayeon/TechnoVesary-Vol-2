@@ -2,12 +2,28 @@
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WasteCategoryController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 // Landing Page Publik
-Route::inertia('/', 'Welcome')->name('home');
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
+
+/*
+|--------------------------------------------------------------------------
+| Map / OSM Public API Endpoints (Internal Proxy — Rate Limited)
+|--------------------------------------------------------------------------
+| Endpoints ini bersifat semi-publik (accessible tanpa login) untuk mendukung
+| Landing Page, namun dibatasi throttle untuk mencegah penyalahgunaan API.
+*/
+Route::prefix('map')->name('map.')->middleware(['throttle:60,1'])->group(function () {
+    Route::get('/config', [MapController::class, 'config'])->name('config');
+    Route::get('/route', [MapController::class, 'route'])->name('route');
+    Route::get('/reverse-geocode', [MapController::class, 'reverseGeocode'])->name('reverse-geocode');
+    Route::get('/search', [MapController::class, 'search'])->name('search');
+});
 
 /*
 |--------------------------------------------------------------------------
