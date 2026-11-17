@@ -10,20 +10,20 @@ const toggleMobile = () => {
 </script>
 
 <template>
-    <div class="min-h-screen flex bg-cloud-surface font-sans text-night-ink antialiased">
+    <div class="min-h-screen bg-cloud-surface font-sans text-night-ink antialiased">
         <!-- Sidebar (fixed on desktop, drawer on mobile) -->
         <DashboardSidebar
             :isMobileOpen="isMobileOpen"
             @close="toggleMobile"
         />
 
-        <!-- Main content area -->
-        <div class="flex-1 flex flex-col min-w-0 lg:ml-0">
-            <!-- Top bar -->
+        <!-- Main content area (offset by sidebar width on desktop) -->
+        <div class="lg:pl-[240px] flex flex-col min-h-screen min-w-0">
+            <!-- Top bar (sticky at top) -->
             <DashboardTopBar @toggleMobile="toggleMobile" />
 
             <!-- Page slot -->
-            <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+            <main class="flex-1 p-4 sm:p-6 lg:p-8">
                 <slot />
             </main>
         </div>

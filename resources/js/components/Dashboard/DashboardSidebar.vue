@@ -180,11 +180,11 @@ const dashboardHref = computed(() => {
         @click="emit('close')"
     ></div>
 
-    <!-- Sidebar Container -->
+    <!-- Sidebar Container (Fixed on desktop & slide drawer on mobile) -->
     <aside
         :class="[
-            'fixed top-0 bottom-0 left-0 z-50 flex flex-col justify-between w-[240px] bg-paper-white border-r border-border-gray transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static',
-            isMobileOpen ? 'translate-x-0' : '-translate-x-full',
+            'fixed top-0 bottom-0 left-0 z-40 flex flex-col justify-between w-[240px] h-screen bg-paper-white border-r border-border-gray transition-transform duration-300 ease-in-out',
+            isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
         ]"
     >
         <!-- Top Section: Brand Lockup & Navigation -->
