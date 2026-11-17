@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['name', 'points_per_kg'])]
+#[Fillable(['name', 'description', 'points_per_kg'])]
 class WasteCategory extends Model
 {
     use HasFactory, SoftDeletes;

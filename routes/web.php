@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\WasteCategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +31,10 @@ Route::middleware(['auth'])->group(function () {
                 // Manajemen Pengguna (Admin Only)
                 Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
                 Route::resource('users', UserController::class);
+
+                // Manajemen Jenis Sampah (Admin Only)
+                Route::post('/waste-categories/{id}/restore', [WasteCategoryController::class, 'restore'])->name('waste-categories.restore');
+                Route::resource('waste-categories', WasteCategoryController::class);
             });
 
         // 2. Driver Group
