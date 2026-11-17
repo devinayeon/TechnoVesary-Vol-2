@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +26,10 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/dashboard', function () {
                     return Inertia::render('Admin/Dashboard');
                 })->name('dashboard');
+                
+                // Manajemen Pengguna (Admin Only)
+                Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
+                Route::resource('users', UserController::class);
             });
 
         // 2. Driver Group
