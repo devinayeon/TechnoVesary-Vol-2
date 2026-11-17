@@ -39,7 +39,7 @@ import AuthBrandPanel from "@/components/Auth/AuthBrandPanel.vue";
             <div>
                 <Link
                     href="/"
-                    class="inline-flex items-center gap-2 text-[13px] sm:text-[14px] font-bold text-charcoal hover:text-night-ink transition-colors py-1.5 px-3 rounded-xl hover:bg-cloud-surface group"
+                    class="inline-flex items-center gap-2 text-[13px] sm:text-[14px] font-bold text-charcoal hover:text-night-ink transition-colors py-1.5 px-3 rounded-xl hover:bg-cloud-surface group ml-auto"
                 >
                     <ArrowLeft
                         class="size-4 transition-transform duration-200 group-hover:-translate-x-1"

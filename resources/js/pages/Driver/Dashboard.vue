@@ -1,98 +1,130 @@
 <script setup lang="ts">
-import { Head, Link, router } from '@inertiajs/vue3';
-import { computed } from 'vue';
-import type { User } from '@/types/auth';
+import { Head } from "@inertiajs/vue3";
+import { computed } from "vue";
+import type { User } from "@/types/auth";
+import DashboardLayout from "@/layouts/DashboardLayout.vue";
+import MetricCard from "@/components/Dashboard/MetricCard.vue";
+import StatusChip from "@/components/Dashboard/StatusChip.vue";
+import { Truck, Package, CheckCircle2, MapPin, Navigation } from "lucide-vue-next";
 
 const props = defineProps<{
-  auth: {
-    user: User;
-  };
+    auth: { user: User };
 }>();
 
-const userName = computed(() => props.auth?.user?.name ?? 'Driver');
+const userName = computed(() => props.auth?.user?.name ?? "Driver");
 
-const stats = [
-  { label: 'Tugas Jemput Hari Ini', value: '8 Lokasi', change: '3 lokasi selesai', color: 'text-sky-600 dark:text-sky-400' },
-  { label: 'Total Muatan Masuk', value: '340 Kg', change: 'Kapasitas armada 500 Kg', color: 'text-emerald-600 dark:text-emerald-400' },
-  { label: 'Status Armada', value: 'Aktif (Truk 02)', change: 'Rute Wilayah Barat', color: 'text-indigo-600 dark:text-indigo-400' },
+const tasks = [
+    { name: "Budi Santoso", address: "Jl. Merdeka No. 12, Kel. Sukamaju", weight: "~15 Kg", status: "Menunggu" as const, statusTone: "Neutral" as const },
+    { name: "Siti Rahayu", address: "Jl. Pahlawan No. 5, Kel. Cilandak", weight: "~8 Kg", status: "Dalam Perjalanan" as const, statusTone: "Blue" as const },
+    { name: "Ahmad Farhan", address: "Jl. Sudirman Blok C3, Kel. Kebayoran", weight: "~22 Kg", status: "Menunggu" as const, statusTone: "Neutral" as const },
 ];
-
-const handleLogout = () => {
-  router.post('/logout');
-};
 </script>
 
 <template>
-  <Head title="Driver Dashboard - Bank Sampah Digital" />
-
-  <div class="min-h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans">
-    <!-- Navbar -->
-    <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/80 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80">
-      <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-600 text-white shadow-sm shadow-sky-500/20">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
-            </svg>
-          </div>
-          <div>
-            <h1 class="text-base font-bold tracking-tight text-slate-900 dark:text-white">Bank Sampah Digital</h1>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Portal Driver Armada</p>
-          </div>
+    <Head title="Dashboard Driver - ReValue" />
+    <DashboardLayout>
+        <!-- Page Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+            <div>
+                <h1 class="text-[22px] sm:text-[26px] font-extrabold text-night-ink tracking-tight leading-tight">
+                    Operasional Armada
+                </h1>
+                <p class="text-[14px] font-medium text-charcoal mt-1">
+                    Halo, {{ userName }}. Siap menjemput kebaikan hari ini?
+                </p>
+            </div>
+            <StatusChip label="Aktif Bertugas" tone="Green" />
         </div>
 
-        <div class="flex items-center gap-3">
-          <div class="text-right hidden sm:block">
-            <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">{{ userName }}</p>
-            <span class="inline-flex items-center rounded-full bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800 dark:bg-sky-950/60 dark:text-sky-300">
-              Driver Lapangan
-            </span>
-          </div>
-
-          <Link
-            href="/profile"
-            class="rounded-lg border border-slate-300 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition"
-          >
-            Profil
-          </Link>
-
-          <button
-            @click="handleLogout"
-            class="cursor-pointer rounded-lg border border-slate-300 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-100 active:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition"
-          >
-            Keluar
-          </button>
+        <!-- 3 Metric Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <MetricCard
+                label="Tugas Jemput Hari Ini"
+                value="8 Titik"
+                sublabel="3 Selesai · 5 Dalam Perjalanan"
+                :icon="Truck"
+                iconColor="text-night-ink"
+            />
+            <MetricCard
+                label="Total Muatan Armada"
+                value="340 Kg"
+                sublabel="Kapasitas maks. 500 Kg"
+                :icon="Package"
+                iconColor="text-eco-green-dark"
+            />
+            <MetricCard
+                label="Status Armada"
+                value="Truk 02"
+                sublabel="Rute Wilayah Barat"
+                :icon="CheckCircle2"
+                iconColor="text-sky-blue-dark"
+            />
         </div>
-      </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <section class="mb-8 rounded-2xl bg-gradient-to-r from-sky-700 via-sky-600 to-teal-600 p-6 sm:p-8 text-white shadow-lg shadow-sky-950/10">
-        <h2 class="text-2xl font-bold tracking-tight">Halo, Pak {{ userName }}! 🚛</h2>
-        <p class="mt-2 max-w-2xl text-sky-100 text-sm leading-relaxed">
-          Berikut adalah jadwal dan rute penjemputan sampah anorganik nasabah hari ini. Pastikan timbangan fisik sesuai saat input konfirmasi penimbangan.
-        </p>
-      </section>
+        <!-- Task Queue + Mascot Note -->
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+            <!-- Active Pickup Queue -->
+            <div class="lg:col-span-3 bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[20px] p-5 xl:p-6">
+                <h3 class="text-[15px] font-extrabold text-night-ink mb-1">Antrean Penjemputan Aktif</h3>
+                <p class="text-[12px] font-medium text-charcoal mb-4">Prioritas hari ini</p>
 
-      <!-- Stats Grid -->
-      <section class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          v-for="(item, index) in stats"
-          :key="index"
-          class="rounded-xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900"
-        >
-          <dt class="truncate text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">
-            {{ item.label }}
-          </dt>
-          <dd class="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            {{ item.value }}
-          </dd>
-          <dd class="mt-2 text-xs font-medium" :class="item.color">
-            {{ item.change }}
-          </dd>
+                <div class="flex flex-col gap-3">
+                    <div
+                        v-for="task in tasks"
+                        :key="task.name"
+                        class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-border-gray hover:bg-cloud-surface transition-colors"
+                    >
+                        <div class="flex items-start gap-3 flex-1 min-w-0">
+                            <div class="size-9 shrink-0 bg-cloud-surface rounded-xl flex items-center justify-center">
+                                <MapPin class="size-4 text-eco-green-dark" />
+                            </div>
+                            <div class="min-w-0">
+                                <p class="font-bold text-[14px] text-night-ink truncate">{{ task.name }}</p>
+                                <p class="text-[12px] font-normal text-charcoal truncate mt-0.5">{{ task.address }}</p>
+                                <p class="text-[12px] font-semibold text-eco-green-dark mt-0.5">Est. {{ task.weight }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <StatusChip :label="task.status" :tone="task.statusTone" />
+                            <button
+                                type="button"
+                                class="flex items-center gap-1.5 px-3 py-1.5 bg-eco-green text-night-ink text-[12px] font-extrabold rounded-xl border-2 border-b-[3px] border-eco-green-dark hover:brightness-105 active:translate-y-px transition-all"
+                            >
+                                <Navigation class="size-3.5" />
+                                Buka Peta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Driver Note Card with Mascot -->
+            <div class="lg:col-span-2 bg-sprout-tint border-2 border-b-[4px] border-eco-green/40 rounded-[20px] p-5 xl:p-6 flex flex-col justify-between overflow-hidden relative min-h-[280px]">
+                <div class="relative z-10">
+                    <StatusChip label="Valu Insight" tone="Green" />
+                    <h3 class="text-[16px] font-extrabold text-night-ink mt-3 leading-snug">
+                        Jemput dengan semangat!
+                    </h3>
+                    <p class="text-[13px] font-medium text-charcoal mt-2 leading-relaxed">
+                        Setiap penjemputan yang kamu selesaikan adalah langkah nyata menuju lingkungan yang lebih baik. Tetap semangat!
+                    </p>
+                    <div class="mt-4 flex items-center gap-2">
+                        <div class="h-2 w-full bg-eco-green/20 rounded-full overflow-hidden">
+                            <div class="h-full bg-eco-green rounded-full" style="width: 60%"></div>
+                        </div>
+                        <span class="text-[12px] font-bold text-eco-green-dark shrink-0">3/8</span>
+                    </div>
+                    <p class="text-[11px] font-medium text-charcoal mt-1">Progres tugas hari ini</p>
+                </div>
+                <!-- Mascot -->
+                <div class="absolute bottom-0 right-0 w-[130px] xl:w-[150px] pointer-events-none select-none">
+                    <img
+                        src="/assets/Maskot/Pose=Pickup-Sprint.png"
+                        alt="Valu Pickup Sprint"
+                        class="w-full object-contain drop-shadow-lg"
+                    />
+                </div>
+            </div>
         </div>
-      </section>
-    </main>
-  </div>
+    </DashboardLayout>
 </template>

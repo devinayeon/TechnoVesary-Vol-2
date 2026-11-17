@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Models\Article;
 use App\Models\Product;
 use App\Models\Subscription;
 use App\Models\WasteCategory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -13,6 +15,22 @@ class WelcomeController extends Controller
 {
     public function index()
     {
+        // Pengguna yang sudah login diarahkan ke dashboard role masing-masing
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if (! $user->hasVerifiedEmail()) {
+                return redirect()->route('verification.notice');
+            }
+
+            return match ($user->role) {
+                UserRole::ADMIN => redirect()->route('admin.dashboard'),
+                UserRole::DRIVER => redirect()->route('driver.dashboard'),
+                UserRole::CUSTOMER => redirect()->route('customer.dashboard'),
+                default => redirect()->route('customer.dashboard'),
+            };
+        }
+
         $wasteCategories = WasteCategory::select(['id', 'name', 'description', 'points_per_kg'])
             ->whereNull('deleted_at')
             ->get();
