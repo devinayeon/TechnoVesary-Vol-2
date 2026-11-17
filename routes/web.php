@@ -46,7 +46,7 @@ Route::middleware(['auth'])->group(function () {
                 
                 // Manajemen Pengguna (Admin Only)
                 Route::post('/users/{id}/restore', [UserController::class, 'restore'])->name('users.restore');
-                Route::resource('users', UserController::class);
+                Route::resource('users', UserController::class)->withTrashed(['show', 'edit']);
 
                 // Manajemen Jenis Sampah (Admin Only)
                 Route::post('/waste-categories/{id}/restore', [WasteCategoryController::class, 'restore'])->name('waste-categories.restore');

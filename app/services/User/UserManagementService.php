@@ -99,12 +99,17 @@ class UserManagementService
      *
      * @param array<string, mixed> $data
      */
-    public function updateUser(User $user, array $data): User
+    public function updateUser(User $user, array $data, ?int $currentUserId = null): User
     {
-        return DB::transaction(function () use ($user, $data) {
+        return DB::transaction(function () use ($user, $data, $currentUserId) {
             $role = $data['role'] instanceof UserRole
                 ? $data['role']
                 : UserRole::from((string) $data['role']);
+
+            // Guard: admin tidak dapat mengubah role akun miliknya sendiri
+            if ($currentUserId !== null && $user->id === $currentUserId && $user->role !== $role) {
+                throw new InvalidArgumentException('Anda tidak dapat mengubah role akun Anda sendiri.');
+            }
 
             $updatePayload = [
                 'name' => $data['name'],
