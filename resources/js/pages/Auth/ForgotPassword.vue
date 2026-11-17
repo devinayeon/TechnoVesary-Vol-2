@@ -1,77 +1,100 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import GuestLayout from '@/layouts/GuestLayout.vue';
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import AuthLayout from "@/layouts/AuthLayout.vue";
 
 defineProps<{
-  status?: string;
+    status?: string;
 }>();
 
 const form = useForm({
-  email: '',
+    email: "",
 });
 
 const submit = () => {
-  form.post('/forgot-password');
+    form.post("/forgot-password");
 };
 </script>
 
 <template>
-  <GuestLayout>
-    <Head title="Lupa Kata Sandi - Bank Sampah Digital" />
+    <AuthLayout>
+        <Head title="Lupa Kata Sandi - ReValue" />
 
-    <div class="mb-6">
-      <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Lupa Kata Sandi?</h2>
-      <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
-        Masukkan alamat email yang terdaftar pada akun Anda. Kami akan mengirimkan tautan reset kata sandi agar Anda dapat mengatur ulang kata sandi dengan aman.
-      </p>
-    </div>
+        <!-- Title & Subtitle -->
+        <div class="mb-6 sm:mb-8 text-left">
+            <h1
+                class="font-extrabold text-[30px] sm:text-[36px] text-night-ink leading-[1.2] tracking-tight mb-2"
+            >
+                Lupa kata sandi?
+            </h1>
+            <p
+                class="font-medium text-[15px] sm:text-[16px] text-charcoal leading-relaxed"
+            >
+                Jangan khawatir. Masukkan email terdaftar Anda dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi.
+            </p>
+        </div>
 
-    <!-- Feedback Status -->
-    <div
-      v-if="status"
-      class="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs font-semibold text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
-    >
-      {{ status }}
-    </div>
-
-    <form @submit.prevent="submit" class="space-y-4">
-      <div>
-        <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-          Alamat Email Akun
-        </label>
-        <input
-          id="email"
-          type="email"
-          v-model="form.email"
-          required
-          autofocus
-          autocomplete="username"
-          placeholder="nama@email.com"
-          class="mt-1.5 block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 transition"
-          :class="{ 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20': form.errors.email }"
-        />
-        <p v-if="form.errors.email" class="mt-1.5 text-xs text-rose-600 dark:text-rose-400">
-          {{ form.errors.email }}
-        </p>
-      </div>
-
-      <div class="pt-2">
-        <button
-          type="submit"
-          :disabled="form.processing"
-          class="w-full cursor-pointer flex justify-center items-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-emerald-600/20 hover:bg-emerald-500 active:scale-98 disabled:opacity-60 transition"
+        <!-- Feedback Status Alert -->
+        <div
+            v-if="status"
+            class="mb-6 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 p-4 text-[14px] font-bold text-night-ink"
         >
-          <span v-if="form.processing">Mengirim Tautan...</span>
-          <span v-else>Kirim Tautan Reset Sandi</span>
-        </button>
-      </div>
-    </form>
+            {{ status }}
+        </div>
 
-    <div class="mt-6 border-t border-slate-200 dark:border-slate-800 pt-5 text-center text-xs text-slate-600 dark:text-slate-400">
-      Ingat kata sandi Anda?
-      <Link href="/login" class="font-bold text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 ml-1">
-        Kembali ke Login
-      </Link>
-    </div>
-  </GuestLayout>
+        <form @submit.prevent="submit" class="space-y-5">
+            <!-- Email Address Field -->
+            <div>
+                <label
+                    for="email"
+                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                >
+                    Alamat email terdaftar
+                </label>
+                <input
+                    id="email"
+                    type="email"
+                    v-model="form.email"
+                    required
+                    autofocus
+                    autocomplete="username"
+                    placeholder="nama@email.com"
+                    class="w-full h-[52px] px-4 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                    :class="
+                        form.errors.email
+                            ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
+                            : 'border-border-gray focus:border-eco-green focus:ring-4 focus:ring-eco-green/15'
+                    "
+                />
+                <p
+                    v-if="form.errors.email"
+                    class="mt-1.5 text-[13px] font-bold text-red-600"
+                >
+                    {{ form.errors.email }}
+                </p>
+            </div>
+
+            <!-- Tactile 3D Action Submit Button -->
+            <div class="pt-2">
+                <button
+                    type="submit"
+                    :disabled="form.processing"
+                    class="w-full h-[52px] bg-eco-green text-night-ink font-extrabold text-[15px] sm:text-[16px] rounded-2xl border-2 border-eco-green border-b-[5px] border-b-eco-green-dark shadow-xs hover:brightness-105 active:translate-y-0.5 active:border-b-2 active:shadow-none transition-all flex items-center justify-center cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                    <span v-if="form.processing">Mengirim tautan...</span>
+                    <span v-else>Kirim tautan pemulihan</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- Back to Login Link -->
+        <div class="mt-8 text-center flex items-center justify-center gap-2 text-[14px] font-medium text-charcoal">
+            <span>Ingat kata sandi Anda?</span>
+            <Link
+                href="/login"
+                class="font-extrabold text-night-ink hover:text-eco-green-dark underline decoration-2 underline-offset-4 transition-colors"
+            >
+                Masuk
+            </Link>
+        </div>
+    </AuthLayout>
 </template>

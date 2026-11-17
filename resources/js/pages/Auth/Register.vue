@@ -1,134 +1,216 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import GuestLayout from '@/layouts/GuestLayout.vue';
+import { ref } from "vue";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import { Eye, EyeOff } from "lucide-vue-next";
 
 const form = useForm({
-  name: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
 });
 
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
+
 const submit = () => {
-  form.post('/register', {
-    onFinish: () => {
-      form.reset('password', 'password_confirmation');
-    },
-  });
+    form.post("/register", {
+        onFinish: () => {
+            form.reset("password", "password_confirmation");
+        },
+    });
 };
 </script>
 
 <template>
-  <GuestLayout>
-    <Head title="Pendaftaran Nasabah - Bank Sampah Digital" />
+    <AuthLayout>
+        <Head title="Daftar Akun Baru - ReValue" />
 
-    <div class="mb-6">
-      <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Daftar Nasabah Baru</h2>
-      <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-        Buka rekening bank sampah dan mulai ubah sampah rumah tangga menjadi saldo bernilai.
-      </p>
-    </div>
+        <!-- Title & Subtitle -->
+        <div class="mb-6 sm:mb-8 text-left">
+            <h1
+                class="font-extrabold text-[30px] sm:text-[36px] text-night-ink leading-[1.2] tracking-tight mb-2"
+            >
+                Mulai langkah baikmu.
+            </h1>
+            <p
+                class="font-medium text-[15px] sm:text-[16px] text-charcoal leading-relaxed"
+            >
+                Daftar akun untuk mulai memilah dan mengumpulkan poin.
+            </p>
+        </div>
 
-    <form @submit.prevent="submit" class="space-y-4">
-      <!-- Full Name -->
-      <div>
-        <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-          Nama Lengkap
-        </label>
-        <input
-          id="name"
-          type="text"
-          v-model="form.name"
-          required
-          autofocus
-          autocomplete="name"
-          placeholder="Contoh: Siti Aminah"
-          class="mt-1.5 block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 transition"
-          :class="{ 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20': form.errors.name }"
-        />
-        <p v-if="form.errors.name" class="mt-1.5 text-xs text-rose-600 dark:text-rose-400">
-          {{ form.errors.name }}
-        </p>
-      </div>
+        <form @submit.prevent="submit" class="space-y-4 sm:space-y-5">
+            <!-- Full Name Field -->
+            <div>
+                <label
+                    for="name"
+                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                >
+                    Nama lengkap
+                </label>
+                <input
+                    id="name"
+                    type="text"
+                    v-model="form.name"
+                    required
+                    autofocus
+                    autocomplete="name"
+                    placeholder="Contoh: Rina Amalia"
+                    class="w-full h-[52px] px-4 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                    :class="
+                        form.errors.name
+                            ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
+                            : 'border-border-gray focus:border-eco-green focus:ring-4 focus:ring-eco-green/15'
+                    "
+                />
+                <p
+                    v-if="form.errors.name"
+                    class="mt-1.5 text-[13px] font-bold text-red-600"
+                >
+                    {{ form.errors.name }}
+                </p>
+            </div>
 
-      <!-- Email Address -->
-      <div>
-        <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-          Alamat Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          v-model="form.email"
-          required
-          autocomplete="username"
-          placeholder="nama@email.com"
-          class="mt-1.5 block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 transition"
-          :class="{ 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20': form.errors.email }"
-        />
-        <p v-if="form.errors.email" class="mt-1.5 text-xs text-rose-600 dark:text-rose-400">
-          {{ form.errors.email }}
-        </p>
-      </div>
+            <!-- Email Address Field -->
+            <div>
+                <label
+                    for="email"
+                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                >
+                    Alamat email
+                </label>
+                <input
+                    id="email"
+                    type="email"
+                    v-model="form.email"
+                    required
+                    autocomplete="username"
+                    placeholder="nama@email.com"
+                    class="w-full h-[52px] px-4 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                    :class="
+                        form.errors.email
+                            ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
+                            : 'border-border-gray focus:border-eco-green focus:ring-4 focus:ring-eco-green/15'
+                    "
+                />
+                <p
+                    v-if="form.errors.email"
+                    class="mt-1.5 text-[13px] font-bold text-red-600"
+                >
+                    {{ form.errors.email }}
+                </p>
+            </div>
 
-      <!-- Password -->
-      <div>
-        <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-          Kata Sandi
-        </label>
-        <input
-          id="password"
-          type="password"
-          v-model="form.password"
-          required
-          autocomplete="new-password"
-          placeholder="Minimal 8 karakter"
-          class="mt-1.5 block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 transition"
-          :class="{ 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20': form.errors.password }"
-        />
-        <p v-if="form.errors.password" class="mt-1.5 text-xs text-rose-600 dark:text-rose-400">
-          {{ form.errors.password }}
-        </p>
-      </div>
+            <!-- Password Field -->
+            <div>
+                <label
+                    for="password"
+                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                >
+                    Kata sandi
+                </label>
+                <div class="relative flex items-center">
+                    <input
+                        id="password"
+                        :type="showPassword ? 'text' : 'password'"
+                        v-model="form.password"
+                        required
+                        autocomplete="new-password"
+                        placeholder="Minimal 8 karakter"
+                        class="w-full h-[52px] pl-4 pr-24 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                        :class="
+                            form.errors.password
+                                ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
+                                : 'border-border-gray focus:border-eco-green focus:ring-4 focus:ring-eco-green/15'
+                        "
+                    />
+                    <button
+                        type="button"
+                        class="absolute right-2 px-2.5 py-1.5 text-[13px] font-extrabold text-night-ink hover:text-eco-green-dark flex items-center gap-1.5 cursor-pointer rounded-lg hover:bg-cloud-surface transition-colors"
+                        @click="showPassword = !showPassword"
+                    >
+                        <component
+                            :is="showPassword ? EyeOff : Eye"
+                            class="size-4"
+                        />
+                        <span>{{ showPassword ? "Tutup" : "Lihat" }}</span>
+                    </button>
+                </div>
+                <p
+                    v-if="form.errors.password"
+                    class="mt-1.5 text-[13px] font-bold text-red-600"
+                >
+                    {{ form.errors.password }}
+                </p>
+            </div>
 
-      <!-- Confirm Password -->
-      <div>
-        <label for="password_confirmation" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-          Konfirmasi Kata Sandi
-        </label>
-        <input
-          id="password_confirmation"
-          type="password"
-          v-model="form.password_confirmation"
-          required
-          autocomplete="new-password"
-          placeholder="Ulangi kata sandi"
-          class="mt-1.5 block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 transition"
-          :class="{ 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20': form.errors.password_confirmation }"
-        />
-        <p v-if="form.errors.password_confirmation" class="mt-1.5 text-xs text-rose-600 dark:text-rose-400">
-          {{ form.errors.password_confirmation }}
-        </p>
-      </div>
+            <!-- Confirm Password Field -->
+            <div>
+                <label
+                    for="password_confirmation"
+                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                >
+                    Konfirmasi kata sandi
+                </label>
+                <div class="relative flex items-center">
+                    <input
+                        id="password_confirmation"
+                        :type="showConfirmPassword ? 'text' : 'password'"
+                        v-model="form.password_confirmation"
+                        required
+                        autocomplete="new-password"
+                        placeholder="Ulangi kata sandi"
+                        class="w-full h-[52px] pl-4 pr-24 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                        :class="
+                            form.errors.password_confirmation
+                                ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
+                                : 'border-border-gray focus:border-eco-green focus:ring-4 focus:ring-eco-green/15'
+                        "
+                    />
+                    <button
+                        type="button"
+                        class="absolute right-2 px-2.5 py-1.5 text-[13px] font-extrabold text-night-ink hover:text-eco-green-dark flex items-center gap-1.5 cursor-pointer rounded-lg hover:bg-cloud-surface transition-colors"
+                        @click="showConfirmPassword = !showConfirmPassword"
+                    >
+                        <component
+                            :is="showConfirmPassword ? EyeOff : Eye"
+                            class="size-4"
+                        />
+                        <span>{{ showConfirmPassword ? "Tutup" : "Lihat" }}</span>
+                    </button>
+                </div>
+                <p
+                    v-if="form.errors.password_confirmation"
+                    class="mt-1.5 text-[13px] font-bold text-red-600"
+                >
+                    {{ form.errors.password_confirmation }}
+                </p>
+            </div>
 
-      <!-- Submit Button -->
-      <div class="pt-2">
-        <button
-          type="submit"
-          :disabled="form.processing"
-          class="w-full cursor-pointer flex justify-center items-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-emerald-600/20 hover:bg-emerald-500 active:scale-98 disabled:opacity-60 transition"
-        >
-          <span v-if="form.processing">Mendaftarkan Akun...</span>
-          <span v-else>Daftar Rekening Nasabah</span>
-        </button>
-      </div>
-    </form>
+            <!-- Tactile 3D Action Submit Button -->
+            <div class="pt-3">
+                <button
+                    type="submit"
+                    :disabled="form.processing"
+                    class="w-full h-[52px] bg-eco-green text-night-ink font-extrabold text-[15px] sm:text-[16px] rounded-2xl border-2 border-eco-green border-b-[5px] border-b-eco-green-dark shadow-xs hover:brightness-105 active:translate-y-0.5 active:border-b-2 active:shadow-none transition-all flex items-center justify-center cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                    <span v-if="form.processing">Mendaftarkan...</span>
+                    <span v-else>Daftar akun baru</span>
+                </button>
+            </div>
+        </form>
 
-    <div class="mt-6 border-t border-slate-200 dark:border-slate-800 pt-5 text-center text-xs text-slate-600 dark:text-slate-400">
-      Sudah memiliki akun?
-      <Link href="/login" class="font-bold text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 ml-1">
-        Masuk di Sini
-      </Link>
-    </div>
-  </GuestLayout>
+        <!-- Account Switcher Link -->
+        <div class="mt-8 text-center flex items-center justify-center gap-2 text-[14px] font-medium text-charcoal">
+            <span>Sudah punya akun?</span>
+            <Link
+                href="/login"
+                class="font-extrabold text-night-ink hover:text-eco-green-dark underline decoration-2 underline-offset-4 transition-colors"
+            >
+                Masuk
+            </Link>
+        </div>
+    </AuthLayout>
 </template>

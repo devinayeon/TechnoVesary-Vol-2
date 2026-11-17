@@ -1,123 +1,176 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import GuestLayout from '@/layouts/GuestLayout.vue';
+import { ref } from "vue";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import { Eye, EyeOff } from "lucide-vue-next";
 
 defineProps<{
-  canResetPassword?: boolean;
-  status?: string;
+    canResetPassword?: boolean;
+    status?: string;
 }>();
 
 const form = useForm({
-  email: '',
-  password: '',
-  remember: false,
+    email: "",
+    password: "",
+    remember: false,
 });
 
+const showPassword = ref(false);
+
 const submit = () => {
-  form.post('/login', {
-    onFinish: () => {
-      form.reset('password');
-    },
-  });
+    form.post("/login", {
+        onFinish: () => {
+            form.reset("password");
+        },
+    });
 };
 </script>
 
 <template>
-  <GuestLayout>
-    <Head title="Masuk - Bank Sampah Digital" />
+    <AuthLayout>
+        <Head title="Masuk ke Akun - ReValue" />
 
-    <div class="mb-6">
-      <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Selamat Datang Kembali</h2>
-      <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-        Masuk ke akun Anda untuk mengelola setoran atau layanan sampah.
-      </p>
-    </div>
-
-    <!-- Status Alert -->
-    <div v-if="status" class="mb-4 rounded-xl bg-emerald-50 p-4 text-sm font-medium text-emerald-800 dark:bg-emerald-950/50 dark:text-emerald-300">
-      {{ status }}
-    </div>
-
-    <form @submit.prevent="submit" class="space-y-4">
-      <!-- Email Field -->
-      <div>
-        <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-          Alamat Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          v-model="form.email"
-          required
-          autofocus
-          autocomplete="username"
-          placeholder="nama@email.com"
-          class="mt-1.5 block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 transition"
-          :class="{ 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20': form.errors.email }"
-        />
-        <p v-if="form.errors.email" class="mt-1.5 text-xs text-rose-600 dark:text-rose-400">
-          {{ form.errors.email }}
-        </p>
-      </div>
-
-      <!-- Password Field -->
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="password" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-            Kata Sandi
-          </label>
-          <Link
-            href="/forgot-password"
-            class="text-xs font-semibold text-emerald-600 hover:text-emerald-500 dark:text-emerald-400"
-          >
-            Lupa kata sandi?
-          </Link>
+        <!-- Title & Subtitle -->
+        <div class="mb-6 sm:mb-8 text-left">
+            <h1
+                class="font-extrabold text-[30px] sm:text-[36px] text-night-ink leading-[1.2] tracking-tight mb-2"
+            >
+                Senang bertemu lagi.
+            </h1>
+            <p
+                class="font-medium text-[15px] sm:text-[16px] text-charcoal leading-relaxed"
+            >
+                Masuk untuk melanjutkan langkah baik Anda.
+            </p>
         </div>
-        <input
-          id="password"
-          type="password"
-          v-model="form.password"
-          required
-          autocomplete="current-password"
-          placeholder="••••••••"
-          class="mt-1.5 block w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 transition"
-          :class="{ 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20': form.errors.password }"
-        />
-        <p v-if="form.errors.password" class="mt-1.5 text-xs text-rose-600 dark:text-rose-400">
-          {{ form.errors.password }}
-        </p>
-      </div>
 
-      <!-- Remember Me -->
-      <div class="flex items-center justify-between pt-1">
-        <label class="flex items-center gap-2 cursor-pointer">
-          <input
-            type="checkbox"
-            v-model="form.remember"
-            class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 dark:border-slate-700 dark:bg-slate-800"
-          />
-          <span class="text-xs text-slate-600 dark:text-slate-400">Ingat saya</span>
-        </label>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="pt-2">
-        <button
-          type="submit"
-          :disabled="form.processing"
-          class="w-full cursor-pointer flex justify-center items-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-emerald-600/20 hover:bg-emerald-500 active:scale-98 disabled:opacity-60 transition"
+        <!-- Session Status Alert -->
+        <div
+            v-if="status"
+            class="mb-6 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 p-4 text-[14px] font-bold text-night-ink"
         >
-          <span v-if="form.processing">Memproses...</span>
-          <span v-else>Masuk ke Akun</span>
-        </button>
-      </div>
-    </form>
+            {{ status }}
+        </div>
 
-    <div class="mt-6 border-t border-slate-200 dark:border-slate-800 pt-5 text-center text-xs text-slate-600 dark:text-slate-400">
-      Belum memiliki akun nasabah?
-      <Link href="/register" class="font-bold text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 ml-1">
-        Daftar Sekarang
-      </Link>
-    </div>
-  </GuestLayout>
+        <form @submit.prevent="submit" class="space-y-5">
+            <!-- Email Field -->
+            <div>
+                <label
+                    for="email"
+                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                >
+                    Alamat email
+                </label>
+                <input
+                    id="email"
+                    type="email"
+                    v-model="form.email"
+                    required
+                    autofocus
+                    autocomplete="username"
+                    placeholder="nama@email.com"
+                    class="w-full h-[52px] px-4 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                    :class="
+                        form.errors.email
+                            ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
+                            : 'border-border-gray focus:border-eco-green focus:ring-4 focus:ring-eco-green/15'
+                    "
+                />
+                <p
+                    v-if="form.errors.email"
+                    class="mt-1.5 text-[13px] font-bold text-red-600"
+                >
+                    {{ form.errors.email }}
+                </p>
+            </div>
+
+            <!-- Password Field -->
+            <div>
+                <label
+                    for="password"
+                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                >
+                    Kata sandi
+                </label>
+                <div class="relative flex items-center">
+                    <input
+                        id="password"
+                        :type="showPassword ? 'text' : 'password'"
+                        v-model="form.password"
+                        required
+                        autocomplete="current-password"
+                        placeholder="••••••••••••"
+                        class="w-full h-[52px] pl-4 pr-24 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                        :class="
+                            form.errors.password
+                                ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
+                                : 'border-border-gray focus:border-eco-green focus:ring-4 focus:ring-eco-green/15'
+                        "
+                    />
+                    <button
+                        type="button"
+                        class="absolute right-2 px-2.5 py-1.5 text-[13px] font-extrabold text-night-ink hover:text-eco-green-dark flex items-center gap-1.5 cursor-pointer rounded-lg hover:bg-cloud-surface transition-colors"
+                        @click="showPassword = !showPassword"
+                    >
+                        <component
+                            :is="showPassword ? EyeOff : Eye"
+                            class="size-4"
+                        />
+                        <span>{{ showPassword ? "Tutup" : "Lihat" }}</span>
+                    </button>
+                </div>
+                <p
+                    v-if="form.errors.password"
+                    class="mt-1.5 text-[13px] font-bold text-red-600"
+                >
+                    {{ form.errors.password }}
+                </p>
+            </div>
+
+            <!-- Login Options: Remember Me & Forgot Password -->
+            <div class="flex items-center justify-between pt-1">
+                <label class="flex items-center gap-2.5 cursor-pointer select-none">
+                    <input
+                        type="checkbox"
+                        v-model="form.remember"
+                        class="size-5 rounded-[6px] border-2 border-border-gray text-eco-green focus:ring-eco-green focus:ring-offset-0 cursor-pointer"
+                    />
+                    <span class="text-[14px] font-semibold text-night-ink">
+                        Ingat saya
+                    </span>
+                </label>
+
+                <Link
+                    v-if="canResetPassword !== false"
+                    href="/forgot-password"
+                    class="text-[14px] font-extrabold text-night-ink hover:text-eco-green-dark transition-colors"
+                >
+                    Lupa kata sandi?
+                </Link>
+            </div>
+
+            <!-- Tactile 3D Action Submit Button (Duolingo Style) -->
+            <div class="pt-2">
+                <button
+                    type="submit"
+                    :disabled="form.processing"
+                    class="w-full h-[52px] bg-eco-green text-night-ink font-extrabold text-[15px] sm:text-[16px] rounded-2xl border-2 border-eco-green border-b-[5px] border-b-eco-green-dark shadow-xs hover:brightness-105 active:translate-y-0.5 active:border-b-2 active:shadow-none transition-all flex items-center justify-center cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                    <span v-if="form.processing">Memproses...</span>
+                    <span v-else>Masuk ke akun</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- Account Switcher Link -->
+        <div class="mt-8 text-center flex items-center justify-center gap-2 text-[14px] font-medium text-charcoal">
+            <span>Belum punya akun?</span>
+            <Link
+                href="/register"
+                class="font-extrabold text-night-ink hover:text-eco-green-dark underline decoration-2 underline-offset-4 transition-colors"
+            >
+                Daftar
+            </Link>
+        </div>
+    </AuthLayout>
 </template>

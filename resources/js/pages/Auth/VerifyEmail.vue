@@ -1,69 +1,76 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import GuestLayout from '@/layouts/GuestLayout.vue';
+import { computed } from "vue";
+import { Head, Link, useForm } from "@inertiajs/vue3";
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import { MailCheck } from "lucide-vue-next";
 
 const props = defineProps<{
-  status?: string;
+    status?: string;
 }>();
 
 const form = useForm({});
 
 const submit = () => {
-  form.post('/email/verification-notification');
+    form.post("/email/verification-notification");
 };
 
 const verificationLinkSent = computed(
-  () => props.status === 'verification-link-sent',
+    () => props.status === "verification-link-sent"
 );
 </script>
 
 <template>
-  <GuestLayout>
-    <Head title="Verifikasi Email - Bank Sampah Digital" />
+    <AuthLayout>
+        <Head title="Verifikasi Email - ReValue" />
 
-    <div class="mb-6">
-      <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 mb-3">
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
-      </div>
-      <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Verifikasi Alamat Email</h2>
-      <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed">
-        Terima kasih telah bergabung di Bank Sampah Digital! Sebelum memulai transaksi atau penjemputan sampah, silakan verifikasi alamat email Anda melalui tautan yang baru saja kami kirimkan.
-      </p>
-    </div>
+        <!-- Title & Subtitle -->
+        <div class="mb-6 sm:mb-8 text-left">
+            <div class="inline-flex size-12 items-center justify-center rounded-2xl bg-sprout-tint border-2 border-eco-green/40 text-eco-green-dark mb-4">
+                <MailCheck class="size-6" />
+            </div>
+            <h1
+                class="font-extrabold text-[30px] sm:text-[36px] text-night-ink leading-[1.2] tracking-tight mb-2"
+            >
+                Verifikasi email Anda.
+            </h1>
+            <p
+                class="font-medium text-[15px] sm:text-[16px] text-charcoal leading-relaxed"
+            >
+                Terima kasih telah bergabung dengan ReValue! Sebelum mulai menyetor sampah, silakan klik tautan verifikasi yang telah kami kirimkan ke email Anda.
+            </p>
+        </div>
 
-    <!-- Feedback alert jika link baru saja dikirim ulang -->
-    <div
-      v-if="verificationLinkSent"
-      class="mb-5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs font-semibold text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300"
-    >
-      Tautan verifikasi baru telah berhasil dikirim ke alamat email yang Anda daftarkan. Silakan periksa kotak masuk atau folder spam Anda.
-    </div>
-
-    <form @submit.prevent="submit" class="space-y-4">
-      <div>
-        <button
-          type="submit"
-          :disabled="form.processing"
-          class="w-full cursor-pointer flex justify-center items-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-emerald-600/20 hover:bg-emerald-500 active:scale-98 disabled:opacity-60 transition"
+        <!-- Feedback Alert -->
+        <div
+            v-if="verificationLinkSent"
+            class="mb-6 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 p-4 text-[14px] font-bold text-night-ink"
         >
-          <span v-if="form.processing">Mengirim Ulang...</span>
-          <span v-else>Kirim Ulang Email Verifikasi</span>
-        </button>
-      </div>
+            Tautan verifikasi baru telah berhasil dikirim ke alamat email Anda. Silakan periksa kotak masuk atau folder spam.
+        </div>
 
-      <div class="flex items-center justify-between pt-2">
-        <Link
-          href="/logout"
-          method="post"
-          as="button"
-          class="text-xs font-medium text-slate-500 underline hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition"
-        >
-          Keluar dari Sesi
-        </Link>
-      </div>
-    </form>
-  </GuestLayout>
+        <form @submit.prevent="submit" class="space-y-4">
+            <!-- Tactile 3D Action Submit Button -->
+            <div>
+                <button
+                    type="submit"
+                    :disabled="form.processing"
+                    class="w-full h-[52px] bg-eco-green text-night-ink font-extrabold text-[15px] sm:text-[16px] rounded-2xl border-2 border-eco-green border-b-[5px] border-b-eco-green-dark shadow-xs hover:brightness-105 active:translate-y-0.5 active:border-b-2 active:shadow-none transition-all flex items-center justify-center cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                    <span v-if="form.processing">Mengirim ulang...</span>
+                    <span v-else>Kirim ulang email verifikasi</span>
+                </button>
+            </div>
+
+            <div class="pt-2 text-center">
+                <Link
+                    href="/logout"
+                    method="post"
+                    as="button"
+                    class="text-[14px] font-semibold text-charcoal hover:text-night-ink underline decoration-2 underline-offset-4 cursor-pointer transition-colors"
+                >
+                    Keluar dari akun
+                </Link>
+            </div>
+        </form>
+    </AuthLayout>
 </template>
