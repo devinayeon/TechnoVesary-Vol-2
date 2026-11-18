@@ -57,8 +57,23 @@ fi
 echo "==> Menjalankan seluruh service (app, queue, scheduler, db)"
 compose up -d --remove-orphans
 
-echo "==> Health check"
-compose exec -T app curl -fsS http://127.0.0.1:8005/up >/dev/null
+echo "==> Menunggu aplikasi siap (Health check)"
+HEALTHY=0
+for i in $(seq 1 15); do
+    if compose exec -T app curl -fsS http://127.0.0.1:8005/up >/dev/null 2>&1; then
+        HEALTHY=1
+        echo "==> Aplikasi sehat dan merespons dengan status 200 OK!"
+        break
+    fi
+    echo "    Menunggu server aplikasi online ($i/15)..."
+    sleep 2
+done
+
+if [ "$HEALTHY" -ne 1 ]; then
+    echo "!! Health check gagal: aplikasi belum merespons dalam 30 detik."
+    compose logs --tail=50 app
+    exit 1
+fi
 
 docker image prune -f >/dev/null 2>&1 || true
 
