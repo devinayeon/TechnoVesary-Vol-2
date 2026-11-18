@@ -30,6 +30,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read Admin|null $admin
+ * @property-read Driver|null $driver
+ * @property-read Customer|null $customer
  */
 #[Fillable([
     'name',
@@ -73,6 +76,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Relasi One-to-One profil Admin
+     *
+     * @return HasOne<Admin, $this>
      */
     public function admin(): HasOne
     {
@@ -81,6 +86,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Relasi One-to-One profil Driver
+     *
+     * @return HasOne<Driver, $this>
      */
     public function driver(): HasOne
     {
@@ -89,6 +96,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Relasi One-to-One profil Customer
+     *
+     * @return HasOne<Customer, $this>
      */
     public function customer(): HasOne
     {

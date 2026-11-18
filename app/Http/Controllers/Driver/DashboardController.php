@@ -25,11 +25,11 @@ class DashboardController extends Controller
         $user = $request->user();
 
         $driver = $user->driver;
-        if (! $driver) {
-            $driver = Driver::create([
-                'user_id' => $user->id,
-                'is_available' => true,
-            ]);
+        if (! ($driver instanceof Driver)) {
+            $driver = new Driver();
+            $driver->user_id = $user->id;
+            $driver->is_available = true;
+            $driver->save();
         }
 
         $dashboardData = $this->dashboardService->getDashboardData($driver);

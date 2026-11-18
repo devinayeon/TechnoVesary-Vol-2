@@ -64,7 +64,7 @@ class MidtransWebhookController extends Controller
         }
 
         $parts = explode('-', $orderId);
-        $prefix = $parts[0] ?? '';
+        $prefix = $parts[0];
         $transactionId = $parts[1] ?? null;
 
         // Tangani Transaksi Langganan ReValue+ (SUB-xxx)
@@ -81,9 +81,10 @@ class MidtransWebhookController extends Controller
 
             if ($transactionStatus === 'settlement' || ($transactionStatus === 'capture' && $fraudStatus === 'accept')) {
                 $this->subscriptionOrderService->settleSubscription($subTrx);
-            } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
-                if ($subTrx->status === TransactionStatus::PENDING && $subTrx->customer) {
-                    $this->subscriptionOrderService->cancelSubscription($subTrx, $subTrx->customer);
+            } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'], true)) {
+                $customer = $subTrx->customer;
+                if ($subTrx->status === TransactionStatus::PENDING && $customer instanceof Customer) {
+                    $this->subscriptionOrderService->cancelSubscription($subTrx, $customer);
                 }
             }
 

@@ -16,14 +16,16 @@ trait ResolvesCustomerProfile
         /** @var User $user */
         $user = $request->user();
 
-        if ($user->customer) {
+        if ($user->customer instanceof Customer) {
             return $user->customer;
         }
 
-        return Customer::create([
-            'user_id' => $user->id,
-            'points' => 0,
-            'is_member' => false,
-        ]);
+        $customer = new Customer();
+        $customer->user_id = $user->id;
+        $customer->points = 0;
+        $customer->is_member = false;
+        $customer->save();
+
+        return $customer;
     }
 }

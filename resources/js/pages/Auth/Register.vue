@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthLayout from '@/layouts/AuthLayout.vue';
+import DemoLoginButtons from '@/components/Auth/DemoLoginButtons.vue';
 import { Eye, EyeOff } from 'lucide-vue-next';
 
 const form = useForm({
@@ -203,6 +204,9 @@ const submit = () => {
                 </button>
             </div>
         </form>
+
+        <!-- Quick 1-Click Demo Login Options -->
+        <DemoLoginButtons />
 
         <!-- Account Switcher Link -->
         <div

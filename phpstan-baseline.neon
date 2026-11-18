@@ -1,22 +1,10 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Admin/ArticleController.php
-
-		-
 			message: '#^Using nullsafe property access "\?\-\>id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
 			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Http/Controllers/Admin/ArticleController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Admin/ProductController.php
 
 		-
 			message: '#^Using nullsafe property access "\?\-\>id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
@@ -64,12 +52,6 @@ parameters:
 			message: '#^Match arm comparison between App\\Enums\\UserRole\:\:CUSTOMER and App\\Enums\\UserRole\:\:CUSTOMER is always true\.$#'
 			identifier: match.alwaysTrue
 			count: 1
-			path: app/Http/Controllers/Auth/AuthenticatedSessionController.php
-
-		-
-			message: '#^Match arm comparison between App\\Enums\\UserRole\:\:CUSTOMER and App\\Enums\\UserRole\:\:CUSTOMER is always true\.$#'
-			identifier: match.alwaysTrue
-			count: 1
 			path: app/Http/Controllers/Auth/EmailVerificationNotificationController.php
 
 		-
@@ -91,62 +73,14 @@ parameters:
 			path: app/Http/Controllers/Customer/CheckoutController.php
 
 		-
-			message: '#^Method App\\Http\\Controllers\\Customer\\CheckoutController\:\:resolveCustomer\(\) should return App\\Models\\Customer but returns Illuminate\\Database\\Eloquent\\Model\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Http/Controllers/Customer/CheckoutController.php
-
-		-
 			message: '#^Parameter \$product of method App\\Services\\Customer\\ProductOrderService\:\:createOrder\(\) expects App\\Models\\Product, App\\Models\\Product\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Product\> given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Controllers/Customer/CheckoutController.php
 
 		-
-			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Http/Controllers/Customer/PickupController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\Customer\\PickupController\:\:resolveCustomer\(\) should return App\\Models\\Customer but returns Illuminate\\Database\\Eloquent\\Model\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Http/Controllers/Customer/PickupController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\Customer\\PointHistoryController\:\:resolveCustomer\(\) should return App\\Models\\Customer but returns Illuminate\\Database\\Eloquent\\Model\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Http/Controllers/Customer/PointHistoryController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 4
-			path: app/Http/Controllers/Customer/TransactionHistoryController.php
-
-		-
 			message: '#^Cannot call method label\(\) on string\.$#'
 			identifier: method.nonObject
-			count: 1
-			path: app/Http/Controllers/Customer/TransactionHistoryController.php
-
-		-
-			message: '#^Method App\\Http\\Controllers\\Customer\\TransactionHistoryController\:\:resolveCustomer\(\) should return App\\Models\\Customer but returns Illuminate\\Database\\Eloquent\\Model\.$#'
-			identifier: return.type
-			count: 1
-			path: app/Http/Controllers/Customer/TransactionHistoryController.php
-
-		-
-			message: '#^Parameter \#2 \$customer of method App\\Services\\Customer\\ProductOrderService\:\:cancelOrder\(\) expects App\\Models\\Customer, Illuminate\\Database\\Eloquent\\Model given\.$#'
-			identifier: argument.type
-			count: 1
-			path: app/Http/Controllers/Customer/TransactionHistoryController.php
-
-		-
-			message: '#^Parameter \#2 \$customer of method App\\Services\\Customer\\ProductOrderService\:\:generateRepayToken\(\) expects App\\Models\\Customer, Illuminate\\Database\\Eloquent\\Model given\.$#'
-			identifier: argument.type
 			count: 1
 			path: app/Http/Controllers/Customer/TransactionHistoryController.php
 
@@ -169,22 +103,10 @@ parameters:
 			path: app/Http/Controllers/Customer/TransactionHistoryController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$current_latitude\.$#'
-			identifier: property.notFound
+			message: '#^Property App\\Models\\Driver\:\:\$user_id \(int\<0, max\>\) does not accept int\.$#'
+			identifier: assign.propertyType
 			count: 1
-			path: app/Http/Controllers/Driver/DeliveryController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$current_longitude\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Driver/DeliveryController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Controllers/Driver/DeliveryController.php
+			path: app/Http/Controllers/Driver/DashboardController.php
 
 		-
 			message: '#^Strict comparison using \!\=\= between ''canceled''\|''completed''\|''delivering''\|''pending''\|''processing'' and App\\Enums\\OrderStatus\:\:DELIVERING will always evaluate to true\.$#'
@@ -223,10 +145,10 @@ parameters:
 			path: app/Http/Controllers/Driver/PickupController.php
 
 		-
-			message: '#^Method App\\Http\\Controllers\\Driver\\PickupController\:\:resolveDriver\(\) should return App\\Models\\Driver but returns Illuminate\\Database\\Eloquent\\Model\.$#'
-			identifier: return.type
+			message: '#^Class App\\Http\\Controllers\\Webhook\\Customer not found\.$#'
+			identifier: class.notFound
 			count: 1
-			path: app/Http/Controllers/Driver/PickupController.php
+			path: app/Http/Controllers/Webhook/MidtransWebhookController.php
 
 		-
 			message: '#^Parameter \#2 \$customer of method App\\Services\\Customer\\ProductOrderService\:\:cancelOrder\(\) expects App\\Models\\Customer, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
@@ -275,12 +197,6 @@ parameters:
 			identifier: method.unresolvableReturnType
 			count: 1
 			path: app/Http/Controllers/WelcomeController.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isActiveMember\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Http/Middleware/EnsureCustomerIsMember.php
 
 		-
 			message: '#^Instanceof between App\\Enums\\UserRole and App\\Enums\\UserRole will always evaluate to true\.$#'
@@ -347,12 +263,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/ArticleCategory.php
-
-		-
-			message: '#^Cannot call method isFuture\(\) on string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Models/Customer.php
 
 		-
 			message: '#^Class App\\Models\\Customer uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
@@ -475,18 +385,6 @@ parameters:
 			path: app/Models/SubscriptionTransaction.php
 
 		-
-			message: '#^Method App\\Models\\SubscriptionTransaction\:\:customer\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/SubscriptionTransaction.php
-
-		-
-			message: '#^Method App\\Models\\SubscriptionTransaction\:\:subscription\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/SubscriptionTransaction.php
-
-		-
 			message: '#^Class App\\Models\\Transaction uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
 			identifier: missingType.generics
 			count: 1
@@ -527,24 +425,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/TransactionDetail.php
-
-		-
-			message: '#^Method App\\Models\\User\:\:admin\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/User.php
-
-		-
-			message: '#^Method App\\Models\\User\:\:customer\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/User.php
-
-		-
-			message: '#^Method App\\Models\\User\:\:driver\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\HasOne does not specify its types\: TRelatedModel, TDeclaringModel$#'
-			identifier: missingType.generics
-			count: 1
-			path: app/Models/User.php
 
 		-
 			message: '#^PHPDoc type array\<int, string\> of property App\\Models\\User\:\:\$appends is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$appends\.$#'
@@ -661,15 +541,9 @@ parameters:
 			path: app/Services/Article/ArticleManagementService.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Customer/ProductOrderService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 2
 			path: app/Services/Customer/ProductOrderService.php
 
 		-
@@ -703,16 +577,10 @@ parameters:
 			path: app/Services/Customer/ProductOrderService.php
 
 		-
-			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
+			message: '#^Instanceof between App\\Models\\Customer and App\\Models\\Customer will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
 			count: 1
-			path: app/Services/Customer/ProductOrderService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/Customer/ProductOrderService.php
+			path: app/Services/Customer/SubscriptionOrderService.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\WasteDepositDetail\:\:\$total_weight\.$#'
@@ -833,6 +701,96 @@ parameters:
 			identifier: nullsafe.neverNull
 			count: 2
 			path: app/Services/Dashboard/AdminDashboardService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$wasteCategory\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Dashboard/CustomerDashboardService.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Services/Dashboard/CustomerDashboardService.php
+
+		-
+			message: '#^Cannot call method shortLabel\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Services/Dashboard/CustomerDashboardService.php
+
+		-
+			message: '#^Cannot call method tone\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Dashboard/CustomerDashboardService.php
+
+		-
+			message: '#^Cannot call method translatedFormat\(\) on Carbon\\CarbonImmutable\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Dashboard/CustomerDashboardService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Services/Dashboard/CustomerDashboardService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{id\: int\<0, max\>, date\: string, weight\: non\-falsy\-string, earning\: mixed, types\: mixed, status\: mixed, status_label\: mixed, status_tone\: mixed, show_url\: string\}, Closure\(App\\Models\\WasteDeposit\)\: array\{id\: int\<0, max\>, date\: string, weight\: non\-falsy\-string, earning\: mixed, types\: mixed, status\: mixed, status_label\: mixed, status_tone\: mixed, show_url\: string\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Dashboard/CustomerDashboardService.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Services/Dashboard/CustomerDashboardService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Services/Dashboard/DriverDashboardService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$wasteCategory\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Services/Dashboard/DriverDashboardService.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 3
+			path: app/Services/Dashboard/DriverDashboardService.php
+
+		-
+			message: '#^Cannot call method label\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Dashboard/DriverDashboardService.php
+
+		-
+			message: '#^Cannot call method shortLabel\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Dashboard/DriverDashboardService.php
+
+		-
+			message: '#^Cannot call method tone\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Services/Dashboard/DriverDashboardService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 3
+			path: app/Services/Dashboard/DriverDashboardService.php
 
 		-
 			message: '#^Method App\\Services\\Map\\OsmRoutingService\:\:findNearestDriver\(\) has parameter \$drivers with no value type specified in iterable type iterable\.$#'

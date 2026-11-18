@@ -295,7 +295,7 @@ class SubscriptionOrderService
             ]);
 
             $customer = $transaction->customer;
-            if ($customer) {
+            if ($customer instanceof Customer) {
                 $durationDays = $this->getDaysForPackage($transaction->package_key ?? '1_month');
                 $this->activateCustomerMembership($customer, $durationDays);
             }

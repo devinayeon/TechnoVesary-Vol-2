@@ -80,11 +80,9 @@ class SubscriptionHistoryController extends Controller
      */
     public function checkStatus(Request $request, SubscriptionTransaction $transaction): RedirectResponse
     {
-        /** @var User $user */
-        $user = $request->user();
-        $customer = $user->customer;
+        $customer = $this->resolveCustomer($request);
 
-        if (! $customer || $transaction->customer_id !== $customer->id) {
+        if ($transaction->customer_id !== $customer->id) {
             abort(403, 'Akses tidak sah.');
         }
 
@@ -117,7 +115,7 @@ class SubscriptionHistoryController extends Controller
             return back()->with('info', "Pembayaran untuk Langganan #SUB-{$transaction->id} masih menunggu penyelesaian di Midtrans.");
         }
 
-        if (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
+        if (in_array($transactionStatus, ['cancel', 'deny', 'expire'], true)) {
             $this->subscriptionOrderService->cancelSubscription($transaction, $customer);
 
             return back()->with('error', "Pembayaran untuk Langganan #SUB-{$transaction->id} telah {$transactionStatus}. Transaksi dibatalkan dan poin Anda dikembalikan.");
@@ -131,11 +129,9 @@ class SubscriptionHistoryController extends Controller
      */
     public function cancel(Request $request, SubscriptionTransaction $transaction): RedirectResponse
     {
-        /** @var User $user */
-        $user = $request->user();
-        $customer = $user->customer;
+        $customer = $this->resolveCustomer($request);
 
-        if (! $customer || $transaction->customer_id !== $customer->id) {
+        if ($transaction->customer_id !== $customer->id) {
             abort(403, 'Akses tidak sah.');
         }
 
@@ -153,11 +149,9 @@ class SubscriptionHistoryController extends Controller
      */
     public function repay(Request $request, SubscriptionTransaction $transaction): JsonResponse
     {
-        /** @var User $user */
-        $user = $request->user();
-        $customer = $user->customer;
+        $customer = $this->resolveCustomer($request);
 
-        if (! $customer || $transaction->customer_id !== $customer->id) {
+        if ($transaction->customer_id !== $customer->id) {
             return response()->json(['message' => 'Akses tidak sah.'], 403);
         }
 
