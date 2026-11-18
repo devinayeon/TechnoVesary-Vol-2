@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 uses(DatabaseTransactions::class);

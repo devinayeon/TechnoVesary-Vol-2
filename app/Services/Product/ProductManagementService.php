@@ -12,7 +12,7 @@ class ProductManagementService
     /**
      * Dapatkan daftar produk terpaginasi dengan filter pencarian dan status soft-delete.
      *
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      */
     public function getPaginatedProducts(array $filters = [], int $perPage = 12): LengthAwarePaginator
     {
@@ -27,11 +27,11 @@ class ProductManagementService
         }
 
         // Filter Pencarian (Nama atau Deskripsi)
-        if (!empty($filters['search'])) {
-            $search = '%' . trim((string) $filters['search']) . '%';
+        if (! empty($filters['search'])) {
+            $search = '%'.trim((string) $filters['search']).'%';
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', $search)
-                  ->orWhere('description', 'like', $search);
+                    ->orWhere('description', 'like', $search);
             });
         }
 
@@ -46,7 +46,7 @@ class ProductManagementService
     /**
      * Simpan produk baru.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function createProduct(array $data, int $adminId, ?UploadedFile $photo = null): Product
     {
@@ -58,20 +58,20 @@ class ProductManagementService
         $priceRupiah = (int) $data['price_rupiah'];
 
         return Product::create([
-            'admin_id'     => $adminId,
-            'name'         => $data['name'],
-            'description'  => $data['description'] ?? null,
+            'admin_id' => $adminId,
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
             'price_rupiah' => $priceRupiah,
             'price_points' => $priceRupiah, // Auto-sync: price_points == price_rupiah (Shopee-style)
-            'stock'        => (int) ($data['stock'] ?? 0),
-            'photo'        => $photoPath,
+            'stock' => (int) ($data['stock'] ?? 0),
+            'photo' => $photoPath,
         ]);
     }
 
     /**
      * Perbarui data produk yang ada.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function updateProduct(Product $product, array $data, ?UploadedFile $photo = null, bool $removePhoto = false): Product
     {
@@ -91,12 +91,12 @@ class ProductManagementService
         $priceRupiah = (int) $data['price_rupiah'];
 
         $product->update([
-            'name'         => $data['name'],
-            'description'  => $data['description'] ?? null,
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
             'price_rupiah' => $priceRupiah,
             'price_points' => $priceRupiah, // Auto-sync: price_points == price_rupiah (Shopee-style)
-            'stock'        => (int) ($data['stock'] ?? 0),
-            'photo'        => $photoPath,
+            'stock' => (int) ($data['stock'] ?? 0),
+            'photo' => $photoPath,
         ]);
 
         return $product->fresh(['admin.user']);
@@ -116,6 +116,7 @@ class ProductManagementService
     public function restoreProduct(int $id): bool
     {
         $product = Product::onlyTrashed()->findOrFail($id);
+
         return (bool) $product->restore();
     }
 }

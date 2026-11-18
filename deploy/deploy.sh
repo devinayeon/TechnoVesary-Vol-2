@@ -53,11 +53,16 @@ compose run --rm app php artisan migrate --force
 echo "==> Memeriksa apakah database masih kosong"
 USER_COUNT="$(
     compose run --rm -T app \
-        php artisan tinker --execute='echo \App\Models\User::count();' \
-        | tr -dc '0-9'
+        php artisan tinker --execute='echo "USERS=".\App\Models\User::count();' \
+        | tr -d '\r' \
+        | grep -o 'USERS=[0-9]*' \
+        | head -n 1 \
+        | cut -d= -f2 || true
 )"
 
-if [ "${USER_COUNT:-0}" = "0" ]; then
+if [ -z "${USER_COUNT}" ]; then
+    echo "!! Gagal membaca jumlah pengguna, seeder dilewati agar data aman"
+elif [ "${USER_COUNT}" = "0" ]; then
     echo "==> Database kosong, menjalankan seeder"
     compose run --rm app php artisan db:seed --force
 else

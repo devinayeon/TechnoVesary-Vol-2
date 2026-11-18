@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { Head, usePage } from "@inertiajs/vue3";
-import type { User } from "@/types/auth";
-import ProfileSidebar from "@/components/Profile/ProfileSidebar.vue";
-import ProfileHeader from "@/components/Profile/ProfileHeader.vue";
-import ProfileMainView from "@/components/Profile/ProfileMainView.vue";
-import AddressSection from "@/components/Profile/AddressSection.vue";
-import SecuritySection from "@/components/Profile/SecuritySection.vue";
-import AccountInfoSection from "@/components/Profile/AccountInfoSection.vue";
-import AvatarUploadModal from "@/components/Profile/AvatarUploadModal.vue";
+import { computed, ref } from 'vue';
+import { Head, usePage } from '@inertiajs/vue3';
+import type { User } from '@/types/auth';
+import ProfileSidebar from '@/components/Profile/ProfileSidebar.vue';
+import ProfileHeader from '@/components/Profile/ProfileHeader.vue';
+import ProfileMainView from '@/components/Profile/ProfileMainView.vue';
+import AddressSection from '@/components/Profile/AddressSection.vue';
+import SecuritySection from '@/components/Profile/SecuritySection.vue';
+import AccountInfoSection from '@/components/Profile/AccountInfoSection.vue';
+import AvatarUploadModal from '@/components/Profile/AvatarUploadModal.vue';
 
 const props = defineProps<{
     mustVerifyEmail?: boolean;
     status?: string;
     userData?: User;
+    basemapApiKey?: string;
 }>();
 
 const page = usePage();
@@ -21,45 +22,49 @@ const currentUser = computed(() => {
     return (props.userData || (page.props.auth as any)?.user) as User;
 });
 
-type TabType = "profile" | "address" | "security" | "account";
+type TabType = 'profile' | 'address' | 'security' | 'account';
 
 // Parse initial tab from URL query params (e.g. /profile?tab=address)
-const urlParams = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
-const initialTab = (urlParams.get("tab") as TabType) || "profile";
+const urlParams = new URLSearchParams(
+    typeof window !== 'undefined' ? window.location.search : '',
+);
+const initialTab = (urlParams.get('tab') as TabType) || 'profile';
 const activeTab = ref<TabType>(
-    ["profile", "address", "security", "account"].includes(initialTab) ? initialTab : "profile"
+    ['profile', 'address', 'security', 'account'].includes(initialTab)
+        ? initialTab
+        : 'profile',
 );
 
 const showPhotoModal = ref(false);
 const editProfileDirectly = ref(false);
 
 const tabTitles: Record<TabType, string> = {
-    profile: "Profil saya",
-    address: "Alamat utama",
-    security: "Keamanan akun",
-    account: "Informasi akun",
+    profile: 'Profil saya',
+    address: 'Alamat utama',
+    security: 'Keamanan akun',
+    account: 'Informasi akun',
 };
 
 const currentTabTitle = computed(() => tabTitles[activeTab.value]);
 
 const handleGoToEditEmail = () => {
     editProfileDirectly.value = true;
-    selectTab("profile");
+    selectTab('profile');
 };
 
 const selectTab = (tab: TabType) => {
     activeTab.value = tab;
-    if (tab !== "profile") {
+    if (tab !== 'profile') {
         editProfileDirectly.value = false;
     }
-    if (typeof window !== "undefined" && window.history) {
+    if (typeof window !== 'undefined' && window.history) {
         const url = new URL(window.location.href);
-        if (tab === "profile") {
-            url.searchParams.delete("tab");
+        if (tab === 'profile') {
+            url.searchParams.delete('tab');
         } else {
-            url.searchParams.set("tab", tab);
+            url.searchParams.set('tab', tab);
         }
-        window.history.replaceState({}, "", url.toString());
+        window.history.replaceState({}, '', url.toString());
     }
 };
 </script>
@@ -67,15 +72,14 @@ const selectTab = (tab: TabType) => {
 <template>
     <Head :title="`${currentTabTitle} - Pengaturan Akun ReValue`" />
 
-    <div class="min-h-screen bg-cloud-surface text-night-ink font-sans flex flex-col lg:flex-row antialiased">
+    <div
+        class="flex min-h-screen flex-col bg-cloud-surface font-sans text-night-ink antialiased lg:flex-row"
+    >
         <!-- 1. Shared Account Sidebar -->
-        <ProfileSidebar
-            :active-tab="activeTab"
-            @select-tab="selectTab"
-        />
+        <ProfileSidebar :active-tab="activeTab" @select-tab="selectTab" />
 
         <!-- 2. Main Workspace -->
-        <div class="flex-1 flex flex-col min-w-0">
+        <div class="flex min-w-0 flex-1 flex-col">
             <!-- Top Shared Header -->
             <ProfileHeader
                 :user="currentUser"
@@ -83,11 +87,11 @@ const selectTab = (tab: TabType) => {
             />
 
             <!-- Content Container -->
-            <main class="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto">
+            <main class="mx-auto w-full max-w-7xl flex-1 p-6 lg:p-8">
                 <!-- Status Flash Alert -->
                 <div
                     v-if="status === 'profile-updated'"
-                    class="mb-6 p-4 rounded-xl bg-sprout-tint/80 border border-eco-green/40 text-night-ink font-bold text-sm shadow-xs animate-in fade-in duration-300"
+                    class="animate-in fade-in mb-6 rounded-xl border border-eco-green/40 bg-sprout-tint/80 p-4 text-sm font-bold text-night-ink shadow-xs duration-300"
                 >
                     Profil berhasil diperbarui.
                 </div>
@@ -106,6 +110,7 @@ const selectTab = (tab: TabType) => {
                 <AddressSection
                     v-else-if="activeTab === 'address'"
                     :user="currentUser"
+                    :basemap-api-key="basemapApiKey"
                 />
 
                 <!-- Tab 3: Keamanan Akun -->

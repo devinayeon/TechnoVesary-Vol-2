@@ -56,7 +56,7 @@ class ArticleController extends Controller
     {
         $adminId = $request->user()->admin?->id ?? Admin::first()?->id;
 
-        if (!$adminId) {
+        if (! $adminId) {
             $admin = Admin::create(['user_id' => $request->user()->id]);
             $adminId = $admin->id;
         }

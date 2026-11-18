@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { Head, Link, router, usePage } from "@inertiajs/vue3";
-import DashboardLayout from "@/layouts/DashboardLayout.vue";
-import UserAvatar from "@/components/Dashboard/UserAvatar.vue";
-import StatusChip from "@/components/Dashboard/StatusChip.vue";
-import UserDeleteModal from "@/components/Dashboard/UserDeleteModal.vue";
-import AppDropdown from "@/components/Dashboard/AppDropdown.vue";
-import PageHeader from "@/components/Dashboard/PageHeader.vue";
+import { ref, watch, computed } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import UserAvatar from '@/components/Dashboard/UserAvatar.vue';
+import StatusChip from '@/components/Dashboard/StatusChip.vue';
+import UserDeleteModal from '@/components/Dashboard/UserDeleteModal.vue';
+import AppDropdown from '@/components/Dashboard/AppDropdown.vue';
+import PageHeader from '@/components/Dashboard/PageHeader.vue';
 import {
     Search,
     UserPlus,
@@ -22,7 +22,7 @@ import {
     Eye,
     Edit3,
     Trash2,
-} from "lucide-vue-next";
+} from 'lucide-vue-next';
 
 interface UserItem {
     id: number;
@@ -87,14 +87,14 @@ watch(
 );
 
 // Search & Filter local state
-const search = ref(props.filters.search || "");
-const selectedRole = ref(props.filters.role || "");
-const selectedStatus = ref(props.filters.status || "active");
+const search = ref(props.filters.search || '');
+const selectedRole = ref(props.filters.role || '');
+const selectedStatus = ref(props.filters.status || 'active');
 
 let searchTimeout: any = null;
 const applyFilters = () => {
     router.get(
-        "/admin/users",
+        '/admin/users',
         {
             search: search.value || undefined,
             role: selectedRole.value || undefined,
@@ -124,27 +124,27 @@ const onStatusChange = () => {
 };
 
 const roleDropdownOptions = computed(() => [
-    { value: "", label: "Semua Role", icon: Users },
+    { value: '', label: 'Semua Role', icon: Users },
     ...props.roles.map((r) => ({
         value: r.value,
         label: r.label,
         icon:
-            r.value === "admin" ? Shield : r.value === "driver" ? Truck : Users,
+            r.value === 'admin' ? Shield : r.value === 'driver' ? Truck : Users,
     })),
 ]);
 
 const statusDropdownOptions = [
-    { value: "active", label: "Aktif" },
-    { value: "trashed", label: "Dinonaktifkan" },
-    { value: "all", label: "Semua Status" },
+    { value: 'active', label: 'Aktif' },
+    { value: 'trashed', label: 'Dinonaktifkan' },
+    { value: 'all', label: 'Semua Status' },
 ];
 
 const resetFilters = () => {
-    search.value = "";
-    selectedRole.value = "";
-    selectedStatus.value = "active";
+    search.value = '';
+    selectedRole.value = '';
+    selectedStatus.value = 'active';
     router.get(
-        "/admin/users",
+        '/admin/users',
         {},
         {
             preserveState: true,
@@ -177,7 +177,7 @@ const closeDeleteModal = () => {
 
 // Restore user
 const restoreUser = (id: number) => {
-    if (confirm("Aktifkan kembali akun pengguna ini?")) {
+    if (confirm('Aktifkan kembali akun pengguna ini?')) {
         router.post(
             `/admin/users/${id}/restore`,
             {},
@@ -188,27 +188,27 @@ const restoreUser = (id: number) => {
     }
 };
 
-const getRoleTone = (role: string): "Green" | "Blue" | "Amber" | "Neutral" => {
+const getRoleTone = (role: string): 'Green' | 'Blue' | 'Amber' | 'Neutral' => {
     switch (role.toLowerCase()) {
-        case "admin":
-            return "Amber";
-        case "driver":
-            return "Blue";
-        case "customer":
+        case 'admin':
+            return 'Amber';
+        case 'driver':
+            return 'Blue';
+        case 'customer':
         default:
-            return "Green";
+            return 'Green';
     }
 };
 
 const getRoleLabel = (role: string): string => {
     switch (role.toLowerCase()) {
-        case "admin":
-            return "Admin";
-        case "driver":
-            return "Driver";
-        case "customer":
+        case 'admin':
+            return 'Admin';
+        case 'driver':
+            return 'Driver';
+        case 'customer':
         default:
-            return "Customer";
+            return 'Customer';
     }
 };
 </script>
@@ -220,16 +220,16 @@ const getRoleLabel = (role: string): string => {
         <!-- Success Flash Alert -->
         <div
             v-if="showSuccessFlash && flashSuccess"
-            class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 text-night-ink font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
+            class="animate-in fade-in mb-6 flex items-center justify-between gap-3 rounded-2xl border-2 border-eco-green/40 bg-sprout-tint p-4 text-[14px] font-bold text-night-ink shadow-2xs duration-200"
         >
-            <div class="flex items-center gap-3 min-w-0">
-                <CheckCircle2 class="size-5 text-eco-green-dark shrink-0" />
+            <div class="flex min-w-0 items-center gap-3">
+                <CheckCircle2 class="size-5 shrink-0 text-eco-green-dark" />
                 <span class="truncate">{{ flashSuccess }}</span>
             </div>
             <button
                 type="button"
                 @click="showSuccessFlash = false"
-                class="p-1 rounded-lg hover:bg-eco-green/20 text-charcoal hover:text-night-ink transition-colors cursor-pointer shrink-0"
+                class="shrink-0 cursor-pointer rounded-lg p-1 text-charcoal transition-colors hover:bg-eco-green/20 hover:text-night-ink"
                 aria-label="Tutup notifikasi"
             >
                 <X class="size-4" />
@@ -239,16 +239,16 @@ const getRoleLabel = (role: string): string => {
         <!-- Error Flash Alert -->
         <div
             v-if="showErrorFlash && flashError"
-            class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-red-50 border-2 border-red-200 text-red-700 font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
+            class="animate-in fade-in mb-6 flex items-center justify-between gap-3 rounded-2xl border-2 border-red-200 bg-red-50 p-4 text-[14px] font-bold text-red-700 shadow-2xs duration-200"
         >
-            <div class="flex items-center gap-3 min-w-0">
-                <XCircle class="size-5 text-red-600 shrink-0" />
+            <div class="flex min-w-0 items-center gap-3">
+                <XCircle class="size-5 shrink-0 text-red-600" />
                 <span class="truncate">{{ flashError }}</span>
             </div>
             <button
                 type="button"
                 @click="showErrorFlash = false"
-                class="p-1 rounded-lg hover:bg-red-100 text-red-600 transition-colors cursor-pointer shrink-0"
+                class="shrink-0 cursor-pointer rounded-lg p-1 text-red-600 transition-colors hover:bg-red-100"
                 aria-label="Tutup notifikasi"
             >
                 <X class="size-4" />
@@ -264,7 +264,7 @@ const getRoleLabel = (role: string): string => {
             <template #action>
                 <Link
                     href="/admin/users/create"
-                    class="inline-flex items-center justify-center gap-2 px-5 h-[46px] rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green text-white font-extrabold text-[14px] hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-2xs shrink-0"
+                    class="inline-flex h-[46px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green px-5 text-[14px] font-extrabold text-white shadow-2xs transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2"
                 >
                     <UserPlus class="size-5 stroke-[2.5]" />
                     <span>Tambah Pengguna</span>
@@ -273,9 +273,9 @@ const getRoleLabel = (role: string): string => {
         </PageHeader>
 
         <!-- Summary Chip (Figma Node 482:1264) -->
-        <div class="flex items-center gap-2 mb-6">
+        <div class="mb-6 flex items-center gap-2">
             <div
-                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-paper-white border border-border-gray text-[13px] font-bold text-night-ink shadow-2xs"
+                class="inline-flex items-center gap-2 rounded-xl border border-border-gray bg-paper-white px-3 py-1.5 text-[13px] font-bold text-night-ink shadow-2xs"
             >
                 <Users class="size-4 text-eco-green-dark" />
                 <span>Total Pengguna: {{ users.total }} akun</span>
@@ -284,24 +284,24 @@ const getRoleLabel = (role: string): string => {
 
         <!-- Toolbar: Search & Select Filter (Figma Node 482:1267) -->
         <div
-            class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 mb-6"
+            class="mb-6 flex flex-col items-stretch gap-3 lg:flex-row lg:items-center"
         >
             <!-- Search Input -->
             <div class="relative w-full">
                 <Search
-                    class="absolute left-3.5 top-1/2 -translate-y-1/2 size-4.5 text-charcoal/70 pointer-events-none"
+                    class="pointer-events-none absolute top-1/2 left-3.5 size-4.5 -translate-y-1/2 text-charcoal/70"
                 />
                 <input
                     v-model="search"
                     type="text"
                     placeholder="Cari nama, email, atau telepon..."
-                    class="w-full h-[44px] pl-10 pr-10 bg-paper-white border-2 border-border-gray rounded-xl text-[14px] font-medium text-night-ink placeholder:text-charcoal/60 focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all shadow-2xs"
+                    class="h-[44px] w-full rounded-xl border-2 border-border-gray bg-paper-white pr-10 pl-10 text-[14px] font-medium text-night-ink shadow-2xs transition-all placeholder:text-charcoal/60 focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 focus:outline-none"
                 />
                 <button
                     v-if="search"
                     @click="search = ''"
                     type="button"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-charcoal hover:bg-cloud-surface hover:text-night-ink transition-colors cursor-pointer"
+                    class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-md p-1 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                     aria-label="Bersihkan pencarian"
                 >
                     <X class="size-3.5" />
@@ -310,14 +310,14 @@ const getRoleLabel = (role: string): string => {
 
             <!-- Filters Group -->
             <div
-                class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 w-full lg:w-auto"
+                class="flex w-full flex-wrap items-center gap-2.5 sm:flex-nowrap lg:w-auto"
             >
                 <!-- Role Dropdown -->
                 <AppDropdown
                     v-model="selectedRole"
                     :options="roleDropdownOptions"
                     placeholder="Semua Role"
-                    class="flex-1 sm:flex-initial min-w-[140px] sm:w-[170px]"
+                    class="min-w-[140px] flex-1 sm:w-[170px] sm:flex-initial"
                     menu-width="w-full sm:w-[190px]"
                     @change="onRoleChange"
                 />
@@ -327,7 +327,7 @@ const getRoleLabel = (role: string): string => {
                     v-model="selectedStatus"
                     :options="statusDropdownOptions"
                     placeholder="Semua Status"
-                    class="flex-1 sm:flex-initial min-w-[150px] sm:w-[200px]"
+                    class="min-w-[150px] flex-1 sm:w-[200px] sm:flex-initial"
                     menu-width="w-full sm:w-[210px]"
                     align="right"
                     @change="onStatusChange"
@@ -338,7 +338,7 @@ const getRoleLabel = (role: string): string => {
                     v-if="search || selectedRole || selectedStatus !== 'active'"
                     type="button"
                     @click="resetFilters"
-                    class="p-2.5 h-[44px] rounded-xl border-2 border-border-gray bg-paper-white text-charcoal hover:text-night-ink hover:bg-cloud-surface transition-colors cursor-pointer shrink-0"
+                    class="h-[44px] shrink-0 cursor-pointer rounded-xl border-2 border-border-gray bg-paper-white p-2.5 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                     title="Reset Filter"
                 >
                     <RotateCcw class="size-4" />
@@ -348,21 +348,21 @@ const getRoleLabel = (role: string): string => {
 
         <!-- Table / Cards Container (Figma Node 482:1278) -->
         <div
-            class="bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[20px] overflow-hidden shadow-xs"
+            class="overflow-hidden rounded-[20px] border-2 border-b-[4px] border-border-gray bg-paper-white shadow-xs"
         >
             <!-- Mobile User Cards View (< md) -->
             <div
                 v-if="users.data.length > 0"
-                class="block md:hidden divide-y divide-border-gray/70"
+                class="block divide-y divide-border-gray/70 md:hidden"
             >
                 <div
                     v-for="u in users.data"
                     :key="`m-${u.id}`"
-                    class="p-4 flex flex-col gap-3 hover:bg-cloud-surface/30 transition-colors"
+                    class="flex flex-col gap-3 p-4 transition-colors hover:bg-cloud-surface/30"
                 >
                     <!-- User Header: Avatar + Name + Email + Role Chip -->
                     <div class="flex items-start justify-between gap-3">
-                        <div class="flex items-center gap-3 min-w-0">
+                        <div class="flex min-w-0 items-center gap-3">
                             <UserAvatar
                                 :photo="u.photo"
                                 :role="u.role"
@@ -371,12 +371,12 @@ const getRoleLabel = (role: string): string => {
                             />
                             <div class="min-w-0">
                                 <h4
-                                    class="font-extrabold text-[15px] text-night-ink leading-tight truncate"
+                                    class="truncate text-[15px] leading-tight font-extrabold text-night-ink"
                                 >
                                     {{ u.name }}
                                 </h4>
                                 <p
-                                    class="text-[12px] font-medium text-charcoal truncate mt-0.5"
+                                    class="mt-0.5 truncate text-[12px] font-medium text-charcoal"
                                 >
                                     {{ u.email }}
                                 </p>
@@ -390,10 +390,10 @@ const getRoleLabel = (role: string): string => {
 
                     <!-- User Meta: Phone & Status -->
                     <div
-                        class="flex items-center justify-between text-[12px] bg-cloud-surface/50 rounded-xl px-3 py-2 border border-border-gray/50"
+                        class="flex items-center justify-between rounded-xl border border-border-gray/50 bg-cloud-surface/50 px-3 py-2 text-[12px]"
                     >
-                        <span class="text-charcoal font-semibold truncate">
-                            {{ u.phone_number || "Tidak ada telepon" }}
+                        <span class="truncate font-semibold text-charcoal">
+                            {{ u.phone_number || 'Tidak ada telepon' }}
                         </span>
                         <StatusChip
                             v-if="u.deleted_at"
@@ -405,17 +405,17 @@ const getRoleLabel = (role: string): string => {
 
                     <!-- Action Buttons -->
                     <div
-                        class="flex items-center justify-end gap-2 pt-1 border-t border-border-gray/40"
+                        class="flex items-center justify-end gap-2 border-t border-border-gray/40 pt-1"
                     >
                         <Link
                             :href="`/admin/users/${u.id}`"
-                            class="px-3 py-1.5 text-[12px] font-extrabold text-night-ink bg-cloud-surface hover:bg-sprout-tint hover:text-eco-green-dark rounded-xl transition-colors"
+                            class="rounded-xl bg-cloud-surface px-3 py-1.5 text-[12px] font-extrabold text-night-ink transition-colors hover:bg-sprout-tint hover:text-eco-green-dark"
                         >
                             Lihat
                         </Link>
                         <Link
                             :href="`/admin/users/${u.id}/edit`"
-                            class="px-3 py-1.5 text-[12px] font-extrabold text-night-ink bg-cloud-surface hover:bg-sprout-tint hover:text-eco-green-dark rounded-xl transition-colors"
+                            class="rounded-xl bg-cloud-surface px-3 py-1.5 text-[12px] font-extrabold text-night-ink transition-colors hover:bg-sprout-tint hover:text-eco-green-dark"
                         >
                             Ubah
                         </Link>
@@ -424,7 +424,7 @@ const getRoleLabel = (role: string): string => {
                             <button
                                 v-if="!u.deleted_at"
                                 type="button"
-                                class="px-3 py-1.5 text-[12px] font-extrabold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-xl bg-red-50 px-3 py-1.5 text-[12px] font-extrabold text-red-600 transition-colors hover:bg-red-100"
                                 @click="openDeleteModal(u)"
                             >
                                 Hapus
@@ -432,7 +432,7 @@ const getRoleLabel = (role: string): string => {
                             <button
                                 v-else
                                 type="button"
-                                class="px-3 py-1.5 text-[12px] font-extrabold text-eco-green-dark bg-sprout-tint hover:brightness-105 rounded-xl transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-xl bg-sprout-tint px-3 py-1.5 text-[12px] font-extrabold text-eco-green-dark transition-colors hover:brightness-105"
                                 @click="restoreUser(u.id)"
                             >
                                 Pulihkan
@@ -443,19 +443,19 @@ const getRoleLabel = (role: string): string => {
             </div>
 
             <!-- Desktop & Tablet Table (>= md) -->
-            <div class="hidden md:block overflow-x-auto">
-                <table class="w-full text-left border-collapse min-w-[760px]">
+            <div class="hidden overflow-x-auto md:block">
+                <table class="w-full min-w-[760px] border-collapse text-left">
                     <!-- Table Header -->
                     <thead>
                         <tr
-                            class="bg-cloud-surface border-b border-border-gray text-[12px] font-extrabold text-charcoal uppercase tracking-wider"
+                            class="border-b border-border-gray bg-cloud-surface text-[12px] font-extrabold tracking-wider text-charcoal uppercase"
                         >
-                            <th class="py-3.5 px-6">Nama Pengguna</th>
-                            <th class="py-3.5 px-6">Email</th>
-                            <th class="py-3.5 px-6">Peran</th>
-                            <th class="py-3.5 px-6">Telepon</th>
-                            <th class="py-3.5 px-6">Status</th>
-                            <th class="py-3.5 px-6 text-right">Aksi</th>
+                            <th class="px-6 py-3.5">Nama Pengguna</th>
+                            <th class="px-6 py-3.5">Email</th>
+                            <th class="px-6 py-3.5">Peran</th>
+                            <th class="px-6 py-3.5">Telepon</th>
+                            <th class="px-6 py-3.5">Status</th>
+                            <th class="px-6 py-3.5 text-right">Aksi</th>
                         </tr>
                     </thead>
 
@@ -467,10 +467,10 @@ const getRoleLabel = (role: string): string => {
                         <tr
                             v-for="u in users.data"
                             :key="u.id"
-                            class="hover:bg-cloud-surface/50 transition-colors"
+                            class="transition-colors hover:bg-cloud-surface/50"
                         >
                             <!-- Nama + Avatar -->
-                            <td class="py-3.5 px-6">
+                            <td class="px-6 py-3.5">
                                 <div class="flex items-center gap-3">
                                     <UserAvatar
                                         :photo="u.photo"
@@ -480,7 +480,7 @@ const getRoleLabel = (role: string): string => {
                                     />
                                     <div>
                                         <p
-                                            class="font-bold text-[14px] text-night-ink leading-tight"
+                                            class="text-[14px] leading-tight font-bold text-night-ink"
                                         >
                                             {{ u.name }}
                                         </p>
@@ -490,13 +490,13 @@ const getRoleLabel = (role: string): string => {
 
                             <!-- Email -->
                             <td
-                                class="py-3.5 px-6 text-[13px] font-medium text-night-ink"
+                                class="px-6 py-3.5 text-[13px] font-medium text-night-ink"
                             >
                                 {{ u.email }}
                             </td>
 
                             <!-- Peran (Role) -->
-                            <td class="py-3.5 px-6">
+                            <td class="px-6 py-3.5">
                                 <StatusChip
                                     :label="getRoleLabel(u.role)"
                                     :tone="getRoleTone(u.role)"
@@ -505,13 +505,13 @@ const getRoleLabel = (role: string): string => {
 
                             <!-- Telepon -->
                             <td
-                                class="py-3.5 px-6 text-[13px] font-medium text-charcoal"
+                                class="px-6 py-3.5 text-[13px] font-medium text-charcoal"
                             >
-                                {{ u.phone_number || "—" }}
+                                {{ u.phone_number || '—' }}
                             </td>
 
                             <!-- Status -->
-                            <td class="py-3.5 px-6">
+                            <td class="px-6 py-3.5">
                                 <StatusChip
                                     v-if="u.deleted_at"
                                     label="Nonaktif"
@@ -522,7 +522,7 @@ const getRoleLabel = (role: string): string => {
 
                             <!-- Actions -->
                             <td
-                                class="py-3.5 px-6 text-right whitespace-nowrap"
+                                class="px-6 py-3.5 text-right whitespace-nowrap"
                             >
                                 <div
                                     class="inline-flex items-center justify-end gap-1"
@@ -530,7 +530,7 @@ const getRoleLabel = (role: string): string => {
                                     <!-- Lihat -->
                                     <Link
                                         :href="`/admin/users/${u.id}`"
-                                        class="p-2 rounded-lg text-charcoal hover:text-night-ink hover:bg-cloud-surface transition-colors cursor-pointer"
+                                        class="cursor-pointer rounded-lg p-2 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                                         title="Lihat Detail Pengguna"
                                     >
                                         <Eye class="size-4" />
@@ -539,7 +539,7 @@ const getRoleLabel = (role: string): string => {
                                     <!-- Ubah -->
                                     <Link
                                         :href="`/admin/users/${u.id}/edit`"
-                                        class="p-2 rounded-lg text-charcoal hover:text-eco-green-dark hover:bg-sprout-tint/60 transition-colors cursor-pointer"
+                                        class="cursor-pointer rounded-lg p-2 text-charcoal transition-colors hover:bg-sprout-tint/60 hover:text-eco-green-dark"
                                         title="Ubah Pengguna"
                                     >
                                         <Edit3 class="size-4" />
@@ -550,7 +550,7 @@ const getRoleLabel = (role: string): string => {
                                         <button
                                             v-if="!u.deleted_at"
                                             type="button"
-                                            class="p-2 rounded-lg text-charcoal hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                                            class="cursor-pointer rounded-lg p-2 text-charcoal transition-colors hover:bg-red-50 hover:text-red-600"
                                             @click="openDeleteModal(u)"
                                             title="Nonaktifkan Pengguna"
                                         >
@@ -560,7 +560,7 @@ const getRoleLabel = (role: string): string => {
                                         <button
                                             v-else
                                             type="button"
-                                            class="p-2 rounded-lg text-eco-green-dark hover:bg-sprout-tint transition-colors cursor-pointer"
+                                            class="cursor-pointer rounded-lg p-2 text-eco-green-dark transition-colors hover:bg-sprout-tint"
                                             @click="restoreUser(u.id)"
                                             title="Pulihkan Pengguna"
                                         >
@@ -583,7 +583,7 @@ const getRoleLabel = (role: string): string => {
                 class="flex flex-col items-center justify-center p-12 text-center"
             >
                 <div
-                    class="size-24 rounded-full bg-cloud-surface flex items-center justify-center mb-4"
+                    class="mb-4 flex size-24 items-center justify-center rounded-full bg-cloud-surface"
                 >
                     <img
                         src="/assets/Maskot/Pose=Searching-Driver.png"
@@ -591,18 +591,18 @@ const getRoleLabel = (role: string): string => {
                         class="size-20 object-contain"
                     />
                 </div>
-                <h3 class="text-[20px] font-extrabold text-night-ink mb-1">
+                <h3 class="mb-1 text-[20px] font-extrabold text-night-ink">
                     Tidak ada hasil yang cocok
                 </h3>
                 <p
-                    class="text-[14px] font-normal text-charcoal max-w-[420px] mb-6 leading-relaxed"
+                    class="mb-6 max-w-[420px] text-[14px] leading-relaxed font-normal text-charcoal"
                 >
                     Coba kata kunci lain atau hapus filter untuk melihat seluruh
                     data pengguna.
                 </p>
                 <button
                     type="button"
-                    class="px-6 h-[44px] bg-eco-green text-night-ink font-extrabold text-[14px] rounded-2xl border-2 border-b-[4px] border-eco-green-dark hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer"
+                    class="h-[44px] cursor-pointer rounded-2xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green px-6 text-[14px] font-extrabold text-night-ink transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2"
                     @click="resetFilters"
                 >
                     Reset Filter
@@ -615,7 +615,7 @@ const getRoleLabel = (role: string): string => {
                 class="flex flex-col items-center justify-center p-12 text-center"
             >
                 <div
-                    class="size-24 rounded-full bg-cloud-surface flex items-center justify-center mb-4"
+                    class="mb-4 flex size-24 items-center justify-center rounded-full bg-cloud-surface"
                 >
                     <img
                         src="/assets/Maskot/Valu · In the neighborhood.png"
@@ -623,18 +623,18 @@ const getRoleLabel = (role: string): string => {
                         class="size-20 object-contain"
                     />
                 </div>
-                <h3 class="text-[20px] font-extrabold text-night-ink mb-1">
+                <h3 class="mb-1 text-[20px] font-extrabold text-night-ink">
                     Belum ada pengguna
                 </h3>
                 <p
-                    class="text-[14px] font-normal text-charcoal max-w-[420px] mb-6 leading-relaxed"
+                    class="mb-6 max-w-[420px] text-[14px] leading-relaxed font-normal text-charcoal"
                 >
                     Tambahkan pengguna pertama untuk mulai mengelola akses akun
                     di ReValue.
                 </p>
                 <Link
                     href="/admin/users/create"
-                    class="px-6 h-[44px] bg-eco-green text-night-ink font-extrabold text-[14px] rounded-2xl border-2 border-b-[4px] border-eco-green-dark hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer inline-flex items-center justify-center"
+                    class="inline-flex h-[44px] cursor-pointer items-center justify-center rounded-2xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green px-6 text-[14px] font-extrabold text-night-ink transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2"
                 >
                     Tambah Pengguna
                 </Link>
@@ -643,10 +643,10 @@ const getRoleLabel = (role: string): string => {
             <!-- Pagination Bar (Figma Node 482:1472) -->
             <div
                 v-if="users.total > 0"
-                class="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 sm:px-6 py-4 border-t border-border-gray bg-paper-white"
+                class="flex flex-col items-center justify-between gap-4 border-t border-border-gray bg-paper-white px-4 py-4 sm:flex-row sm:px-6"
             >
                 <p
-                    class="text-[13px] font-normal text-charcoal text-center sm:text-left"
+                    class="text-center text-[13px] font-normal text-charcoal sm:text-left"
                 >
                     Menampilkan
                     <span class="font-bold text-night-ink"
@@ -660,20 +660,20 @@ const getRoleLabel = (role: string): string => {
                 </p>
 
                 <div
-                    class="flex items-center gap-1 sm:gap-1.5 flex-wrap justify-center"
+                    class="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5"
                 >
                     <!-- Prev Button -->
                     <Link
                         v-if="users.prev_page_url"
                         :href="users.prev_page_url"
-                        class="h-[36px] px-3 rounded-xl border border-border-gray text-[13px] font-extrabold text-night-ink hover:bg-cloud-surface transition-colors inline-flex items-center gap-1"
+                        class="inline-flex h-[36px] items-center gap-1 rounded-xl border border-border-gray px-3 text-[13px] font-extrabold text-night-ink transition-colors hover:bg-cloud-surface"
                     >
                         <ChevronLeft class="size-4" />
                         <span>Sebelumnya</span>
                     </Link>
                     <span
                         v-else
-                        class="h-[36px] px-3 rounded-xl border border-border-gray/50 text-[13px] font-semibold text-charcoal/40 inline-flex items-center gap-1 opacity-50 cursor-not-allowed"
+                        class="inline-flex h-[36px] cursor-not-allowed items-center gap-1 rounded-xl border border-border-gray/50 px-3 text-[13px] font-semibold text-charcoal/40 opacity-50"
                     >
                         <ChevronLeft class="size-4" />
                         <span>Sebelumnya</span>
@@ -689,9 +689,9 @@ const getRoleLabel = (role: string): string => {
                             "
                             :href="link.url"
                             :class="[
-                                'size-9 rounded-xl flex items-center justify-center text-[13px] font-extrabold transition-all',
+                                'flex size-9 items-center justify-center rounded-xl text-[13px] font-extrabold transition-all',
                                 link.active
-                                    ? 'bg-sprout-tint text-night-ink border-2 border-eco-green/40 shadow-2xs'
+                                    ? 'border-2 border-eco-green/40 bg-sprout-tint text-night-ink shadow-2xs'
                                     : 'border border-border-gray text-charcoal hover:bg-cloud-surface hover:text-night-ink',
                             ]"
                         >
@@ -703,14 +703,14 @@ const getRoleLabel = (role: string): string => {
                     <Link
                         v-if="users.next_page_url"
                         :href="users.next_page_url"
-                        class="h-[36px] px-3 rounded-xl border border-border-gray text-[13px] font-extrabold text-night-ink hover:bg-cloud-surface transition-colors inline-flex items-center gap-1"
+                        class="inline-flex h-[36px] items-center gap-1 rounded-xl border border-border-gray px-3 text-[13px] font-extrabold text-night-ink transition-colors hover:bg-cloud-surface"
                     >
                         <span>Berikutnya</span>
                         <ChevronRight class="size-4" />
                     </Link>
                     <span
                         v-else
-                        class="h-[36px] px-3 rounded-xl border border-border-gray/50 text-[13px] font-semibold text-charcoal/40 inline-flex items-center gap-1 opacity-50 cursor-not-allowed"
+                        class="inline-flex h-[36px] cursor-not-allowed items-center gap-1 rounded-xl border border-border-gray/50 px-3 text-[13px] font-semibold text-charcoal/40 opacity-50"
                     >
                         <span>Berikutnya</span>
                         <ChevronRight class="size-4" />

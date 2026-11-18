@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { Head, Link, router, usePage } from "@inertiajs/vue3";
-import DashboardLayout from "@/layouts/DashboardLayout.vue";
-import PageHeader from "@/components/Dashboard/PageHeader.vue";
-import StatusChip from "@/components/Dashboard/StatusChip.vue";
-import AppDropdown from "@/components/Dashboard/AppDropdown.vue";
-import AppTable from "@/components/Dashboard/AppTable.vue";
-import AppPagination from "@/components/Dashboard/AppPagination.vue";
-import UserAvatar from "@/components/Dashboard/UserAvatar.vue";
+import { ref, watch, computed } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import PageHeader from '@/components/Dashboard/PageHeader.vue';
+import StatusChip from '@/components/Dashboard/StatusChip.vue';
+import AppDropdown from '@/components/Dashboard/AppDropdown.vue';
+import AppTable from '@/components/Dashboard/AppTable.vue';
+import AppPagination from '@/components/Dashboard/AppPagination.vue';
+import UserAvatar from '@/components/Dashboard/UserAvatar.vue';
 import ArticleDeleteModal, {
     type ArticleDeleteItem,
-} from "@/components/Dashboard/ArticleDeleteModal.vue";
+} from '@/components/Dashboard/ArticleDeleteModal.vue';
 import ArticleRestoreModal, {
     type ArticleRestoreItem,
-} from "@/components/Dashboard/ArticleRestoreModal.vue";
+} from '@/components/Dashboard/ArticleRestoreModal.vue';
 import ArticlePreviewModal, {
     type ArticlePreviewData,
-} from "@/components/Dashboard/ArticlePreviewModal.vue";
+} from '@/components/Dashboard/ArticlePreviewModal.vue';
 import ArticleCategoryModal, {
     type ArticleCategoryItem,
-} from "@/components/Dashboard/ArticleCategoryModal.vue";
+} from '@/components/Dashboard/ArticleCategoryModal.vue';
 import {
     Search,
     Plus,
@@ -32,7 +32,7 @@ import {
     Trash2,
     Eye,
     FolderKanban,
-} from "lucide-vue-next";
+} from 'lucide-vue-next';
 
 export interface ArticleItem {
     id: number;
@@ -103,7 +103,7 @@ const flashError = computed(
         (page.props.errors as any)?.error ||
         (Object.keys(page.props.errors || {}).length > 0
             ? Object.values(page.props.errors)[0]
-            : null)
+            : null),
 );
 
 watch(
@@ -112,25 +112,25 @@ watch(
         showSuccessFlash.value = true;
         showErrorFlash.value = true;
     },
-    { deep: true }
+    { deep: true },
 );
 
 // Search & Filter state
-const search = ref(props.filters.search || "");
-const selectedStatus = ref(props.filters.status || "active");
+const search = ref(props.filters.search || '');
+const selectedStatus = ref(props.filters.status || 'active');
 const selectedCategory = ref(
-    props.filters.category_id ? String(props.filters.category_id) : "all"
+    props.filters.category_id ? String(props.filters.category_id) : 'all',
 );
 
 let searchTimeout: any = null;
 const applyFilters = () => {
     router.get(
-        "/admin/articles",
+        '/admin/articles',
         {
             search: search.value || undefined,
             status: selectedStatus.value || undefined,
             category_id:
-                selectedCategory.value !== "all"
+                selectedCategory.value !== 'all'
                     ? selectedCategory.value
                     : undefined,
         },
@@ -138,7 +138,7 @@ const applyFilters = () => {
             preserveState: true,
             preserveScroll: true,
             replace: true,
-        }
+        },
     );
 };
 
@@ -154,13 +154,13 @@ const onFilterChange = () => {
 };
 
 const statusOptions = [
-    { value: "active", label: "Aktif" },
-    { value: "trashed", label: "Dinonaktifkan" },
-    { value: "all", label: "Semua Status" },
+    { value: 'active', label: 'Aktif' },
+    { value: 'trashed', label: 'Dinonaktifkan' },
+    { value: 'all', label: 'Semua Status' },
 ];
 
 const categoryOptions = computed(() => [
-    { value: "all", label: "Semua Kategori" },
+    { value: 'all', label: 'Semua Kategori' },
     ...props.categories.map((c) => ({
         value: String(c.id),
         label: c.name,
@@ -168,16 +168,16 @@ const categoryOptions = computed(() => [
 ]);
 
 const resetFilters = () => {
-    search.value = "";
-    selectedStatus.value = "active";
-    selectedCategory.value = "all";
+    search.value = '';
+    selectedStatus.value = 'active';
+    selectedCategory.value = 'all';
     router.get(
-        "/admin/articles",
+        '/admin/articles',
         {},
         {
             preserveState: true,
             preserveScroll: true,
-        }
+        },
     );
 };
 
@@ -248,13 +248,13 @@ const isCategoryModalOpen = ref(false);
 
 // Date Formatter
 const formatDate = (dateString?: string | null): string => {
-    if (!dateString) return "—";
+    if (!dateString) return '—';
     try {
         const d = new Date(dateString);
-        return d.toLocaleDateString("id-ID", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
+        return d.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
         });
     } catch {
         return dateString;
@@ -262,9 +262,12 @@ const formatDate = (dateString?: string | null): string => {
 };
 
 const stripExcerpt = (html: string, length = 90): string => {
-    if (!html) return "";
-    const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-    return text.length > length ? text.substring(0, length) + "..." : text;
+    if (!html) return '';
+    const text = html
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    return text.length > length ? text.substring(0, length) + '...' : text;
 };
 </script>
 
@@ -275,16 +278,16 @@ const stripExcerpt = (html: string, length = 90): string => {
         <!-- Success Flash Alert -->
         <div
             v-if="showSuccessFlash && flashSuccess"
-            class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 text-night-ink font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
+            class="animate-in fade-in mb-6 flex items-center justify-between gap-3 rounded-2xl border-2 border-eco-green/40 bg-sprout-tint p-4 text-[14px] font-bold text-night-ink shadow-2xs duration-200"
         >
-            <div class="flex items-center gap-3 min-w-0">
-                <CheckCircle2 class="size-5 text-eco-green-dark shrink-0" />
+            <div class="flex min-w-0 items-center gap-3">
+                <CheckCircle2 class="size-5 shrink-0 text-eco-green-dark" />
                 <span class="truncate">{{ flashSuccess }}</span>
             </div>
             <button
                 type="button"
                 @click="showSuccessFlash = false"
-                class="p-1 rounded-lg hover:bg-eco-green/20 text-charcoal hover:text-night-ink transition-colors cursor-pointer shrink-0"
+                class="shrink-0 cursor-pointer rounded-lg p-1 text-charcoal transition-colors hover:bg-eco-green/20 hover:text-night-ink"
                 aria-label="Tutup notifikasi"
             >
                 <X class="size-4" />
@@ -294,16 +297,16 @@ const stripExcerpt = (html: string, length = 90): string => {
         <!-- Error Flash Alert -->
         <div
             v-if="showErrorFlash && flashError"
-            class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-red-50 border-2 border-red-300 text-red-800 font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
+            class="animate-in fade-in mb-6 flex items-center justify-between gap-3 rounded-2xl border-2 border-red-300 bg-red-50 p-4 text-[14px] font-bold text-red-800 shadow-2xs duration-200"
         >
-            <div class="flex items-center gap-3 min-w-0">
-                <XCircle class="size-5 text-red-600 shrink-0" />
+            <div class="flex min-w-0 items-center gap-3">
+                <XCircle class="size-5 shrink-0 text-red-600" />
                 <span class="truncate">{{ flashError }}</span>
             </div>
             <button
                 type="button"
                 @click="showErrorFlash = false"
-                class="p-1 rounded-lg hover:bg-red-100 text-red-700 hover:text-red-900 transition-colors cursor-pointer shrink-0"
+                class="shrink-0 cursor-pointer rounded-lg p-1 text-red-700 transition-colors hover:bg-red-100 hover:text-red-900"
                 aria-label="Tutup notifikasi"
             >
                 <X class="size-4" />
@@ -312,7 +315,7 @@ const stripExcerpt = (html: string, length = 90): string => {
 
         <!-- Header + Action Button -->
         <div
-            class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6"
+            class="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-start"
         >
             <PageHeader
                 title="Manajemen Artikel"
@@ -321,11 +324,13 @@ const stripExcerpt = (html: string, length = 90): string => {
                 class="mb-0"
             />
 
-            <div class="flex flex-wrap items-center gap-2.5 shrink-0 self-start sm:self-auto">
+            <div
+                class="flex shrink-0 flex-wrap items-center gap-2.5 self-start sm:self-auto"
+            >
                 <button
                     type="button"
                     @click="isCategoryModalOpen = true"
-                    class="inline-flex items-center justify-center gap-2 px-4 h-[46px] rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white text-night-ink font-extrabold text-[14px] hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-2xs"
+                    class="inline-flex h-[46px] cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white px-4 text-[14px] font-extrabold text-night-ink shadow-2xs transition-all hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2"
                 >
                     <FolderKanban class="size-4.5 text-charcoal" />
                     <span>Kelola Kategori</span>
@@ -333,7 +338,7 @@ const stripExcerpt = (html: string, length = 90): string => {
 
                 <Link
                     href="/admin/articles/create"
-                    class="inline-flex items-center justify-center gap-2 px-5 h-[46px] rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green text-white font-extrabold text-[14px] hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-xs"
+                    class="inline-flex h-[46px] cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green px-5 text-[14px] font-extrabold text-white shadow-xs transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2"
                 >
                     <Plus class="size-4.5" />
                     <span>Tambah Artikel</span>
@@ -343,24 +348,24 @@ const stripExcerpt = (html: string, length = 90): string => {
 
         <!-- Toolbar: Search & Filter Dropdowns -->
         <div
-            class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 mb-6"
+            class="mb-6 flex flex-col items-stretch gap-3 lg:flex-row lg:items-center"
         >
             <!-- Search Input -->
             <div class="relative w-full">
                 <Search
-                    class="absolute left-3.5 top-1/2 -translate-y-1/2 size-4.5 text-charcoal/70 pointer-events-none"
+                    class="pointer-events-none absolute top-1/2 left-3.5 size-4.5 -translate-y-1/2 text-charcoal/70"
                 />
                 <input
                     v-model="search"
                     type="text"
                     placeholder="Cari judul atau isi konten artikel..."
-                    class="w-full h-[44px] pl-10 pr-10 bg-paper-white border-2 border-border-gray rounded-xl text-[14px] font-medium text-night-ink placeholder:text-charcoal/60 focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all shadow-2xs"
+                    class="h-[44px] w-full rounded-xl border-2 border-border-gray bg-paper-white pr-10 pl-10 text-[14px] font-medium text-night-ink shadow-2xs transition-all placeholder:text-charcoal/60 focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 focus:outline-none"
                 />
                 <button
                     v-if="search"
                     @click="search = ''"
                     type="button"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-charcoal hover:bg-cloud-surface hover:text-night-ink transition-colors cursor-pointer"
+                    class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-md p-1 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                     aria-label="Bersihkan pencarian"
                 >
                     <X class="size-3.5" />
@@ -369,14 +374,14 @@ const stripExcerpt = (html: string, length = 90): string => {
 
             <!-- Filters Group -->
             <div
-                class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 w-full lg:w-auto"
+                class="flex w-full flex-wrap items-center gap-2.5 sm:flex-nowrap lg:w-auto"
             >
                 <!-- Category Filter -->
                 <AppDropdown
                     v-model="selectedCategory"
                     :options="categoryOptions"
                     placeholder="Semua Kategori"
-                    class="flex-1 sm:flex-initial min-w-[170px] sm:w-[200px]"
+                    class="min-w-[170px] flex-1 sm:w-[200px] sm:flex-initial"
                     menu-width="w-full sm:w-[220px]"
                     align="right"
                     @change="onFilterChange"
@@ -387,7 +392,7 @@ const stripExcerpt = (html: string, length = 90): string => {
                     v-model="selectedStatus"
                     :options="statusOptions"
                     placeholder="Semua Status"
-                    class="flex-1 sm:flex-initial min-w-[140px] sm:w-[170px]"
+                    class="min-w-[140px] flex-1 sm:w-[170px] sm:flex-initial"
                     menu-width="w-full sm:w-[180px]"
                     align="right"
                     @change="onFilterChange"
@@ -402,7 +407,7 @@ const stripExcerpt = (html: string, length = 90): string => {
                     "
                     type="button"
                     @click="resetFilters"
-                    class="p-2.5 h-[44px] rounded-xl border-2 border-border-gray bg-paper-white text-charcoal hover:text-night-ink hover:bg-cloud-surface transition-colors cursor-pointer shrink-0"
+                    class="h-[44px] shrink-0 cursor-pointer rounded-xl border-2 border-border-gray bg-paper-white p-2.5 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                     title="Reset Filter"
                 >
                     <RotateCcw class="size-4" />
@@ -434,7 +439,7 @@ const stripExcerpt = (html: string, length = 90): string => {
                 <div
                     v-for="article in articles.data"
                     :key="`m-${article.id}`"
-                    class="p-4 flex flex-col gap-3 hover:bg-cloud-surface/30 transition-colors"
+                    class="flex flex-col gap-3 p-4 transition-colors hover:bg-cloud-surface/30"
                 >
                     <div class="flex items-start justify-between gap-3">
                         <div class="flex items-center gap-2">
@@ -455,24 +460,24 @@ const stripExcerpt = (html: string, length = 90): string => {
 
                     <div class="flex items-start gap-3.5">
                         <div
-                            class="size-16 rounded-xl bg-cloud-surface border border-border-gray overflow-hidden shrink-0 flex items-center justify-center shadow-2xs"
+                            class="flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border-gray bg-cloud-surface shadow-2xs"
                         >
                             <img
                                 v-if="article.photo_url"
                                 :src="article.photo_url"
                                 :alt="article.title"
-                                class="w-full h-full object-cover"
+                                class="h-full w-full object-cover"
                             />
                             <BookOpen v-else class="size-6 text-charcoal/50" />
                         </div>
                         <div class="min-w-0 flex-1">
                             <h4
-                                class="font-extrabold text-[15px] text-night-ink leading-tight line-clamp-2"
+                                class="line-clamp-2 text-[15px] leading-tight font-extrabold text-night-ink"
                             >
                                 {{ article.title }}
                             </h4>
                             <p
-                                class="text-[12px] font-medium text-charcoal/80 line-clamp-2 mt-1"
+                                class="mt-1 line-clamp-2 text-[12px] font-medium text-charcoal/80"
                             >
                                 {{ stripExcerpt(article.content) }}
                             </p>
@@ -481,22 +486,26 @@ const stripExcerpt = (html: string, length = 90): string => {
 
                     <!-- Author Info -->
                     <div
-                        class="flex items-center justify-between text-[12px] bg-cloud-surface/60 rounded-xl px-3 py-2 border border-border-gray/50"
+                        class="flex items-center justify-between rounded-xl border border-border-gray/50 bg-cloud-surface/60 px-3 py-2 text-[12px]"
                     >
-                        <span class="text-charcoal font-semibold">Penulis:</span>
-                        <span class="font-bold text-night-ink truncate max-w-[200px]">
-                            {{ article.admin?.user?.name || "Admin ReValue" }}
+                        <span class="font-semibold text-charcoal"
+                            >Penulis:</span
+                        >
+                        <span
+                            class="max-w-[200px] truncate font-bold text-night-ink"
+                        >
+                            {{ article.admin?.user?.name || 'Admin ReValue' }}
                         </span>
                     </div>
 
                     <!-- Actions -->
                     <div
-                        class="flex items-center justify-end gap-2 pt-2 border-t border-border-gray/40"
+                        class="flex items-center justify-end gap-2 border-t border-border-gray/40 pt-2"
                     >
                         <button
                             type="button"
                             @click="openPreviewModal(article)"
-                            class="px-3 py-1.5 text-[12px] font-extrabold text-night-ink bg-cloud-surface hover:bg-sprout-tint hover:text-eco-green-dark rounded-xl transition-colors cursor-pointer"
+                            class="cursor-pointer rounded-xl bg-cloud-surface px-3 py-1.5 text-[12px] font-extrabold text-night-ink transition-colors hover:bg-sprout-tint hover:text-eco-green-dark"
                         >
                             Preview
                         </button>
@@ -504,14 +513,14 @@ const stripExcerpt = (html: string, length = 90): string => {
                         <template v-if="!article.deleted_at">
                             <Link
                                 :href="`/admin/articles/${article.id}/edit`"
-                                class="px-3 py-1.5 text-[12px] font-extrabold text-night-ink bg-cloud-surface hover:bg-sprout-tint hover:text-eco-green-dark rounded-xl transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-xl bg-cloud-surface px-3 py-1.5 text-[12px] font-extrabold text-night-ink transition-colors hover:bg-sprout-tint hover:text-eco-green-dark"
                             >
                                 Edit
                             </Link>
                             <button
                                 type="button"
                                 @click="openDeleteModal(article)"
-                                class="px-3 py-1.5 text-[12px] font-extrabold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-xl bg-red-50 px-3 py-1.5 text-[12px] font-extrabold text-red-600 transition-colors hover:bg-red-100"
                             >
                                 Nonaktifkan
                             </button>
@@ -521,7 +530,7 @@ const stripExcerpt = (html: string, length = 90): string => {
                             v-else
                             type="button"
                             @click="openRestoreModal(article)"
-                            class="px-3 py-1.5 text-[12px] font-extrabold text-eco-green-dark bg-sprout-tint hover:brightness-95 rounded-xl transition-colors cursor-pointer"
+                            class="cursor-pointer rounded-xl bg-sprout-tint px-3 py-1.5 text-[12px] font-extrabold text-eco-green-dark transition-colors hover:brightness-95"
                         >
                             Pulihkan
                         </button>
@@ -531,13 +540,13 @@ const stripExcerpt = (html: string, length = 90): string => {
 
             <!-- Desktop Table Header -->
             <template #header>
-                <th class="py-3.5 px-6 w-20">Foto</th>
-                <th class="py-3.5 px-6">Judul & Slug</th>
-                <th class="py-3.5 px-6">Kategori</th>
-                <th class="py-3.5 px-6">Penulis</th>
-                <th class="py-3.5 px-6">Tanggal</th>
-                <th class="py-3.5 px-6">Status</th>
-                <th class="py-3.5 px-6 text-right">Aksi</th>
+                <th class="w-20 px-6 py-3.5">Foto</th>
+                <th class="px-6 py-3.5">Judul & Slug</th>
+                <th class="px-6 py-3.5">Kategori</th>
+                <th class="px-6 py-3.5">Penulis</th>
+                <th class="px-6 py-3.5">Tanggal</th>
+                <th class="px-6 py-3.5">Status</th>
+                <th class="px-6 py-3.5 text-right">Aksi</th>
             </template>
 
             <!-- Desktop Table Body -->
@@ -545,37 +554,39 @@ const stripExcerpt = (html: string, length = 90): string => {
                 <tr
                     v-for="article in articles.data"
                     :key="article.id"
-                    class="hover:bg-cloud-surface/50 transition-colors"
+                    class="transition-colors hover:bg-cloud-surface/50"
                 >
                     <!-- Thumbnail -->
-                    <td class="py-3.5 px-6">
+                    <td class="px-6 py-3.5">
                         <div
-                            class="size-14 rounded-xl bg-cloud-surface border border-border-gray overflow-hidden flex items-center justify-center shrink-0 shadow-2xs"
+                            class="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-border-gray bg-cloud-surface shadow-2xs"
                         >
                             <img
                                 v-if="article.photo_url"
                                 :src="article.photo_url"
                                 :alt="article.title"
-                                class="w-full h-full object-cover"
+                                class="h-full w-full object-cover"
                             />
                             <BookOpen v-else class="size-5 text-charcoal/50" />
                         </div>
                     </td>
 
                     <!-- Judul & Slug -->
-                    <td class="py-3.5 px-6 max-w-[340px]">
+                    <td class="max-w-[340px] px-6 py-3.5">
                         <h4
-                            class="font-extrabold text-[14px] text-night-ink leading-tight line-clamp-2"
+                            class="line-clamp-2 text-[14px] leading-tight font-extrabold text-night-ink"
                         >
                             {{ article.title }}
                         </h4>
-                        <p class="text-[12px] font-medium text-charcoal/70 truncate mt-1">
+                        <p
+                            class="mt-1 truncate text-[12px] font-medium text-charcoal/70"
+                        >
                             /{{ article.slug }}
                         </p>
                     </td>
 
                     <!-- Kategori -->
-                    <td class="py-3.5 px-6 whitespace-nowrap">
+                    <td class="px-6 py-3.5 whitespace-nowrap">
                         <StatusChip
                             :label="article.category?.name || 'Umum'"
                             tone="Green"
@@ -583,7 +594,7 @@ const stripExcerpt = (html: string, length = 90): string => {
                     </td>
 
                     <!-- Penulis -->
-                    <td class="py-3.5 px-6 whitespace-nowrap">
+                    <td class="px-6 py-3.5 whitespace-nowrap">
                         <div class="flex items-center gap-2.5">
                             <UserAvatar
                                 :photo="article.admin?.user?.photo || null"
@@ -591,39 +602,39 @@ const stripExcerpt = (html: string, length = 90): string => {
                                 :name="article.admin?.user?.name || 'Admin'"
                                 size="sm"
                             />
-                            <span class="font-bold text-[13px] text-night-ink truncate max-w-[140px]">
-                                {{ article.admin?.user?.name || "Admin" }}
+                            <span
+                                class="max-w-[140px] truncate text-[13px] font-bold text-night-ink"
+                            >
+                                {{ article.admin?.user?.name || 'Admin' }}
                             </span>
                         </div>
                     </td>
 
                     <!-- Tanggal -->
-                    <td class="py-3.5 px-6 text-[13px] font-medium text-charcoal whitespace-nowrap">
+                    <td
+                        class="px-6 py-3.5 text-[13px] font-medium whitespace-nowrap text-charcoal"
+                    >
                         {{ formatDate(article.created_at) }}
                     </td>
 
                     <!-- Status -->
-                    <td class="py-3.5 px-6 whitespace-nowrap">
+                    <td class="px-6 py-3.5 whitespace-nowrap">
                         <StatusChip
                             v-if="!article.deleted_at"
                             label="Aktif"
                             tone="Green"
                         />
-                        <StatusChip
-                            v-else
-                            label="Nonaktif"
-                            tone="Neutral"
-                        />
+                        <StatusChip v-else label="Nonaktif" tone="Neutral" />
                     </td>
 
                     <!-- Aksi -->
-                    <td class="py-3.5 px-6 text-right whitespace-nowrap">
+                    <td class="px-6 py-3.5 text-right whitespace-nowrap">
                         <div class="inline-flex items-center justify-end gap-1">
                             <!-- Preview Button -->
                             <button
                                 type="button"
                                 @click="openPreviewModal(article)"
-                                class="p-2 rounded-lg text-charcoal hover:text-night-ink hover:bg-cloud-surface transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-lg p-2 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                                 title="Lihat Pratinjau Artikel"
                             >
                                 <Eye class="size-4" />
@@ -633,7 +644,7 @@ const stripExcerpt = (html: string, length = 90): string => {
                                 <!-- Edit Button -->
                                 <Link
                                     :href="`/admin/articles/${article.id}/edit`"
-                                    class="p-2 rounded-lg text-charcoal hover:text-eco-green-dark hover:bg-sprout-tint/60 transition-colors cursor-pointer"
+                                    class="cursor-pointer rounded-lg p-2 text-charcoal transition-colors hover:bg-sprout-tint/60 hover:text-eco-green-dark"
                                     title="Edit Artikel"
                                 >
                                     <Edit3 class="size-4" />
@@ -643,7 +654,7 @@ const stripExcerpt = (html: string, length = 90): string => {
                                 <button
                                     type="button"
                                     @click="openDeleteModal(article)"
-                                    class="p-2 rounded-lg text-charcoal hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                                    class="cursor-pointer rounded-lg p-2 text-charcoal transition-colors hover:bg-red-50 hover:text-red-600"
                                     title="Nonaktifkan Artikel"
                                 >
                                     <Trash2 class="size-4" />
@@ -655,7 +666,7 @@ const stripExcerpt = (html: string, length = 90): string => {
                                 <button
                                     type="button"
                                     @click="openRestoreModal(article)"
-                                    class="p-2 rounded-lg text-eco-green-dark hover:bg-sprout-tint transition-colors cursor-pointer"
+                                    class="cursor-pointer rounded-lg p-2 text-eco-green-dark transition-colors hover:bg-sprout-tint"
                                     title="Pulihkan Artikel"
                                 >
                                     <RotateCcw class="size-4" />
@@ -668,10 +679,7 @@ const stripExcerpt = (html: string, length = 90): string => {
 
             <!-- Pagination Bar -->
             <template #pagination>
-                <AppPagination
-                    :pagination="articles"
-                    item-label="artikel"
-                />
+                <AppPagination :pagination="articles" item-label="artikel" />
             </template>
         </AppTable>
 

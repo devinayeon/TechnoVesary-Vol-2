@@ -10,7 +10,7 @@ class WasteCategoryService
     /**
      * Get paginated waste categories with optional search, status filtering, and sorting.
      *
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      */
     public function getPaginatedCategories(array $filters = [], int $perPage = 10): LengthAwarePaginator
     {
@@ -25,11 +25,11 @@ class WasteCategoryService
         }
 
         // Search Filter (name or description)
-        if (!empty($filters['search'])) {
-            $search = '%' . trim((string) $filters['search']) . '%';
+        if (! empty($filters['search'])) {
+            $search = '%'.trim((string) $filters['search']).'%';
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', $search)
-                  ->orWhere('description', 'like', $search);
+                    ->orWhere('description', 'like', $search);
             });
         }
 
@@ -44,7 +44,7 @@ class WasteCategoryService
     /**
      * Create a new waste category.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function createCategory(array $data): WasteCategory
     {
@@ -58,7 +58,7 @@ class WasteCategoryService
     /**
      * Update an existing waste category.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function updateCategory(WasteCategory $category, array $data): WasteCategory
     {

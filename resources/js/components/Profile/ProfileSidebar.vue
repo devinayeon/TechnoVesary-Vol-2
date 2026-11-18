@@ -1,59 +1,59 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { Link, usePage } from "@inertiajs/vue3";
+import { computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
 import {
     User as UserIcon,
     MapPin,
     Lock,
     FileText,
     ArrowLeft,
-} from "lucide-vue-next";
-import type { User } from "@/types/auth";
+} from 'lucide-vue-next';
+import type { User } from '@/types/auth';
 
 const props = defineProps<{
-    activeTab: "profile" | "address" | "security" | "account";
+    activeTab: 'profile' | 'address' | 'security' | 'account';
 }>();
 
 const emit = defineEmits<{
-    (e: "selectTab", tab: "profile" | "address" | "security" | "account"): void;
+    (e: 'selectTab', tab: 'profile' | 'address' | 'security' | 'account'): void;
 }>();
 
 const page = usePage();
 const user = computed(() => (page.props.auth as any)?.user as User | undefined);
 
 const userRole = computed(() => {
-    const role = (user.value?.role as string) || "customer";
-    if (role === "admin") return "Admin";
-    if (role === "driver") return "Driver";
-    return "Customer";
+    const role = (user.value?.role as string) || 'customer';
+    if (role === 'admin') return 'Admin';
+    if (role === 'driver') return 'Driver';
+    return 'Customer';
 });
 
 const dashboardRoute = computed(() => {
-    const role = (user.value?.role as string) || "customer";
-    if (role === "admin") return "/admin/dashboard";
-    if (role === "driver") return "/driver/dashboard";
-    return "/customer/dashboard";
+    const role = (user.value?.role as string) || 'customer';
+    if (role === 'admin') return '/admin/dashboard';
+    if (role === 'driver') return '/driver/dashboard';
+    return '/customer/dashboard';
 });
 
 const navItems = [
     {
-        id: "profile" as const,
-        label: "Profil saya",
+        id: 'profile' as const,
+        label: 'Profil saya',
         icon: UserIcon,
     },
     {
-        id: "address" as const,
-        label: "Alamat utama",
+        id: 'address' as const,
+        label: 'Alamat utama',
         icon: MapPin,
     },
     {
-        id: "security" as const,
-        label: "Keamanan akun",
+        id: 'security' as const,
+        label: 'Keamanan akun',
         icon: Lock,
     },
     {
-        id: "account" as const,
-        label: "Informasi akun",
+        id: 'account' as const,
+        label: 'Informasi akun',
         icon: FileText,
     },
 ];
@@ -61,7 +61,7 @@ const navItems = [
 
 <template>
     <aside
-        class="w-full lg:w-[250px] shrink-0 bg-paper-white border-b lg:border-b-0 lg:border-r border-border-gray flex flex-col justify-between p-6 lg:min-h-screen"
+        class="flex w-full shrink-0 flex-col justify-between border-b border-border-gray bg-paper-white p-6 lg:min-h-screen lg:w-[250px] lg:border-r lg:border-b-0"
     >
         <div class="flex flex-col gap-6">
             <!-- Brand Logo & Scope -->
@@ -78,7 +78,9 @@ const navItems = [
                 </Link>
 
                 <div class="flex flex-col">
-                    <span class="text-[15px] font-extrabold text-night-ink tracking-tight">
+                    <span
+                        class="text-[15px] font-extrabold tracking-tight text-night-ink"
+                    >
                         Pengaturan akun
                     </span>
                     <span class="text-[13px] font-medium text-charcoal">
@@ -88,34 +90,42 @@ const navItems = [
             </div>
 
             <!-- Navigation Tabs -->
-            <nav class="flex lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
+            <nav
+                class="flex scrollbar-none gap-2 overflow-x-auto pb-2 lg:flex-col lg:pb-0"
+            >
                 <button
                     v-for="item in navItems"
                     :key="item.id"
                     type="button"
                     @click="emit('selectTab', item.id)"
-                    class="flex items-center gap-3 h-12 px-3.5 rounded-xl text-left transition select-none cursor-pointer shrink-0 lg:shrink"
+                    class="flex h-12 shrink-0 cursor-pointer items-center gap-3 rounded-xl px-3.5 text-left transition select-none lg:shrink"
                     :class="[
                         activeTab === item.id
-                            ? 'bg-sprout-tint text-night-ink font-extrabold shadow-xs'
-                            : 'text-night-ink hover:bg-cloud-surface font-semibold',
+                            ? 'bg-sprout-tint font-extrabold text-night-ink shadow-xs'
+                            : 'font-semibold text-night-ink hover:bg-cloud-surface',
                     ]"
                 >
                     <component
                         :is="item.icon"
                         class="size-5 shrink-0"
-                        :class="activeTab === item.id ? 'stroke-[2.5]' : 'stroke-2'"
+                        :class="
+                            activeTab === item.id ? 'stroke-[2.5]' : 'stroke-2'
+                        "
                     />
-                    <span class="text-[14px] whitespace-nowrap">{{ item.label }}</span>
+                    <span class="text-[14px] whitespace-nowrap">{{
+                        item.label
+                    }}</span>
                 </button>
             </nav>
         </div>
 
         <!-- Bottom Return & Note -->
-        <div class="hidden lg:flex flex-col gap-4 pt-6 border-t border-border-gray/70">
+        <div
+            class="hidden flex-col gap-4 border-t border-border-gray/70 pt-6 lg:flex"
+        >
             <Link
                 :href="dashboardRoute"
-                class="inline-flex items-center gap-2 text-xs font-bold text-charcoal hover:text-night-ink transition"
+                class="inline-flex items-center gap-2 text-xs font-bold text-charcoal transition hover:text-night-ink"
             >
                 <ArrowLeft class="size-4" />
                 <span>Kembali ke Dashboard</span>
@@ -123,7 +133,7 @@ const navItems = [
 
             <div class="flex flex-col gap-1 text-[12px] leading-relaxed">
                 <p class="font-bold text-night-ink">Akunmu, langkah baikmu.</p>
-                <p class="text-charcoal font-normal">
+                <p class="font-normal text-charcoal">
                     Data pribadi hanya untuk layanan ReValue.
                 </p>
             </div>

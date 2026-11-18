@@ -80,7 +80,7 @@ test('driver tidak dapat mengakses customer dashboard dan menerima respon 403', 
 });
 
 test('registrasi akun baru otomatis menjadi customer dan diarahkan ke layar verifikasi email', function () {
-    $email = 'nasabah.baru.' . uniqid() . '@banksampah.test';
+    $email = 'nasabah.baru.'.uniqid().'@banksampah.test';
 
     $response = $this->post('/register', [
         'name' => 'Nasabah Baru',

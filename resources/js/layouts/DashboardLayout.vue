@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import DashboardSidebar from "@/components/Dashboard/DashboardSidebar.vue";
-import DashboardTopBar from "@/components/Dashboard/DashboardTopBar.vue";
+import { ref } from 'vue';
+import DashboardSidebar from '@/components/Dashboard/DashboardSidebar.vue';
+import DashboardTopBar from '@/components/Dashboard/DashboardTopBar.vue';
 
 const isMobileOpen = ref(false);
 const toggleMobile = () => {
@@ -10,15 +10,14 @@ const toggleMobile = () => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-cloud-surface font-sans text-night-ink antialiased">
+    <div
+        class="min-h-screen bg-cloud-surface font-sans text-night-ink antialiased"
+    >
         <!-- Sidebar (fixed on desktop, drawer on mobile) -->
-        <DashboardSidebar
-            :isMobileOpen="isMobileOpen"
-            @close="toggleMobile"
-        />
+        <DashboardSidebar :isMobileOpen="isMobileOpen" @close="toggleMobile" />
 
         <!-- Main content area (offset by sidebar width on desktop) -->
-        <div class="lg:pl-[240px] flex flex-col min-h-screen min-w-0">
+        <div class="flex min-h-screen min-w-0 flex-col lg:pl-[240px]">
             <!-- Top bar (sticky at top) -->
             <DashboardTopBar @toggleMobile="toggleMobile" />
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import { X, Upload, Trash2 } from "lucide-vue-next";
-import type { User } from "@/types/auth";
-import AppButton from "@/components/Landing/AppButton.vue";
+import { ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import { X, Upload, Trash2 } from 'lucide-vue-next';
+import type { User } from '@/types/auth';
+import AppButton from '@/components/Landing/AppButton.vue';
 
 const props = defineProps<{
     show: boolean;
@@ -11,7 +11,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    (e: "close"): void;
+    (e: 'close'): void;
 }>();
 
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -22,7 +22,7 @@ const form = useForm({
     email: props.user.email,
     photo: null as File | null,
     remove_photo: false,
-    _method: "PATCH",
+    _method: 'PATCH',
 });
 
 const handleFileSelect = (event: Event) => {
@@ -51,11 +51,11 @@ const handleRemovePhoto = () => {
 const submit = () => {
     form.name = props.user.name;
     form.email = props.user.email;
-    form.post("/profile", {
+    form.post('/profile', {
         preserveScroll: true,
         forceFormData: true,
         onSuccess: () => {
-            emit("close");
+            emit('close');
             if (previewUrl.value) {
                 URL.revokeObjectURL(previewUrl.value);
                 previewUrl.value = null;
@@ -69,16 +69,16 @@ const submit = () => {
 <template>
     <div
         v-if="show"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-ink/40 backdrop-blur-xs animate-in fade-in duration-200"
+        class="animate-in fade-in fixed inset-0 z-50 flex items-center justify-center bg-night-ink/40 p-4 backdrop-blur-xs duration-200"
     >
         <div
-            class="bg-paper-white border border-border-gray rounded-[24px] max-w-md w-full p-6 sm:p-8 flex flex-col gap-6 shadow-xl relative"
+            class="relative flex w-full max-w-md flex-col gap-6 rounded-[24px] border border-border-gray bg-paper-white p-6 shadow-xl sm:p-8"
         >
             <!-- Close Button -->
             <button
                 type="button"
                 @click="emit('close')"
-                class="absolute top-5 right-5 text-charcoal hover:text-night-ink p-1 rounded-lg transition"
+                class="absolute top-5 right-5 rounded-lg p-1 text-charcoal transition hover:text-night-ink"
             >
                 <X class="size-5" />
             </button>
@@ -95,7 +95,7 @@ const submit = () => {
 
             <!-- Upload Area & Preview -->
             <div
-                class="border-2 border-dashed border-border-gray hover:border-eco-green rounded-2xl p-6 flex flex-col items-center justify-center gap-3 bg-cloud-surface transition cursor-pointer"
+                class="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-border-gray bg-cloud-surface p-6 transition hover:border-eco-green"
                 @click="fileInput?.click()"
             >
                 <input
@@ -108,17 +108,22 @@ const submit = () => {
 
                 <div
                     v-if="previewUrl || user.photo"
-                    class="size-24 rounded-full overflow-hidden border-2 border-eco-green shadow-xs"
+                    class="size-24 overflow-hidden rounded-full border-2 border-eco-green shadow-xs"
                 >
                     <img
-                        :src="previewUrl || (user.photo?.startsWith('/') ? user.photo : `/storage/${user.photo}`)"
+                        :src="
+                            previewUrl ||
+                            (user.photo?.startsWith('/')
+                                ? user.photo
+                                : `/storage/${user.photo}`)
+                        "
                         alt="Preview"
                         class="size-full object-cover"
                     />
                 </div>
                 <div
                     v-else
-                    class="size-16 rounded-full bg-sprout-tint text-night-ink flex items-center justify-center"
+                    class="flex size-16 items-center justify-center rounded-full bg-sprout-tint text-night-ink"
                 >
                     <Upload class="size-7 text-night-ink" />
                 </div>
@@ -133,24 +138,31 @@ const submit = () => {
                 </div>
             </div>
 
-            <p v-if="form.errors.photo" class="text-xs text-rose-500 font-bold text-center">
+            <p
+                v-if="form.errors.photo"
+                class="text-center text-xs font-bold text-rose-500"
+            >
                 {{ form.errors.photo }}
             </p>
 
             <!-- Actions -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+            <div
+                class="flex flex-col items-center justify-between gap-3 pt-2 sm:flex-row"
+            >
                 <button
                     v-if="user.photo"
                     type="button"
                     @click="handleRemovePhoto"
-                    class="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 hover:text-rose-600 transition"
+                    class="inline-flex items-center gap-1.5 text-xs font-bold text-rose-500 transition hover:text-rose-600"
                 >
                     <Trash2 class="size-4" />
                     <span>Hapus Foto</span>
                 </button>
                 <div v-else></div>
 
-                <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <div
+                    class="flex w-full items-center justify-end gap-2 sm:w-auto"
+                >
                     <AppButton
                         variant="outline"
                         size="md"
@@ -166,7 +178,7 @@ const submit = () => {
                         :disabled="form.processing || !form.photo"
                         @click="submit"
                     >
-                        {{ form.processing ? "Menyimpan..." : "Simpan Foto" }}
+                        {{ form.processing ? 'Menyimpan...' : 'Simpan Foto' }}
                     </AppButton>
                 </div>
             </div>

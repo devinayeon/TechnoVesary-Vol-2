@@ -1,58 +1,69 @@
 <script setup lang="ts">
 const exploreLinks = [
-    { label: "Tentang ReValue", href: "#cara-kerja" },
-    { label: "Cara kerja", href: "#cara-kerja" },
-    { label: "Upcycle Store", href: "#upcycle" },
+    { label: 'Tentang ReValue', href: '#cara-kerja' },
+    { label: 'Cara kerja', href: '#cara-kerja' },
+    { label: 'Upcycle Store', href: '#upcycle' },
 ];
 
 const helpLinks = [
-    { label: "Pusat edukasi", href: "#artikel" },
-    { label: "Pertanyaan umum", href: "#faq" },
-    { label: "Hubungi kami", href: "#faq" },
+    { label: 'Pusat edukasi', href: '#artikel' },
+    { label: 'Pertanyaan umum', href: '#faq' },
+    { label: 'Hubungi kami', href: '#faq' },
 ];
 
 const year = new Date().getFullYear();
 
 function handleFooterClick(e: MouseEvent, href: string) {
-    if (typeof window === "undefined") return;
-    if (href === "#" || href === "#beranda") {
+    if (typeof window === 'undefined') return;
+    if (href === '#' || href === '#beranda') {
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (window.location.pathname === '/') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            window.location.href = '/';
+        }
         return;
     }
-    if (href.startsWith("#")) {
-        const target = document.querySelector(href);
+    if (href.startsWith('#')) {
+        const target =
+            window.location.pathname === '/'
+                ? document.querySelector(href)
+                : null;
         if (target) {
             e.preventDefault();
-            target.scrollIntoView({ behavior: "smooth" });
+            target.scrollIntoView({ behavior: 'smooth' });
+            return;
         }
+
+        e.preventDefault();
+        window.location.href = `/${href}`;
     }
 }
 </script>
 
 <template>
-    <footer class="bg-night-ink text-paper-white pt-16 pb-12">
-        <div class="max-w-[1200px] mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16">
+    <footer class="bg-night-ink pt-16 pb-12 text-paper-white">
+        <div class="mx-auto max-w-[1200px] px-6">
+            <div class="grid grid-cols-1 gap-10 md:grid-cols-12 lg:gap-16">
                 <!-- Brand Info (Span 5) -->
                 <div class="md:col-span-6 lg:col-span-5">
                     <div
-                        class="flex items-center gap-3 mb-4 cursor-pointer inline-flex"
+                        class="mb-4 flex inline-flex cursor-pointer items-center gap-3"
                         @click="handleFooterClick($event, '#beranda')"
                     >
                         <img
                             src="assets/Logo/logo_white.png"
                             alt="ReValue"
-                            class="w-11 h-11 object-contain"
+                            class="h-11 w-11 object-contain"
                         />
                         <span
-                            class="font-bold text-3xl text-paper-white tracking-tight"
+                            class="text-3xl font-bold tracking-tight text-paper-white"
                         >
                             ReValue
                         </span>
                     </div>
                     <p
-                        class="font-medium text-[16px] sm:text-[17px] text-paper-white/80 leading-relaxed max-w-sm"
+                        class="max-w-sm text-[16px] leading-relaxed font-medium text-paper-white/80 sm:text-[17px]"
                     >
                         Beri nilai baru.<br />Untuk bumi, untuk kita.
                     </p>
@@ -61,17 +72,17 @@ function handleFooterClick(e: MouseEvent, href: string) {
                 <!-- Jelajahi (Span 3) -->
                 <div class="md:col-span-3 lg:col-span-3">
                     <p
-                        class="font-bold text-[13px] tracking-[1.6px] uppercase text-paper-white mb-5"
+                        class="mb-5 text-[13px] font-bold tracking-[1.6px] text-paper-white uppercase"
                     >
                         JELAJAHI
                     </p>
                     <ul
-                        class="space-y-3 font-medium text-[16px] sm:text-[17px] text-paper-white/80"
+                        class="space-y-3 text-[16px] font-medium text-paper-white/80 sm:text-[17px]"
                     >
                         <li v-for="link in exploreLinks" :key="link.label">
                             <a
                                 :href="link.href"
-                                class="hover:text-eco-green transition-colors cursor-pointer"
+                                class="cursor-pointer transition-colors hover:text-eco-green"
                                 @click="handleFooterClick($event, link.href)"
                             >
                                 {{ link.label }}
@@ -83,17 +94,17 @@ function handleFooterClick(e: MouseEvent, href: string) {
                 <!-- Butuh Bantuan? (Span 4) -->
                 <div class="md:col-span-3 lg:col-span-4">
                     <p
-                        class="font-bold text-[13px] tracking-[1.6px] uppercase text-paper-white mb-5"
+                        class="mb-5 text-[13px] font-bold tracking-[1.6px] text-paper-white uppercase"
                     >
                         BUTUH BANTUAN?
                     </p>
                     <ul
-                        class="space-y-3 font-medium text-[16px] sm:text-[17px] text-paper-white/80"
+                        class="space-y-3 text-[16px] font-medium text-paper-white/80 sm:text-[17px]"
                     >
                         <li v-for="link in helpLinks" :key="link.label">
                             <a
                                 :href="link.href"
-                                class="hover:text-eco-green transition-colors cursor-pointer"
+                                class="cursor-pointer transition-colors hover:text-eco-green"
                                 @click="handleFooterClick($event, link.href)"
                             >
                                 {{ link.label }}
@@ -104,20 +115,20 @@ function handleFooterClick(e: MouseEvent, href: string) {
             </div>
 
             <!-- Divider -->
-            <div class="h-px bg-charcoal/60 my-10" />
+            <div class="my-10 h-px bg-charcoal/60" />
 
             <!-- Bottom Bar -->
             <div
-                class="flex flex-col sm:flex-row items-center justify-between gap-4 font-bold text-[13px] text-paper-white/70"
+                class="flex flex-col items-center justify-between gap-4 text-[13px] font-bold text-paper-white/70 sm:flex-row"
             >
                 <p>
                     © {{ year }} ReValue. Langkah kecil untuk masa depan besar.
                 </p>
                 <div class="flex gap-6">
-                    <a href="#" class="hover:text-paper-white transition-colors"
+                    <a href="#" class="transition-colors hover:text-paper-white"
                         >Kebijakan Privasi</a
                     >
-                    <a href="#" class="hover:text-paper-white transition-colors"
+                    <a href="#" class="transition-colors hover:text-paper-white"
                         >Syarat &amp; Ketentuan</a
                     >
                 </div>

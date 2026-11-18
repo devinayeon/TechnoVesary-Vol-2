@@ -35,6 +35,19 @@ class Customer extends Model
     }
 
     /**
+     * Apakah customer memiliki langganan ReValue+ yang masih aktif.
+     */
+    public function isActiveMember(): bool
+    {
+        if (! $this->is_member) {
+            return false;
+        }
+
+        return $this->membership_expires_at === null
+            || $this->membership_expires_at->isFuture();
+    }
+
+    /**
      * Accessors untuk kompatibilitas skema DBML/SQL (yeon-ui-dev/revalue.sql)
      */
     public function getPoinAttribute(): int

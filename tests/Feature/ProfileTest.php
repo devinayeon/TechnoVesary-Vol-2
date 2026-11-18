@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\UserRole;
+use App\Models\Driver;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -62,9 +64,9 @@ test('informasi profil dapat diperbarui menggunakan alias bahasa indonesia', fun
 
 test('driver dapat mengubah status ketersediaan tugas', function () {
     $user = User::factory()->create([
-        'role' => \App\Enums\UserRole::DRIVER,
+        'role' => UserRole::DRIVER,
     ]);
-    \App\Models\Driver::create([
+    Driver::create([
         'user_id' => $user->id,
         'is_available' => true,
     ]);

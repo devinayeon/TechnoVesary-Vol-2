@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, nextTick, ref } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import { Trash2, X, AlertTriangle } from "lucide-vue-next";
-import type { User } from "@/types/auth";
-import DetailField from "./DetailField.vue";
-import AppButton from "@/components/Landing/AppButton.vue";
-import UserAvatar from "@/components/Dashboard/UserAvatar.vue";
+import { computed, nextTick, ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import { Trash2, X, AlertTriangle } from 'lucide-vue-next';
+import type { User } from '@/types/auth';
+import DetailField from './DetailField.vue';
+import AppButton from '@/components/Landing/AppButton.vue';
+import UserAvatar from '@/components/Dashboard/UserAvatar.vue';
 
 const props = defineProps<{
     user: User;
@@ -19,7 +19,7 @@ const confirmingDeletion = ref(false);
 const passwordInput = ref<HTMLInputElement | null>(null);
 
 const deleteForm = useForm({
-    password: "",
+    password: '',
 });
 
 const openDeleteModal = () => {
@@ -34,7 +34,7 @@ const closeDeleteModal = () => {
 };
 
 const executeDeleteAccount = () => {
-    deleteForm.delete("/profile", {
+    deleteForm.delete('/profile', {
         preserveScroll: true,
         onSuccess: () => closeDeleteModal(),
         onError: () => passwordInput.value?.focus(),
@@ -43,53 +43,62 @@ const executeDeleteAccount = () => {
 };
 
 const initials = computed(() => {
-    if (!props.user?.name) return "U";
+    if (!props.user?.name) return 'U';
     return props.user.name
-        .split(" ")
+        .split(' ')
         .slice(0, 2)
         .map((w) => w[0]?.toUpperCase())
-        .join("");
+        .join('');
 });
 
-const role = computed(() => (props.user?.role as string) || "customer");
+const role = computed(() => (props.user?.role as string) || 'customer');
 
 const roleLabel = computed(() => {
-    if (role.value === "admin") return "Administrator";
-    if (role.value === "driver") return "Driver";
-    return "Customer";
+    if (role.value === 'admin') return 'Administrator';
+    if (role.value === 'driver') return 'Driver';
+    return 'Customer';
 });
 
-const formatDate = (raw?: string | null, fallback = "25 November 2026") => {
+const formatDate = (raw?: string | null, fallback = '25 November 2026') => {
     if (!raw) return fallback;
     try {
-        return new Date(raw).toLocaleDateString("id-ID", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
+        return new Date(raw).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
         });
     } catch {
         return fallback;
     }
 };
 
-const joinedDate = computed(() => formatDate(props.user.created_at, "12 Oktober 2026"));
+const joinedDate = computed(() =>
+    formatDate(props.user.created_at, '12 Oktober 2026'),
+);
 
 const pointsFormatted = computed(() => {
-    const pts = props.user.customer?.points ?? (props.user.customer as any)?.poin ?? 60000;
-    return `${Number(pts).toLocaleString("id-ID")} poin`;
+    const pts =
+        props.user.customer?.points ??
+        (props.user.customer as any)?.poin ??
+        60000;
+    return `${Number(pts).toLocaleString('id-ID')} poin`;
 });
 
 const membershipExpiry = computed(() => {
-    const raw = props.user.customer?.membership_expires_at || (props.user.customer as any)?.expired_member_date;
-    return formatDate(raw, "25 November 2026");
+    const raw =
+        props.user.customer?.membership_expires_at ||
+        (props.user.customer as any)?.expired_member_date;
+    return formatDate(raw, '25 November 2026');
 });
 </script>
 
 <template>
-    <div class="flex flex-col gap-6 w-full">
+    <div class="flex w-full flex-col gap-6">
         <!-- Heading -->
         <div class="flex flex-col gap-1">
-            <h1 class="text-[28px] font-extrabold text-night-ink tracking-tight">
+            <h1
+                class="text-[28px] font-extrabold tracking-tight text-night-ink"
+            >
                 Informasi akun
             </h1>
             <p class="text-[14px] text-charcoal">
@@ -98,16 +107,18 @@ const membershipExpiry = computed(() => {
         </div>
 
         <!-- 2 Columns Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
             <!-- Left: Account Identity Records -->
             <div
-                class="lg:col-span-7 bg-paper-white border border-border-gray rounded-[20px] p-6 sm:p-8 flex flex-col gap-5 shadow-xs"
+                class="flex flex-col gap-5 rounded-[20px] border border-border-gray bg-paper-white p-6 shadow-xs sm:p-8 lg:col-span-7"
             >
                 <!-- Mini Profile Identity -->
-                <div class="flex items-center gap-4 pb-4 border-b border-border-gray/50">
+                <div
+                    class="flex items-center gap-4 border-b border-border-gray/50 pb-4"
+                >
                     <div
                         v-if="!userPhoto"
-                        class="size-14 rounded-full bg-sprout-tint text-night-ink flex items-center justify-center font-extrabold text-xl select-none shrink-0"
+                        class="flex size-14 shrink-0 items-center justify-center rounded-full bg-sprout-tint text-xl font-extrabold text-night-ink select-none"
                     >
                         {{ initials }}
                     </div>
@@ -118,11 +129,15 @@ const membershipExpiry = computed(() => {
                         :name="user.name"
                         size="lg"
                     />
-                    <div class="flex flex-col min-w-0">
-                        <span class="text-lg font-extrabold text-night-ink truncate">
+                    <div class="flex min-w-0 flex-col">
+                        <span
+                            class="truncate text-lg font-extrabold text-night-ink"
+                        >
                             {{ user.name }}
                         </span>
-                        <span class="text-xs text-charcoal truncate font-normal">
+                        <span
+                            class="truncate text-xs font-normal text-charcoal"
+                        >
                             {{ user.email }}
                         </span>
                     </div>
@@ -136,22 +151,26 @@ const membershipExpiry = computed(() => {
                 </div>
 
                 <!-- Callout Banner -->
-                <div class="p-4 rounded-xl bg-sky-tint/50 border border-sky-blue/20 flex flex-col gap-1">
+                <div
+                    class="flex flex-col gap-1 rounded-xl border border-sky-blue/20 bg-sky-tint/50 p-4"
+                >
                     <span class="text-[13px] font-bold text-night-ink">
                         Role dikelola ReValue
                     </span>
-                    <span class="text-[12px] text-charcoal leading-relaxed">
+                    <span class="text-[12px] leading-relaxed text-charcoal">
                         Hubungi pengelola jika akses akunmu perlu ditinjau.
                     </span>
                 </div>
 
                 <!-- Delete Account Option -->
-                <div class="pt-2 border-t border-border-gray/50 flex items-center justify-between">
+                <div
+                    class="flex items-center justify-between border-t border-border-gray/50 pt-2"
+                >
                     <span class="text-xs text-charcoal">Tindakan Akun</span>
                     <button
                         type="button"
                         @click="openDeleteModal"
-                        class="text-xs font-bold text-rose-500 hover:text-rose-600 inline-flex items-center gap-1.5 transition cursor-pointer"
+                        class="inline-flex cursor-pointer items-center gap-1.5 text-xs font-bold text-rose-500 transition hover:text-rose-600"
                     >
                         <Trash2 class="size-3.5" />
                         <span>Hapus Akun</span>
@@ -161,60 +180,98 @@ const membershipExpiry = computed(() => {
 
             <!-- Right: Role Specific Data -->
             <div
-                class="lg:col-span-5 bg-paper-white border border-border-gray rounded-[20px] p-6 sm:p-8 flex flex-col gap-5 shadow-xs"
+                class="flex flex-col gap-5 rounded-[20px] border border-border-gray bg-paper-white p-6 shadow-xs sm:p-8 lg:col-span-5"
             >
                 <!-- Customer Role Specific -->
                 <template v-if="role === 'customer'">
-                    <h3 class="text-[21px] font-extrabold text-night-ink leading-snug">
+                    <h3
+                        class="text-[21px] leading-snug font-extrabold text-night-ink"
+                    >
                         Layanan Customer
                     </h3>
 
                     <div class="flex flex-col divide-y divide-border-gray/50">
-                        <DetailField label="Saldo poin" :value="pointsFormatted" />
+                        <DetailField
+                            label="Saldo poin"
+                            :value="pointsFormatted"
+                        />
                         <DetailField
                             label="Status keanggotaan"
-                            :value="(user.customer?.is_member ?? true) ? 'Aktif' : 'Nonaktif'"
+                            :value="
+                                (user.customer?.is_member ?? true)
+                                    ? 'Aktif'
+                                    : 'Nonaktif'
+                            "
                         />
-                        <DetailField label="Masa aktif" :value="membershipExpiry" />
+                        <DetailField
+                            label="Masa aktif"
+                            :value="membershipExpiry"
+                        />
                     </div>
 
-                    <p class="text-[12px] text-charcoal leading-relaxed pt-2 border-t border-border-gray/50">
-                        Saldo berasal dari transaksi poin. Status dan masa aktif berasal dari langganan yang telah dibayar.
+                    <p
+                        class="border-t border-border-gray/50 pt-2 text-[12px] leading-relaxed text-charcoal"
+                    >
+                        Saldo berasal dari transaksi poin. Status dan masa aktif
+                        berasal dari langganan yang telah dibayar.
                     </p>
                 </template>
 
                 <!-- Driver Role Specific -->
                 <template v-else-if="role === 'driver'">
-                    <h3 class="text-[21px] font-extrabold text-night-ink leading-snug">
+                    <h3
+                        class="text-[21px] leading-snug font-extrabold text-night-ink"
+                    >
                         Status Driver
                     </h3>
 
                     <div class="flex flex-col divide-y divide-border-gray/50">
                         <DetailField
                             label="Kesiapan tugas"
-                            :value="(user.driver?.is_available ?? true) ? 'Siap bertugas' : 'Istirahat'"
+                            :value="
+                                (user.driver?.is_available ?? true)
+                                    ? 'Siap bertugas'
+                                    : 'Istirahat'
+                            "
                         />
-                        <DetailField label="Area Operasional" value="Jember & Sekitarnya" />
+                        <DetailField
+                            label="Area Operasional"
+                            value="Jember & Sekitarnya"
+                        />
                     </div>
 
-                    <p class="text-[12px] text-charcoal leading-relaxed pt-2 border-t border-border-gray/50">
-                        Kesiapan menerima jemputan diatur di dashboard Driver. Profil ini tidak memuat saldo poin Customer.
+                    <p
+                        class="border-t border-border-gray/50 pt-2 text-[12px] leading-relaxed text-charcoal"
+                    >
+                        Kesiapan menerima jemputan diatur di dashboard Driver.
+                        Profil ini tidak memuat saldo poin Customer.
                     </p>
                 </template>
 
                 <!-- Admin Role Specific -->
                 <template v-else>
-                    <h3 class="text-[21px] font-extrabold text-night-ink leading-snug">
+                    <h3
+                        class="text-[21px] leading-snug font-extrabold text-night-ink"
+                    >
                         Akses Administrator
                     </h3>
 
                     <div class="flex flex-col divide-y divide-border-gray/50">
-                        <DetailField label="Hak akses" value="Penuh (Super Admin)" />
-                        <DetailField label="Modul Terhubung" value="Manajemen Pengguna & Jenis Sampah" />
+                        <DetailField
+                            label="Hak akses"
+                            value="Penuh (Super Admin)"
+                        />
+                        <DetailField
+                            label="Modul Terhubung"
+                            value="Manajemen Pengguna & Jenis Sampah"
+                        />
                     </div>
 
-                    <p class="text-[12px] text-charcoal leading-relaxed pt-2 border-t border-border-gray/50">
-                        Akun ini memiliki hak akses penuh ke data operasional ReValue.
+                    <p
+                        class="border-t border-border-gray/50 pt-2 text-[12px] leading-relaxed text-charcoal"
+                    >
+                        Akun ini memiliki hak akses penuh ke data operasional
+                        ReValue.
                     </p>
                 </template>
             </div>
@@ -223,15 +280,15 @@ const membershipExpiry = computed(() => {
         <!-- Confirm Delete Account Modal -->
         <div
             v-if="confirmingDeletion"
-            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-ink/40 backdrop-blur-xs animate-in fade-in duration-200"
+            class="animate-in fade-in fixed inset-0 z-50 flex items-center justify-center bg-night-ink/40 p-4 backdrop-blur-xs duration-200"
         >
             <div
-                class="bg-paper-white border border-border-gray rounded-[24px] max-w-md w-full p-6 sm:p-8 flex flex-col gap-5 shadow-xl relative"
+                class="relative flex w-full max-w-md flex-col gap-5 rounded-[24px] border border-border-gray bg-paper-white p-6 shadow-xl sm:p-8"
             >
                 <button
                     type="button"
                     @click="closeDeleteModal"
-                    class="absolute top-5 right-5 text-charcoal hover:text-night-ink p-1 rounded-lg transition"
+                    class="absolute top-5 right-5 rounded-lg p-1 text-charcoal transition hover:text-night-ink"
                 >
                     <X class="size-5" />
                 </button>
@@ -243,11 +300,16 @@ const membershipExpiry = computed(() => {
                     </h3>
                 </div>
 
-                <p class="text-[13px] text-charcoal leading-relaxed">
-                    Setelah akun Anda dihapus, semua data profil, riwayat setoran, dan poin akan dinonaktifkan. Masukkan kata sandi untuk melanjutkan.
+                <p class="text-[13px] leading-relaxed text-charcoal">
+                    Setelah akun Anda dihapus, semua data profil, riwayat
+                    setoran, dan poin akan dinonaktifkan. Masukkan kata sandi
+                    untuk melanjutkan.
                 </p>
 
-                <form @submit.prevent="executeDeleteAccount" class="flex flex-col gap-4">
+                <form
+                    @submit.prevent="executeDeleteAccount"
+                    class="flex flex-col gap-4"
+                >
                     <div class="flex flex-col gap-1.5">
                         <label class="text-[13px] font-bold text-night-ink">
                             Kata Sandi Anda *
@@ -258,18 +320,22 @@ const membershipExpiry = computed(() => {
                             type="password"
                             required
                             placeholder="Kata sandi akun"
-                            class="h-[48px] px-4 rounded-xl border border-border-gray bg-paper-white text-[15px] text-night-ink focus:outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 transition"
-                            :class="{ 'border-rose-500': deleteForm.errors.password }"
+                            class="h-[48px] rounded-xl border border-border-gray bg-paper-white px-4 text-[15px] text-night-ink transition focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 focus:outline-none"
+                            :class="{
+                                'border-rose-500': deleteForm.errors.password,
+                            }"
                         />
                         <span
                             v-if="deleteForm.errors.password"
-                            class="text-xs text-rose-500 font-semibold"
+                            class="text-xs font-semibold text-rose-500"
                         >
                             {{ deleteForm.errors.password }}
                         </span>
                     </div>
 
-                    <div class="pt-2 flex items-center justify-end gap-3 border-t border-border-gray/70">
+                    <div
+                        class="flex items-center justify-end gap-3 border-t border-border-gray/70 pt-2"
+                    >
                         <AppButton
                             variant="outline"
                             size="md"
@@ -281,9 +347,13 @@ const membershipExpiry = computed(() => {
                         <button
                             type="submit"
                             :disabled="deleteForm.processing"
-                            class="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-sm font-extrabold shadow-sm transition disabled:opacity-50 cursor-pointer"
+                            class="cursor-pointer rounded-xl bg-rose-600 px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:bg-rose-700 disabled:opacity-50"
                         >
-                            {{ deleteForm.processing ? "Menghapus..." : "Hapus Akun" }}
+                            {{
+                                deleteForm.processing
+                                    ? 'Menghapus...'
+                                    : 'Hapus Akun'
+                            }}
                         </button>
                     </div>
                 </form>

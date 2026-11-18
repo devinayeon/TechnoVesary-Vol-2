@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { Head, router, usePage } from "@inertiajs/vue3";
-import DashboardLayout from "@/layouts/DashboardLayout.vue";
-import PageHeader from "@/components/Dashboard/PageHeader.vue";
-import StatusChip from "@/components/Dashboard/StatusChip.vue";
-import AppDropdown from "@/components/Dashboard/AppDropdown.vue";
-import AppTable from "@/components/Dashboard/AppTable.vue";
-import AppPagination from "@/components/Dashboard/AppPagination.vue";
-import UserAvatar from "@/components/Dashboard/UserAvatar.vue";
+import { ref, watch, computed } from 'vue';
+import { Head, router, usePage } from '@inertiajs/vue3';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import PageHeader from '@/components/Dashboard/PageHeader.vue';
+import StatusChip from '@/components/Dashboard/StatusChip.vue';
+import AppDropdown from '@/components/Dashboard/AppDropdown.vue';
+import AppTable from '@/components/Dashboard/AppTable.vue';
+import AppPagination from '@/components/Dashboard/AppPagination.vue';
+import UserAvatar from '@/components/Dashboard/UserAvatar.vue';
 import ProductTransactionDetailModal, {
     type ProductTransactionDetailData,
-} from "@/components/Dashboard/ProductTransactionDetailModal.vue";
+} from '@/components/Dashboard/ProductTransactionDetailModal.vue';
 import {
     Search,
     RotateCcw,
@@ -19,7 +19,7 @@ import {
     X,
     Eye,
     ShoppingCart,
-} from "lucide-vue-next";
+} from 'lucide-vue-next';
 
 // --- Types ---
 interface UserInfo {
@@ -94,6 +94,13 @@ const props = defineProps<{
     };
     statuses: Array<{ value: string; label: string }>;
     paymentMethods: Array<{ value: string; label: string }>;
+    drivers?: Array<{
+        id: number;
+        name: string;
+        email: string;
+        is_available: boolean;
+    }>;
+    basemapApiKey?: string;
 }>();
 
 const page = usePage();
@@ -109,7 +116,7 @@ const flashError = computed(
         (page.props.errors as any)?.error ||
         (Object.keys(page.props.errors || {}).length > 0
             ? Object.values(page.props.errors)[0]
-            : null)
+            : null),
 );
 
 watch(
@@ -118,19 +125,19 @@ watch(
         showSuccessFlash.value = true;
         showErrorFlash.value = true;
     },
-    { deep: true }
+    { deep: true },
 );
 
 // Search & Filter
-const search = ref(props.filters.search || "");
-const selectedStatus = ref(props.filters.status || "");
-const selectedPaymentMethod = ref(props.filters.payment_method || "");
+const search = ref(props.filters.search || '');
+const selectedStatus = ref(props.filters.status || '');
+const selectedPaymentMethod = ref(props.filters.payment_method || '');
 
 let searchTimeout: any = null;
 
 const applyFilters = () => {
     router.get(
-        "/admin/product-transactions",
+        '/admin/product-transactions',
         {
             search: search.value || undefined,
             status: selectedStatus.value || undefined,
@@ -140,7 +147,7 @@ const applyFilters = () => {
             preserveState: true,
             preserveScroll: true,
             replace: true,
-        }
+        },
     );
 };
 
@@ -156,81 +163,87 @@ const onFilterChange = () => {
 };
 
 const statusOptions = computed(() => [
-    { value: "", label: "Semua Status" },
+    { value: '', label: 'Semua Status' },
     ...props.statuses,
 ]);
 
 const paymentMethodOptions = computed(() => [
-    { value: "", label: "Semua Metode" },
+    { value: '', label: 'Semua Metode' },
     ...props.paymentMethods,
 ]);
 
 const hasActiveFilter = computed(
-    () => !!(search.value || selectedStatus.value || selectedPaymentMethod.value)
+    () =>
+        !!(search.value || selectedStatus.value || selectedPaymentMethod.value),
 );
 
 const resetFilters = () => {
-    search.value = "";
-    selectedStatus.value = "";
-    selectedPaymentMethod.value = "";
+    search.value = '';
+    selectedStatus.value = '';
+    selectedPaymentMethod.value = '';
     router.get(
-        "/admin/product-transactions",
+        '/admin/product-transactions',
         {},
-        { preserveState: true, preserveScroll: true }
+        { preserveState: true, preserveScroll: true },
     );
 };
 
 // Status mapping
-const getStatusTone = (status: string): "Green" | "Amber" | "Blue" | "Neutral" => {
-    const map: Record<string, "Green" | "Amber" | "Blue" | "Neutral"> = {
-        pending: "Amber",
-        processing: "Blue",
-        delivering: "Blue",
-        completed: "Green",
-        canceled: "Neutral",
+const getStatusTone = (
+    status: string,
+): 'Green' | 'Amber' | 'Blue' | 'Neutral' => {
+    const map: Record<string, 'Green' | 'Amber' | 'Blue' | 'Neutral'> = {
+        pending: 'Amber',
+        processing: 'Blue',
+        delivering: 'Blue',
+        delivered: 'Amber',
+        completed: 'Green',
+        canceled: 'Neutral',
     };
-    return map[status] ?? "Neutral";
+    return map[status] ?? 'Neutral';
 };
 
 const getStatusLabel = (status: string): string => {
     const map: Record<string, string> = {
-        pending: "Menunggu Bayar",
-        processing: "Diproses",
-        delivering: "Dikirim",
-        completed: "Selesai",
-        canceled: "Dibatalkan",
+        pending: 'Menunggu Bayar',
+        processing: 'Diproses',
+        delivering: 'Dikirim',
+        delivered: 'Terkirim',
+        completed: 'Selesai',
+        canceled: 'Dibatalkan',
     };
     return map[status] ?? status;
 };
 
 const getPaymentLabel = (method: string): string => {
     const map: Record<string, string> = {
-        midtrans: "Midtrans",
-        points: "Poin",
+        midtrans: 'Midtrans',
+        points: 'Poin',
     };
     return map[method] ?? method;
 };
 
-const getPaymentTone = (method: string): "Green" | "Amber" | "Blue" | "Neutral" => {
-    return method === "midtrans" ? "Blue" : "Green";
+const getPaymentTone = (
+    method: string,
+): 'Green' | 'Amber' | 'Blue' | 'Neutral' => {
+    return method === 'midtrans' ? 'Blue' : 'Green';
 };
 
 // Date Formatter
 const formatDate = (dateString?: string | null): string => {
-    if (!dateString) return "—";
+    if (!dateString) return '—';
     try {
-        return new Date(dateString).toLocaleDateString("id-ID", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
+        return new Date(dateString).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
         });
     } catch {
         return dateString;
     }
 };
 
-const formatRupiah = (n: number) =>
-    "Rp " + n.toLocaleString("id-ID");
+const formatRupiah = (n: number) => 'Rp ' + n.toLocaleString('id-ID');
 
 // Modal State
 const isDetailModalOpen = ref(false);
@@ -254,16 +267,16 @@ const closeDetailModal = () => {
         <!-- Success Flash -->
         <div
             v-if="showSuccessFlash && flashSuccess"
-            class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 text-night-ink font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
+            class="animate-in fade-in mb-6 flex items-center justify-between gap-3 rounded-2xl border-2 border-eco-green/40 bg-sprout-tint p-4 text-[14px] font-bold text-night-ink shadow-2xs duration-200"
         >
-            <div class="flex items-center gap-3 min-w-0">
-                <CheckCircle2 class="size-5 text-eco-green-dark shrink-0" />
+            <div class="flex min-w-0 items-center gap-3">
+                <CheckCircle2 class="size-5 shrink-0 text-eco-green-dark" />
                 <span class="truncate">{{ flashSuccess }}</span>
             </div>
             <button
                 type="button"
                 @click="showSuccessFlash = false"
-                class="p-1 rounded-lg hover:bg-eco-green/20 text-charcoal hover:text-night-ink transition-colors cursor-pointer shrink-0"
+                class="shrink-0 cursor-pointer rounded-lg p-1 text-charcoal transition-colors hover:bg-eco-green/20 hover:text-night-ink"
                 aria-label="Tutup notifikasi"
             >
                 <X class="size-4" />
@@ -273,16 +286,16 @@ const closeDetailModal = () => {
         <!-- Error Flash -->
         <div
             v-if="showErrorFlash && flashError"
-            class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-red-50 border-2 border-red-300 text-red-800 font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
+            class="animate-in fade-in mb-6 flex items-center justify-between gap-3 rounded-2xl border-2 border-red-300 bg-red-50 p-4 text-[14px] font-bold text-red-800 shadow-2xs duration-200"
         >
-            <div class="flex items-center gap-3 min-w-0">
-                <XCircle class="size-5 text-red-600 shrink-0" />
+            <div class="flex min-w-0 items-center gap-3">
+                <XCircle class="size-5 shrink-0 text-red-600" />
                 <span class="truncate">{{ flashError }}</span>
             </div>
             <button
                 type="button"
                 @click="showErrorFlash = false"
-                class="p-1 rounded-lg hover:bg-red-100 text-red-700 hover:text-red-900 transition-colors cursor-pointer shrink-0"
+                class="shrink-0 cursor-pointer rounded-lg p-1 text-red-700 transition-colors hover:bg-red-100 hover:text-red-900"
                 aria-label="Tutup notifikasi"
             >
                 <X class="size-4" />
@@ -290,7 +303,9 @@ const closeDetailModal = () => {
         </div>
 
         <!-- Page Header -->
-        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
+        <div
+            class="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-start"
+        >
             <PageHeader
                 title="Transaksi Upcycle Store"
                 subtitle="Riwayat pembelian produk daur ulang oleh customer dari Upcycle Store."
@@ -300,23 +315,25 @@ const closeDetailModal = () => {
         </div>
 
         <!-- Toolbar -->
-        <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 mb-6">
+        <div
+            class="mb-6 flex flex-col items-stretch gap-3 lg:flex-row lg:items-center"
+        >
             <!-- Search -->
             <div class="relative w-full">
                 <Search
-                    class="absolute left-3.5 top-1/2 -translate-y-1/2 size-4.5 text-charcoal/70 pointer-events-none"
+                    class="pointer-events-none absolute top-1/2 left-3.5 size-4.5 -translate-y-1/2 text-charcoal/70"
                 />
                 <input
                     v-model="search"
                     type="text"
                     placeholder="Cari nama customer atau alamat pengiriman..."
-                    class="w-full h-[44px] pl-10 pr-10 bg-paper-white border-2 border-border-gray rounded-xl text-[14px] font-medium text-night-ink placeholder:text-charcoal/60 focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all shadow-2xs"
+                    class="h-[44px] w-full rounded-xl border-2 border-border-gray bg-paper-white pr-10 pl-10 text-[14px] font-medium text-night-ink shadow-2xs transition-all placeholder:text-charcoal/60 focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 focus:outline-none"
                 />
                 <button
                     v-if="search"
                     @click="search = ''"
                     type="button"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-charcoal hover:bg-cloud-surface hover:text-night-ink transition-colors cursor-pointer"
+                    class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-md p-1 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                     aria-label="Bersihkan pencarian"
                 >
                     <X class="size-3.5" />
@@ -324,13 +341,15 @@ const closeDetailModal = () => {
             </div>
 
             <!-- Filters -->
-            <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 w-full lg:w-auto">
+            <div
+                class="flex w-full flex-wrap items-center gap-2.5 sm:flex-nowrap lg:w-auto"
+            >
                 <!-- Status Filter -->
                 <AppDropdown
                     v-model="selectedStatus"
                     :options="statusOptions"
                     placeholder="Semua Status"
-                    class="flex-1 sm:flex-initial min-w-[150px] sm:w-[180px]"
+                    class="min-w-[150px] flex-1 sm:w-[180px] sm:flex-initial"
                     menu-width="w-full sm:w-[200px]"
                     align="right"
                     @change="onFilterChange"
@@ -341,7 +360,7 @@ const closeDetailModal = () => {
                     v-model="selectedPaymentMethod"
                     :options="paymentMethodOptions"
                     placeholder="Semua Metode"
-                    class="flex-1 sm:flex-initial min-w-[140px] sm:w-[170px]"
+                    class="min-w-[140px] flex-1 sm:w-[170px] sm:flex-initial"
                     menu-width="w-full sm:w-[190px]"
                     align="right"
                     @change="onFilterChange"
@@ -352,7 +371,7 @@ const closeDetailModal = () => {
                     v-if="hasActiveFilter"
                     type="button"
                     @click="resetFilters"
-                    class="p-2.5 h-[44px] rounded-xl border-2 border-border-gray bg-paper-white text-charcoal hover:text-night-ink hover:bg-cloud-surface transition-colors cursor-pointer shrink-0"
+                    class="h-[44px] shrink-0 cursor-pointer rounded-xl border-2 border-border-gray bg-paper-white p-2.5 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                     title="Reset Filter"
                 >
                     <RotateCcw class="size-4" />
@@ -376,17 +395,21 @@ const closeDetailModal = () => {
                 <div
                     v-for="transaction in transactions.data"
                     :key="`m-${transaction.id}`"
-                    class="p-4 flex flex-col gap-3 hover:bg-cloud-surface/30 transition-colors"
+                    class="flex flex-col gap-3 p-4 transition-colors hover:bg-cloud-surface/30"
                 >
                     <div class="flex items-center justify-between gap-2">
-                        <div class="flex items-center gap-2 flex-wrap">
+                        <div class="flex flex-wrap items-center gap-2">
                             <StatusChip
                                 :tone="getStatusTone(transaction.status)"
                                 :label="getStatusLabel(transaction.status)"
                             />
                             <StatusChip
-                                :tone="getPaymentTone(transaction.payment_method)"
-                                :label="getPaymentLabel(transaction.payment_method)"
+                                :tone="
+                                    getPaymentTone(transaction.payment_method)
+                                "
+                                :label="
+                                    getPaymentLabel(transaction.payment_method)
+                                "
                             />
                         </div>
                         <span class="text-[12px] font-bold text-charcoal/70">
@@ -396,25 +419,38 @@ const closeDetailModal = () => {
 
                     <div class="flex items-start gap-3">
                         <div class="min-w-0 flex-1">
-                            <div class="flex items-center gap-1.5 mb-1">
-                                <span class="text-xs text-muted-text font-semibold">Customer:</span>
-                                <span class="text-sm font-bold text-night-ink truncate">
-                                    {{ transaction.customer?.user?.name ?? "-" }}
+                            <div class="mb-1 flex items-center gap-1.5">
+                                <span
+                                    class="text-muted-text text-xs font-semibold"
+                                    >Customer:</span
+                                >
+                                <span
+                                    class="truncate text-sm font-bold text-night-ink"
+                                >
+                                    {{
+                                        transaction.customer?.user?.name ?? '-'
+                                    }}
                                 </span>
                             </div>
-                            <div class="flex items-center gap-1.5 mb-1">
-                                <span class="text-xs text-muted-text font-semibold">Total:</span>
+                            <div class="mb-1 flex items-center gap-1.5">
+                                <span
+                                    class="text-muted-text text-xs font-semibold"
+                                    >Total:</span
+                                >
                                 <span class="text-sm font-black text-eco-green">
-                                    {{ formatRupiah(transaction.payable_amount) }}
+                                    {{
+                                        formatRupiah(transaction.payable_amount)
+                                    }}
                                 </span>
                             </div>
                             <p class="text-[12px] text-charcoal/70">
-                                {{ transaction.details?.length ?? 0 }} item produk
+                                {{ transaction.details?.length ?? 0 }} item
+                                produk
                             </p>
                         </div>
                         <button
                             @click="openDetailModal(transaction)"
-                            class="p-2 rounded-lg border-2 border-b-[3px] border-border-gray text-charcoal hover:text-night-ink hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2 transition-all shrink-0"
+                            class="shrink-0 rounded-lg border-2 border-b-[3px] border-border-gray p-2 text-charcoal transition-all hover:bg-cloud-surface hover:text-night-ink active:translate-y-0.5 active:border-b-2"
                             title="Lihat Detail"
                         >
                             <Eye class="size-4" />
@@ -425,28 +461,44 @@ const closeDetailModal = () => {
 
             <!-- Desktop Header -->
             <template #header>
-                <th class="px-4 py-3.5 text-left text-[12px] font-extrabold text-charcoal uppercase tracking-wider w-16">
+                <th
+                    class="w-16 px-4 py-3.5 text-left text-[12px] font-extrabold tracking-wider text-charcoal uppercase"
+                >
                     ID
                 </th>
-                <th class="px-4 py-3.5 text-left text-[12px] font-extrabold text-charcoal uppercase tracking-wider">
+                <th
+                    class="px-4 py-3.5 text-left text-[12px] font-extrabold tracking-wider text-charcoal uppercase"
+                >
                     Customer
                 </th>
-                <th class="px-4 py-3.5 text-center text-[12px] font-extrabold text-charcoal uppercase tracking-wider w-24">
+                <th
+                    class="w-24 px-4 py-3.5 text-center text-[12px] font-extrabold tracking-wider text-charcoal uppercase"
+                >
                     Produk
                 </th>
-                <th class="px-4 py-3.5 text-right text-[12px] font-extrabold text-charcoal uppercase tracking-wider w-36">
+                <th
+                    class="w-36 px-4 py-3.5 text-right text-[12px] font-extrabold tracking-wider text-charcoal uppercase"
+                >
                     Total Bayar
                 </th>
-                <th class="px-4 py-3.5 text-left text-[12px] font-extrabold text-charcoal uppercase tracking-wider w-32">
+                <th
+                    class="w-32 px-4 py-3.5 text-left text-[12px] font-extrabold tracking-wider text-charcoal uppercase"
+                >
                     Metode
                 </th>
-                <th class="px-4 py-3.5 text-left text-[12px] font-extrabold text-charcoal uppercase tracking-wider w-36">
+                <th
+                    class="w-36 px-4 py-3.5 text-left text-[12px] font-extrabold tracking-wider text-charcoal uppercase"
+                >
                     Status
                 </th>
-                <th class="px-4 py-3.5 text-left text-[12px] font-extrabold text-charcoal uppercase tracking-wider w-32">
+                <th
+                    class="w-32 px-4 py-3.5 text-left text-[12px] font-extrabold tracking-wider text-charcoal uppercase"
+                >
                     Tanggal
                 </th>
-                <th class="px-4 py-3.5 text-center text-[12px] font-extrabold text-charcoal uppercase tracking-wider w-20">
+                <th
+                    class="w-20 px-4 py-3.5 text-center text-[12px] font-extrabold tracking-wider text-charcoal uppercase"
+                >
                     Aksi
                 </th>
             </template>
@@ -456,32 +508,48 @@ const closeDetailModal = () => {
                 <tr
                     v-for="transaction in transactions.data"
                     :key="transaction.id"
-                    class="hover:bg-cloud-surface/50 transition-colors"
+                    class="transition-colors hover:bg-cloud-surface/50"
                 >
                     <!-- ID -->
                     <td class="px-4 py-4">
-                        <span class="text-[13px] font-bold text-charcoal/60">#{{ transaction.id }}</span>
+                        <span class="text-[13px] font-bold text-charcoal/60"
+                            >#{{ transaction.id }}</span
+                        >
                     </td>
 
                     <!-- Customer -->
                     <td class="px-4 py-4">
-                        <div v-if="transaction.customer?.user" class="flex items-center gap-2.5">
-                            <UserAvatar :user="transaction.customer.user" size="sm" />
+                        <div
+                            v-if="transaction.customer?.user"
+                            class="flex items-center gap-2.5"
+                        >
+                            <UserAvatar
+                                :user="transaction.customer.user"
+                                size="sm"
+                            />
                             <div class="min-w-0">
-                                <p class="text-[14px] font-bold text-night-ink truncate">
+                                <p
+                                    class="truncate text-[14px] font-bold text-night-ink"
+                                >
                                     {{ transaction.customer.user.name }}
                                 </p>
-                                <p class="text-[12px] text-charcoal/70 truncate">
+                                <p
+                                    class="truncate text-[12px] text-charcoal/70"
+                                >
                                     {{ transaction.customer.user.email }}
                                 </p>
                             </div>
                         </div>
-                        <span v-else class="text-[13px] text-charcoal/50 italic">-</span>
+                        <span v-else class="text-[13px] text-charcoal/50 italic"
+                            >-</span
+                        >
                     </td>
 
                     <!-- Produk -->
                     <td class="px-4 py-4 text-center">
-                        <span class="inline-flex items-center gap-1 text-[13px] font-bold text-charcoal">
+                        <span
+                            class="inline-flex items-center gap-1 text-[13px] font-bold text-charcoal"
+                        >
                             <ShoppingCart class="size-3.5 text-charcoal/60" />
                             {{ transaction.details?.length ?? 0 }} item
                         </span>
@@ -522,7 +590,7 @@ const closeDetailModal = () => {
                         <div class="flex items-center justify-center gap-1">
                             <button
                                 @click="openDetailModal(transaction)"
-                                class="p-2 rounded-lg border-2 border-b-[3px] border-border-gray text-charcoal hover:text-night-ink hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2 transition-all"
+                                class="rounded-lg border-2 border-b-[3px] border-border-gray p-2 text-charcoal transition-all hover:bg-cloud-surface hover:text-night-ink active:translate-y-0.5 active:border-b-2"
                                 title="Lihat Detail"
                             >
                                 <Eye class="size-4" />
@@ -546,6 +614,8 @@ const closeDetailModal = () => {
     <ProductTransactionDetailModal
         :show="isDetailModalOpen"
         :transaction="targetTransaction"
+        :drivers="drivers"
+        :basemap-api-key="basemapApiKey"
         @close="closeDetailModal"
     />
 </template>

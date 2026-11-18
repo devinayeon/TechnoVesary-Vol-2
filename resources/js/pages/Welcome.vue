@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { Head } from "@inertiajs/vue3";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import TheNavbar from "@/components/Landing/TheNavbar.vue";
-import HeroSection from "@/components/Landing/HeroSection.vue";
-import MapPickupSection from "@/components/Landing/MapPickupSection.vue";
-import HowItWorksSection from "@/components/Landing/HowItWorksSection.vue";
-import WasteCategorySection from "@/components/Landing/WasteCategorySection.vue";
-import PointsAchievementSection from "@/components/Landing/PointsAchievementSection.vue";
-import SubscriptionSection from "@/components/Landing/SubscriptionSection.vue";
-import UpcycleStoreSection from "@/components/Landing/UpcycleStoreSection.vue";
-import ArticleSection from "@/components/Landing/ArticleSection.vue";
-import TestimonialSection from "@/components/Landing/TestimonialSection.vue";
-import FaqSection from "@/components/Landing/FaqSection.vue";
-import CtaSection from "@/components/Landing/CtaSection.vue";
-import TheFooter from "@/components/Landing/TheFooter.vue";
+import { onMounted } from 'vue';
+import { Head } from '@inertiajs/vue3';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import TheNavbar from '@/components/Landing/TheNavbar.vue';
+import HeroSection from '@/components/Landing/HeroSection.vue';
+import MapPickupSection from '@/components/Landing/MapPickupSection.vue';
+import HowItWorksSection from '@/components/Landing/HowItWorksSection.vue';
+import WasteCategorySection from '@/components/Landing/WasteCategorySection.vue';
+import PointsAchievementSection from '@/components/Landing/PointsAchievementSection.vue';
+import SubscriptionSection from '@/components/Landing/SubscriptionSection.vue';
+import UpcycleStoreSection from '@/components/Landing/UpcycleStoreSection.vue';
+import ArticleSection from '@/components/Landing/ArticleSection.vue';
+import TestimonialSection from '@/components/Landing/TestimonialSection.vue';
+import FaqSection from '@/components/Landing/FaqSection.vue';
+import CtaSection from '@/components/Landing/CtaSection.vue';
+import TheFooter from '@/components/Landing/TheFooter.vue';
 
 interface WasteCategory {
     id: number;
@@ -72,7 +72,7 @@ defineProps<{
 }>();
 
 onMounted(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
 
         // Pastikan ScrollTrigger menghitung posisi akurat setelah layout dan gambar termuat
@@ -80,7 +80,7 @@ onMounted(() => {
             ScrollTrigger.refresh();
         }, 300);
 
-        window.addEventListener("load", () => {
+        window.addEventListener('load', () => {
             ScrollTrigger.refresh();
         });
     }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { watch, computed } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import { X, LucideRecycle } from "lucide-vue-next";
+import { watch, computed } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import { X, LucideRecycle } from 'lucide-vue-next';
 
 export interface WasteCategoryData {
     id?: number;
@@ -17,15 +17,15 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    (e: "close"): void;
+    (e: 'close'): void;
 }>();
 
 const isEdit = computed(() => !!props.category && !!props.category.id);
 
 const form = useForm({
-    name: "",
+    name: '',
     points_per_kg: 1000,
-    description: "",
+    description: '',
 });
 
 // Sync form values whenever modal opens or category changes
@@ -35,13 +35,13 @@ watch(
         if (isOpen) {
             form.clearErrors();
             if (props.category) {
-                form.name = props.category.name || "";
+                form.name = props.category.name || '';
                 form.points_per_kg = props.category.points_per_kg || 1000;
-                form.description = props.category.description || "";
+                form.description = props.category.description || '';
             } else {
-                form.name = "";
+                form.name = '';
                 form.points_per_kg = 1000;
-                form.description = "";
+                form.description = '';
             }
         }
     },
@@ -51,7 +51,7 @@ watch(
 const handleClose = () => {
     if (form.processing) return;
     form.clearErrors();
-    emit("close");
+    emit('close');
 };
 
 const submit = () => {
@@ -60,15 +60,15 @@ const submit = () => {
             preserveScroll: true,
             onSuccess: () => {
                 form.reset();
-                emit("close");
+                emit('close');
             },
         });
     } else {
-        form.post("/admin/waste-categories", {
+        form.post('/admin/waste-categories', {
             preserveScroll: true,
             onSuccess: () => {
                 form.reset();
-                emit("close");
+                emit('close');
             },
         });
     }
@@ -87,19 +87,19 @@ const submit = () => {
         >
             <div
                 v-if="show"
-                class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-ink/50 backdrop-blur-xs overflow-y-auto"
+                class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-night-ink/50 p-4 backdrop-blur-xs"
                 @click.self="handleClose"
             >
                 <div
-                    class="w-full max-w-[560px] bg-paper-white border-2 border-border-gray rounded-[24px] p-6 sm:p-8 shadow-2xl relative my-8 animate-in fade-in zoom-in-95 duration-150"
+                    class="animate-in fade-in zoom-in-95 relative my-8 w-full max-w-[560px] rounded-[24px] border-2 border-border-gray bg-paper-white p-6 shadow-2xl duration-150 sm:p-8"
                 >
                     <!-- Header -->
                     <div
-                        class="flex items-start justify-between gap-4 mb-5 pb-4 border-b border-border-gray/70"
+                        class="mb-5 flex items-start justify-between gap-4 border-b border-border-gray/70 pb-4"
                     >
                         <div class="flex items-center gap-3">
                             <div
-                                class="size-11 rounded-2xl bg-sprout-tint text-eco-green-dark border-2 border-eco-green/30 flex items-center justify-center shrink-0 shadow-2xs"
+                                class="flex size-11 shrink-0 items-center justify-center rounded-2xl border-2 border-eco-green/30 bg-sprout-tint text-eco-green-dark shadow-2xs"
                             >
                                 <LucideRecycle
                                     class="size-6 text-eco-green-dark"
@@ -107,28 +107,28 @@ const submit = () => {
                             </div>
                             <div>
                                 <h3
-                                    class="text-[20px] sm:text-[22px] font-extrabold text-night-ink leading-tight"
+                                    class="text-[20px] leading-tight font-extrabold text-night-ink sm:text-[22px]"
                                 >
                                     {{
                                         isEdit
-                                            ? "Edit Kategori Sampah"
-                                            : "Tambah Kategori Sampah"
+                                            ? 'Edit Kategori Sampah'
+                                            : 'Tambah Kategori Sampah'
                                     }}
                                 </h3>
                                 <p
-                                    class="text-[13px] font-medium text-charcoal mt-0.5"
+                                    class="mt-0.5 text-[13px] font-medium text-charcoal"
                                 >
                                     {{
                                         isEdit
-                                            ? "Perbarui informasi dan nilai poin per kg."
-                                            : "Tambahkan jenis sampah baru dan tetapkan nilai poinnya."
+                                            ? 'Perbarui informasi dan nilai poin per kg.'
+                                            : 'Tambahkan jenis sampah baru dan tetapkan nilai poinnya.'
                                     }}
                                 </p>
                             </div>
                         </div>
                         <button
                             type="button"
-                            class="p-2 rounded-xl text-charcoal hover:bg-cloud-surface hover:text-night-ink transition-colors cursor-pointer"
+                            class="cursor-pointer rounded-xl p-2 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                             @click="handleClose"
                             :disabled="form.processing"
                             aria-label="Tutup Modal"
@@ -142,7 +142,7 @@ const submit = () => {
                         <!-- Field: Nama Kategori -->
                         <div>
                             <label
-                                class="block text-[14px] font-extrabold text-night-ink mb-1.5 flex items-center gap-2"
+                                class="mb-1.5 block flex items-center gap-2 text-[14px] font-extrabold text-night-ink"
                             >
                                 <span>Nama Kategori Sampah</span>
                                 <span class="text-red-500">*</span>
@@ -151,7 +151,7 @@ const submit = () => {
                                 v-model="form.name"
                                 type="text"
                                 placeholder="Contoh: Plastik PET, Kertas & Kardus, Logam"
-                                class="w-full h-[48px] px-4 rounded-xl border-2 font-bold text-[14px] text-night-ink placeholder:text-charcoal/50 placeholder:font-normal transition-all outline-none"
+                                class="h-[48px] w-full rounded-xl border-2 px-4 text-[14px] font-bold text-night-ink transition-all outline-none placeholder:font-normal placeholder:text-charcoal/50"
                                 :class="[
                                     form.errors.name
                                         ? 'border-red-400 bg-red-50/30 focus:border-red-500 focus:ring-4 focus:ring-red-100'
@@ -161,7 +161,7 @@ const submit = () => {
                             />
                             <p
                                 v-if="form.errors.name"
-                                class="mt-1.5 text-[12px] font-bold text-red-600 flex items-center gap-1"
+                                class="mt-1.5 flex items-center gap-1 text-[12px] font-bold text-red-600"
                             >
                                 <span>•</span> {{ form.errors.name }}
                             </p>
@@ -170,7 +170,7 @@ const submit = () => {
                         <!-- Field: Poin per Kg -->
                         <div>
                             <label
-                                class="block text-[14px] font-extrabold text-night-ink mb-1.5 flex items-center gap-2"
+                                class="mb-1.5 block flex items-center gap-2 text-[14px] font-extrabold text-night-ink"
                             >
                                 <span>Nilai Poin per Kilogram (Kg)</span>
                                 <span class="text-red-500">*</span>
@@ -182,7 +182,7 @@ const submit = () => {
                                     min="0"
                                     step="50"
                                     placeholder="Contoh: 3500"
-                                    class="w-full h-[48px] pl-4 pr-18 rounded-xl border-2 font-extrabold text-[15px] text-night-ink transition-all outline-none"
+                                    class="h-[48px] w-full rounded-xl border-2 pr-18 pl-4 text-[15px] font-extrabold text-night-ink transition-all outline-none"
                                     :class="[
                                         form.errors.points_per_kg
                                             ? 'border-red-400 bg-red-50/30 focus:border-red-500 focus:ring-4 focus:ring-red-100'
@@ -191,7 +191,7 @@ const submit = () => {
                                     required
                                 />
                                 <div
-                                    class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-[13px] font-extrabold text-charcoal"
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-[13px] font-extrabold text-charcoal"
                                 >
                                     Poin / kg
                                 </div>
@@ -204,7 +204,7 @@ const submit = () => {
                             </p>
                             <p
                                 v-if="form.errors.points_per_kg"
-                                class="mt-1 text-[12px] font-bold text-red-600 flex items-center gap-1"
+                                class="mt-1 flex items-center gap-1 text-[12px] font-bold text-red-600"
                             >
                                 <span>•</span> {{ form.errors.points_per_kg }}
                             </p>
@@ -213,11 +213,11 @@ const submit = () => {
                         <!-- Field: Deskripsi -->
                         <div>
                             <label
-                                class="block text-[14px] font-extrabold text-night-ink mb-1.5 flex items-center gap-2"
+                                class="mb-1.5 block flex items-center gap-2 text-[14px] font-extrabold text-night-ink"
                             >
                                 <span>Deskripsi & Kriteria Sampah</span>
                                 <span
-                                    class="text-charcoal/60 font-medium text-[12px]"
+                                    class="text-[12px] font-medium text-charcoal/60"
                                     >(Opsional)</span
                                 >
                             </label>
@@ -225,7 +225,7 @@ const submit = () => {
                                 v-model="form.description"
                                 rows="3"
                                 placeholder="Jelaskan jenis barang atau kondisi yang dapat diterima (misal: botol bersih tanpa tutup, kardus kering, dsb)..."
-                                class="w-full p-3.5 rounded-xl border-2 font-medium text-[14px] text-night-ink placeholder:text-charcoal/50 transition-all outline-none resize-none"
+                                class="w-full resize-none rounded-xl border-2 p-3.5 text-[14px] font-medium text-night-ink transition-all outline-none placeholder:text-charcoal/50"
                                 :class="[
                                     form.errors.description
                                         ? 'border-red-400 bg-red-50/30 focus:border-red-500 focus:ring-4 focus:ring-red-100'
@@ -234,7 +234,7 @@ const submit = () => {
                             ></textarea>
                             <p
                                 v-if="form.errors.description"
-                                class="mt-1 text-[12px] font-bold text-red-600 flex items-center gap-1"
+                                class="mt-1 flex items-center gap-1 text-[12px] font-bold text-red-600"
                             >
                                 <span>•</span> {{ form.errors.description }}
                             </p>
@@ -242,11 +242,11 @@ const submit = () => {
 
                         <!-- Footer Actions -->
                         <div
-                            class="flex items-center justify-end gap-3 pt-4 border-t border-border-gray/70"
+                            class="flex items-center justify-end gap-3 border-t border-border-gray/70 pt-4"
                         >
                             <button
                                 type="button"
-                                class="px-5 h-[46px] rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white font-extrabold text-[14px] text-night-ink hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                                class="h-[46px] cursor-pointer rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white px-5 text-[14px] font-extrabold text-night-ink transition-all hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2 disabled:cursor-not-allowed disabled:opacity-60"
                                 @click="handleClose"
                                 :disabled="form.processing"
                             >
@@ -254,14 +254,14 @@ const submit = () => {
                             </button>
                             <button
                                 type="submit"
-                                class="px-6 h-[46px] rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green font-extrabold text-[14px] text-white hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-2xs"
+                                class="flex h-[46px] cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green px-6 text-[14px] font-extrabold text-white shadow-2xs transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2 disabled:cursor-not-allowed disabled:opacity-60"
                                 :disabled="form.processing"
                             >
                                 <span v-if="form.processing">Menyimpan...</span>
                                 <span v-else>{{
                                     isEdit
-                                        ? "Perbarui Kategori"
-                                        : "Simpan Kategori"
+                                        ? 'Perbarui Kategori'
+                                        : 'Simpan Kategori'
                                 }}</span>
                             </button>
                         </div>

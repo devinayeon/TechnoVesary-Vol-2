@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\Log;
 class OsmRoutingService
 {
     protected string $baseUrl;
+
     protected string $profile;
+
     protected int $timeout;
+
     protected bool $cacheEnabled;
+
     protected int $cacheTtl;
 
     public function __construct()
@@ -27,17 +31,13 @@ class OsmRoutingService
     /**
      * Get driving route between two coordinate points.
      *
-     * @param float $startLat
-     * @param float $startLng
-     * @param float $endLat
-     * @param float $endLng
-     * @param array<string, mixed> $options
+     * @param  array<string, mixed>  $options
      * @return array<string, mixed>
      */
     public function getRoute(float $startLat, float $startLng, float $endLat, float $endLng, array $options = []): array
     {
         $profile = $options['profile'] ?? $this->profile;
-        
+
         // Cache key with 4 decimal places (~11 meters precision)
         $cacheKey = sprintf(
             'osrm_route_%s_%.4f_%.4f_%.4f_%.4f',
@@ -75,7 +75,7 @@ class OsmRoutingService
                 }, $rawCoordinates);
 
                 $steps = [];
-                if (!empty($routeData['legs'][0]['steps'])) {
+                if (! empty($routeData['legs'][0]['steps'])) {
                     foreach ($routeData['legs'][0]['steps'] as $step) {
                         $steps[] = [
                             'name' => $step['name'] ?? '',
@@ -111,7 +111,7 @@ class OsmRoutingService
                 'body' => $response->json(),
             ]);
         } catch (Exception $e) {
-            Log::error('OSRM service connection error: ' . $e->getMessage(), [
+            Log::error('OSRM service connection error: '.$e->getMessage(), [
                 'start' => [$startLat, $startLng],
                 'end' => [$endLat, $endLng],
             ]);
@@ -124,8 +124,8 @@ class OsmRoutingService
     /**
      * Calculate distance and duration matrix between origins and destinations using OSRM Table API.
      *
-     * @param array<int, array{lat: float, lng: float}> $origins
-     * @param array<int, array{lat: float, lng: float}> $destinations
+     * @param  array<int, array{lat: float, lng: float}>  $origins
+     * @param  array<int, array{lat: float, lng: float}>  $destinations
      * @return array<string, mixed>|null
      */
     public function getDistanceMatrix(array $origins, array $destinations): ?array
@@ -158,7 +158,7 @@ class OsmRoutingService
                 ];
             }
         } catch (Exception $e) {
-            Log::error('OSRM Distance Matrix failed: ' . $e->getMessage());
+            Log::error('OSRM Distance Matrix failed: '.$e->getMessage());
         }
 
         return null;
@@ -167,9 +167,6 @@ class OsmRoutingService
     /**
      * Find the nearest available driver based on shortest road driving time/distance.
      *
-     * @param float $targetLat
-     * @param float $targetLng
-     * @param iterable $drivers
      * @return array<string, mixed>|null
      */
     public function findNearestDriver(float $targetLat, float $targetLng, iterable $drivers): ?array
@@ -195,7 +192,7 @@ class OsmRoutingService
         $destinations = [['lat' => $targetLat, 'lng' => $targetLng]];
         $matrix = $this->getDistanceMatrix($origins, $destinations);
 
-        if ($matrix && !empty($matrix['durations'])) {
+        if ($matrix && ! empty($matrix['durations'])) {
             $bestIndex = null;
             $bestDuration = INF;
 

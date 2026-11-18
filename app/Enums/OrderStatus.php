@@ -7,6 +7,7 @@ enum OrderStatus: string
     case PENDING = 'pending';
     case PROCESSING = 'processing';
     case DELIVERING = 'delivering';
+    case DELIVERED = 'delivered';
     case COMPLETED = 'completed';
     case CANCELED = 'canceled';
 
@@ -16,7 +17,8 @@ enum OrderStatus: string
             self::PENDING => 'Menunggu Pembayaran',
             self::PROCESSING => 'Sedang Diproses Gudang',
             self::DELIVERING => 'Sedang Dikirim Driver',
-            self::COMPLETED => 'Pesanan Diterima',
+            self::DELIVERED => 'Pesanan Terkirim',
+            self::COMPLETED => 'Pesanan Selesai',
             self::CANCELED => 'Pesanan Dibatalkan',
         };
     }

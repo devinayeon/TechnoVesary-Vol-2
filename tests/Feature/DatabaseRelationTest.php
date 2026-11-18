@@ -1,17 +1,13 @@
 <?php
 
-use App\Enums\OrderStatus;
 use App\Enums\PaymentMethod;
 use App\Enums\PickupStatus;
 use App\Enums\PointType;
-use App\Enums\TransactionStatus;
-use App\Enums\UserRole;
 use App\Models\Admin;
 use App\Models\Article;
 use App\Models\Customer;
 use App\Models\Driver;
 use App\Models\Product;
-use App\Models\SubscriptionTransaction;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\WasteDeposit;

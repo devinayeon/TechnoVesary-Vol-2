@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { Link, usePage } from "@inertiajs/vue3";
+import { computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
 import {
     LayoutDashboard,
     Users,
@@ -14,20 +14,21 @@ import {
     LogOut,
     Sparkles,
     Newspaper,
-} from "lucide-vue-next";
+    Package,
+} from 'lucide-vue-next';
 
 defineProps<{
     isMobileOpen?: boolean;
 }>();
 
 const emit = defineEmits<{
-    (e: "close"): void;
+    (e: 'close'): void;
 }>();
 
 const page = usePage();
 const currentPath = computed(() => page.url);
 const role = computed(() => {
-    return ((page.props.auth as any)?.user?.role as string) || "customer";
+    return ((page.props.auth as any)?.user?.role as string) || 'customer';
 });
 
 interface NavItem {
@@ -42,120 +43,139 @@ const navItems = computed<NavItem[]>(() => {
     const r = role.value;
     const url = currentPath.value;
 
-    if (r === "admin") {
+    if (r === 'admin') {
         return [
             {
-                label: "Dashboard",
-                href: "/admin/dashboard",
+                label: 'Dashboard',
+                href: '/admin/dashboard',
                 icon: LayoutDashboard,
-                isActive: url.startsWith("/admin/dashboard"),
+                isActive: url.startsWith('/admin/dashboard'),
             },
             {
-                label: "Pengguna",
-                href: "/admin/users",
+                label: 'Pengguna',
+                href: '/admin/users',
                 icon: Users,
-                isActive: url.startsWith("/admin/users"),
+                isActive: url.startsWith('/admin/users'),
             },
             {
-                label: "Kategori Sampah",
-                href: "/admin/waste-categories",
+                label: 'Kategori Sampah',
+                href: '/admin/waste-categories',
                 icon: Recycle,
-                isActive: url.startsWith("/admin/waste-categories"),
+                isActive: url.startsWith('/admin/waste-categories'),
             },
 
             {
-                label: "Artikel",
-                href: "/admin/articles",
+                label: 'Artikel',
+                href: '/admin/articles',
                 icon: Newspaper,
-                isActive: url.startsWith("/admin/articles"),
+                isActive: url.startsWith('/admin/articles'),
             },
             {
-                label: "Upcycle Store",
-                href: "/admin/products",
+                label: 'Upcycle Store',
+                href: '/admin/products',
                 icon: ShoppingBag,
-                isActive: url.startsWith("/admin/products"),
+                isActive: url.startsWith('/admin/products'),
             },
             {
-                label: "Langganan",
-                href: "/admin/subscriptions",
+                label: 'Langganan',
+                href: '/admin/subscriptions',
                 icon: CreditCard,
-                isActive: url.startsWith("/admin/subscriptions"),
+                isActive: url.startsWith('/admin/subscriptions'),
             },
             {
-                label: "Riwayat Penjemputan",
-                href: "/admin/pickup-history",
+                label: 'Riwayat Penjemputan',
+                href: '/admin/pickup-history',
                 icon: Truck,
-                isActive: url.startsWith("/admin/pickup-history"),
+                isActive: url.startsWith('/admin/pickup-history'),
             },
             {
-                label: "Transaksi Toko",
-                href: "/admin/product-transactions",
+                label: 'Transaksi Toko',
+                href: '/admin/product-transactions',
                 icon: ShoppingCart,
-                isActive: url.startsWith("/admin/product-transactions"),
+                isActive: url.startsWith('/admin/product-transactions'),
             },
         ];
-    } else if (r === "driver") {
+    } else if (r === 'driver') {
         return [
             {
-                label: "Dashboard",
-                href: "/driver/dashboard",
+                label: 'Dashboard',
+                href: '/driver/dashboard',
                 icon: LayoutDashboard,
-                isActive: url.startsWith("/driver/dashboard"),
+                isActive: url.startsWith('/driver/dashboard'),
             },
             {
-                label: "Tugas Jemput",
-                href: "#",
+                label: 'Tugas Jemput',
+                href: '/driver/pickups',
                 icon: Truck,
-                isActive: false,
-                badge: "3 Baru",
+                isActive:
+                    url.startsWith('/driver/pickups') &&
+                    !url.startsWith('/driver/pickups/history'),
             },
             {
-                label: "Riwayat Selesai",
-                href: "#",
+                label: 'Antar Pesanan Toko',
+                href: '/driver/deliveries',
+                icon: Package,
+                isActive: url.startsWith('/driver/deliveries'),
+            },
+            {
+                label: 'Riwayat Selesai',
+                href: '/driver/pickups/history',
                 icon: Recycle,
-                isActive: false,
+                isActive: url.startsWith('/driver/pickups/history'),
             },
             {
-                label: "Profil Saya",
-                href: "/profile",
+                label: 'Profil Saya',
+                href: '/profile',
                 icon: User,
-                isActive: url.startsWith("/profile"),
+                isActive: url.startsWith('/profile'),
             },
         ];
     } else {
         // Customer
         return [
             {
-                label: "Dashboard",
-                href: "/customer/dashboard",
+                label: 'Dashboard',
+                href: '/customer/dashboard',
                 icon: LayoutDashboard,
-                isActive: url.startsWith("/customer/dashboard"),
+                isActive: url.startsWith('/customer/dashboard'),
             },
             {
-                label: "Setor Sampah",
-                href: "#",
-                icon: Recycle,
-                isActive: false,
-                badge: "Pilah",
+                label: 'Artikel',
+                href: '/customer/articles',
+                icon: Newspaper,
+                isActive: url.startsWith('/customer/articles'),
             },
             {
-                label: "Saldo & Poin",
-                href: "#",
+                label: 'Penjemputan',
+                href: '/customer/pickups',
+                icon: Truck,
+                isActive: url.startsWith('/customer/pickups'),
+            },
+            {
+                label: 'Riwayat Poin',
+                href: '/customer/points',
                 icon: Coins,
-                isActive: false,
+                isActive: url.startsWith('/customer/points'),
             },
             {
-                label: "Upcycle Store",
-                href: "#",
+                label: 'Upcycle Store',
+                href: '/customer/products',
                 icon: ShoppingBag,
-                isActive: false,
-                badge: "Eco",
+                isActive:
+                    url.startsWith('/customer/products') ||
+                    url.startsWith('/customer/checkout'),
             },
             {
-                label: "Profil Saya",
-                href: "/profile",
+                label: 'Pesanan Saya',
+                href: '/customer/transactions',
+                icon: ShoppingCart,
+                isActive: url.startsWith('/customer/transactions'),
+            },
+            {
+                label: 'Profil Saya',
+                href: '/profile',
                 icon: User,
-                isActive: url.startsWith("/profile"),
+                isActive: url.startsWith('/profile'),
             },
         ];
     }
@@ -163,23 +183,23 @@ const navItems = computed<NavItem[]>(() => {
 
 const roleTitle = computed(() => {
     switch (role.value) {
-        case "admin":
-            return "Ruang Admin";
-        case "driver":
-            return "Portal Driver";
+        case 'admin':
+            return 'Ruang Admin';
+        case 'driver':
+            return 'Portal Driver';
         default:
-            return "Portal Customer";
+            return 'Portal Customer';
     }
 });
 
 const dashboardHref = computed(() => {
     switch (role.value) {
-        case "admin":
-            return "/admin/dashboard";
-        case "driver":
-            return "/driver/dashboard";
+        case 'admin':
+            return '/admin/dashboard';
+        case 'driver':
+            return '/driver/dashboard';
         default:
-            return "/customer/dashboard";
+            return '/customer/dashboard';
     }
 });
 </script>
@@ -188,43 +208,43 @@ const dashboardHref = computed(() => {
     <!-- Mobile Backdrop -->
     <div
         v-if="isMobileOpen"
-        class="fixed inset-0 z-40 bg-night-ink/40 backdrop-blur-xs lg:hidden transition-opacity"
+        class="fixed inset-0 z-40 bg-night-ink/40 backdrop-blur-xs transition-opacity lg:hidden"
         @click="emit('close')"
     ></div>
 
     <!-- Sidebar Container (Fixed on desktop & slide drawer on mobile) -->
     <aside
         :class="[
-            'fixed top-0 bottom-0 left-0 z-40 flex flex-col justify-between w-[240px] h-screen bg-paper-white border-r border-border-gray transition-transform duration-300 ease-in-out',
+            'fixed top-0 bottom-0 left-0 z-40 flex h-screen w-[240px] flex-col justify-between border-r border-border-gray bg-paper-white transition-transform duration-300 ease-in-out',
             isMobileOpen
                 ? 'translate-x-0'
                 : '-translate-x-full lg:translate-x-0',
         ]"
     >
         <!-- Top Section: Brand Lockup & Navigation -->
-        <div class="p-4 flex flex-col gap-6 overflow-y-auto">
+        <div class="flex flex-col gap-6 overflow-y-auto p-4">
             <!-- Brand Logo Lockup -->
             <div
-                class="flex items-center justify-between pb-2 border-b border-border-gray/60"
+                class="flex items-center justify-between border-b border-border-gray/60 pb-2"
             >
                 <Link
                     :href="dashboardHref"
-                    class="flex items-center gap-2.5 group"
+                    class="group flex items-center gap-2.5"
                 >
                     <img
                         src="/assets/Logo/logo_hijau_biru.png"
                         alt="ReValue"
-                        class="w-8 h-8 object-contain transition-transform group-hover:scale-105"
+                        class="h-8 w-8 object-contain transition-transform group-hover:scale-105"
                     />
                     <div class="flex flex-col">
                         <span
-                            class="text-[20px] font-extrabold tracking-tight leading-none"
+                            class="text-[20px] leading-none font-extrabold tracking-tight"
                         >
                             <span class="text-night-ink">Re</span
                             ><span class="text-eco-green-dark">Value</span>
                         </span>
                         <span
-                            class="text-[11px] font-bold text-eco-green-dark uppercase tracking-wider mt-0.5"
+                            class="mt-0.5 text-[11px] font-bold tracking-wider text-eco-green-dark uppercase"
                         >
                             {{ roleTitle }}
                         </span>
@@ -233,7 +253,7 @@ const dashboardHref = computed(() => {
 
                 <button
                     type="button"
-                    class="lg:hidden p-1.5 rounded-lg text-charcoal hover:bg-cloud-surface"
+                    class="rounded-lg p-1.5 text-charcoal hover:bg-cloud-surface lg:hidden"
                     @click="emit('close')"
                 >
                     <span class="sr-only">Tutup Menu</span>
@@ -248,10 +268,10 @@ const dashboardHref = computed(() => {
                     :key="item.label"
                     :href="item.href"
                     :class="[
-                        'flex items-center justify-between px-3 h-[44px] rounded-xl text-[14px] transition-all duration-150',
+                        'flex h-[44px] items-center justify-between rounded-xl px-3 text-[14px] transition-all duration-150',
                         item.isActive
-                            ? 'bg-sprout-tint text-night-ink font-extrabold shadow-2xs'
-                            : 'text-charcoal hover:text-night-ink hover:bg-cloud-surface font-semibold',
+                            ? 'bg-sprout-tint font-extrabold text-night-ink shadow-2xs'
+                            : 'font-semibold text-charcoal hover:bg-cloud-surface hover:text-night-ink',
                     ]"
                     @click="emit('close')"
                 >
@@ -271,10 +291,10 @@ const dashboardHref = computed(() => {
                     <span
                         v-if="item.badge"
                         :class="[
-                            'text-[10px] font-extrabold px-1.5 py-0.5 rounded-full uppercase tracking-wider',
+                            'rounded-full px-1.5 py-0.5 text-[10px] font-extrabold tracking-wider uppercase',
                             item.isActive
                                 ? 'bg-eco-green-dark text-white'
-                                : 'bg-cloud-surface text-charcoal border border-border-gray',
+                                : 'border border-border-gray bg-cloud-surface text-charcoal',
                         ]"
                     >
                         {{ item.badge }}
@@ -285,16 +305,16 @@ const dashboardHref = computed(() => {
 
         <!-- Bottom Section: Workspace Note & Logout -->
         <div
-            class="p-4 border-t border-border-gray/60 flex flex-col gap-3 bg-paper-white"
+            class="flex flex-col gap-3 border-t border-border-gray/60 bg-paper-white p-4"
         >
             <!-- Workspace Slogan Box -->
             <div
-                class="bg-cloud-surface rounded-2xl p-3 border border-border-gray/60 flex items-start gap-2.5"
+                class="flex items-start gap-2.5 rounded-2xl border border-border-gray/60 bg-cloud-surface p-3"
             >
-                <Sparkles class="size-4 text-sunlight-gold shrink-0 mt-0.5" />
+                <Sparkles class="mt-0.5 size-4 shrink-0 text-sunlight-gold" />
                 <div class="text-[12px] leading-snug">
                     <p class="font-extrabold text-night-ink">ReValue Space</p>
-                    <p class="text-charcoal/80 font-medium">
+                    <p class="font-medium text-charcoal/80">
                         Kelola langkah baik hari ini.
                     </p>
                 </div>
@@ -305,7 +325,7 @@ const dashboardHref = computed(() => {
                 href="/logout"
                 method="post"
                 as="button"
-                class="w-full flex items-center gap-3 px-3 h-[42px] rounded-xl text-[14px] font-bold text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors cursor-pointer text-left"
+                class="flex h-[42px] w-full cursor-pointer items-center gap-3 rounded-xl px-3 text-left text-[14px] font-bold text-red-500 transition-colors hover:bg-red-50 hover:text-red-600"
             >
                 <LogOut class="size-5 shrink-0" />
                 <span>Keluar dari Akun</span>

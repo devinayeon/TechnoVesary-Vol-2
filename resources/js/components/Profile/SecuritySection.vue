@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import type { User } from "@/types/auth";
-import AppButton from "@/components/Landing/AppButton.vue";
-import StatusChip from "@/components/Dashboard/StatusChip.vue";
-import DetailField from "./DetailField.vue";
+import { computed, ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import type { User } from '@/types/auth';
+import AppButton from '@/components/Landing/AppButton.vue';
+import StatusChip from '@/components/Dashboard/StatusChip.vue';
+import DetailField from './DetailField.vue';
 
 const props = defineProps<{
     user: User;
@@ -13,16 +13,16 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-    (e: "goToEditEmail"): void;
+    (e: 'goToEditEmail'): void;
 }>();
 
 const isChangingPassword = ref(false);
 const passwordSuccess = ref(false);
 
 const passwordForm = useForm({
-    current_password: "",
-    password: "",
-    password_confirmation: "",
+    current_password: '',
+    password: '',
+    password_confirmation: '',
 });
 
 const verificationForm = useForm({});
@@ -30,7 +30,7 @@ const verificationForm = useForm({});
 const isEmailVerified = computed(() => !!props.user.email_verified_at);
 
 const updatePassword = () => {
-    passwordForm.put("/password", {
+    passwordForm.put('/password', {
         preserveScroll: true,
         onSuccess: () => {
             passwordForm.reset();
@@ -44,17 +44,19 @@ const updatePassword = () => {
 };
 
 const resendVerification = () => {
-    verificationForm.post("/email/verification-notification", {
+    verificationForm.post('/email/verification-notification', {
         preserveScroll: true,
     });
 };
 </script>
 
 <template>
-    <div class="flex flex-col gap-6 w-full">
+    <div class="flex w-full flex-col gap-6">
         <!-- Heading -->
         <div class="flex flex-col gap-1">
-            <h1 class="text-[28px] font-extrabold text-night-ink tracking-tight">
+            <h1
+                class="text-[28px] font-extrabold tracking-tight text-night-ink"
+            >
                 Keamanan akun
             </h1>
             <p class="text-[14px] text-charcoal">
@@ -65,7 +67,7 @@ const resendVerification = () => {
         <!-- Success Alert if password changed -->
         <div
             v-if="passwordSuccess || status === 'password-updated'"
-            class="bg-sprout-tint/80 border border-eco-green/40 p-4 rounded-xl text-night-ink font-bold text-sm shadow-xs animate-in fade-in duration-300"
+            class="animate-in fade-in rounded-xl border border-eco-green/40 bg-sprout-tint/80 p-4 text-sm font-bold text-night-ink shadow-xs duration-300"
         >
             Kata sandi berhasil diperbarui!
         </div>
@@ -73,27 +75,36 @@ const resendVerification = () => {
         <!-- Verification sent alert -->
         <div
             v-if="status === 'verification-link-sent'"
-            class="bg-sky-tint/80 border border-sky-blue/40 p-4 rounded-xl text-night-ink font-bold text-sm shadow-xs animate-in fade-in duration-300"
+            class="animate-in fade-in rounded-xl border border-sky-blue/40 bg-sky-tint/80 p-4 text-sm font-bold text-night-ink shadow-xs duration-300"
         >
-            Tautan verifikasi baru telah dikirimkan ke alamat email kamu. Silakan periksa kotak masuk email.
+            Tautan verifikasi baru telah dikirimkan ke alamat email kamu.
+            Silakan periksa kotak masuk email.
         </div>
 
         <!-- 2 Columns Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
             <!-- Left Card: Password -->
             <div
-                class="lg:col-span-7 bg-paper-white border border-border-gray rounded-[20px] p-6 sm:p-8 flex flex-col gap-5 shadow-xs"
+                class="flex flex-col gap-5 rounded-[20px] border border-border-gray bg-paper-white p-6 shadow-xs sm:p-8 lg:col-span-7"
             >
-                <h3 class="text-[21px] font-extrabold text-night-ink leading-snug">
+                <h3
+                    class="text-[21px] leading-snug font-extrabold text-night-ink"
+                >
                     Kata sandi
                 </h3>
 
-                <p class="text-[13px] text-charcoal leading-relaxed font-normal">
-                    Kata sandi tidak ditampilkan. Gunakan kata sandi yang unik untuk akun ReValue.
+                <p
+                    class="text-[13px] leading-relaxed font-normal text-charcoal"
+                >
+                    Kata sandi tidak ditampilkan. Gunakan kata sandi yang unik
+                    untuk akun ReValue.
                 </p>
 
                 <!-- Normal view: Trigger button -->
-                <div v-if="!isChangingPassword" class="flex flex-col items-start gap-3 pt-2">
+                <div
+                    v-if="!isChangingPassword"
+                    class="flex flex-col items-start gap-3 pt-2"
+                >
                     <AppButton
                         variant="primary"
                         size="md"
@@ -101,7 +112,7 @@ const resendVerification = () => {
                     >
                         Ubah kata sandi
                     </AppButton>
-                    <span class="text-[12px] text-charcoal font-normal">
+                    <span class="text-[12px] font-normal text-charcoal">
                         Kata sandi lama diperlukan untuk menyimpan perubahan.
                     </span>
                 </div>
@@ -110,7 +121,7 @@ const resendVerification = () => {
                 <form
                     v-else
                     @submit.prevent="updatePassword"
-                    class="flex flex-col gap-4 pt-2 border-t border-border-gray/70"
+                    class="flex flex-col gap-4 border-t border-border-gray/70 pt-2"
                 >
                     <div class="flex flex-col gap-1.5">
                         <label class="text-[13px] font-bold text-night-ink">
@@ -120,12 +131,15 @@ const resendVerification = () => {
                             v-model="passwordForm.current_password"
                             type="password"
                             required
-                            class="h-[48px] px-4 rounded-xl border border-border-gray bg-paper-white text-[15px] text-night-ink focus:outline-none focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 transition"
-                            :class="{ 'border-rose-500': passwordForm.errors.current_password }"
+                            class="h-[48px] rounded-xl border border-border-gray bg-paper-white px-4 text-[15px] text-night-ink transition focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 focus:outline-none"
+                            :class="{
+                                'border-rose-500':
+                                    passwordForm.errors.current_password,
+                            }"
                         />
                         <span
                             v-if="passwordForm.errors.current_password"
-                            class="text-xs text-rose-500 font-semibold"
+                            class="text-xs font-semibold text-rose-500"
                         >
                             {{ passwordForm.errors.current_password }}
                         </span>
@@ -139,12 +153,14 @@ const resendVerification = () => {
                             v-model="passwordForm.password"
                             type="password"
                             required
-                            class="h-[48px] px-4 rounded-xl border border-border-gray bg-paper-white text-[15px] text-night-ink focus:outline-none focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 transition"
-                            :class="{ 'border-rose-500': passwordForm.errors.password }"
+                            class="h-[48px] rounded-xl border border-border-gray bg-paper-white px-4 text-[15px] text-night-ink transition focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 focus:outline-none"
+                            :class="{
+                                'border-rose-500': passwordForm.errors.password,
+                            }"
                         />
                         <span
                             v-if="passwordForm.errors.password"
-                            class="text-xs text-rose-500 font-semibold"
+                            class="text-xs font-semibold text-rose-500"
                         >
                             {{ passwordForm.errors.password }}
                         </span>
@@ -158,18 +174,23 @@ const resendVerification = () => {
                             v-model="passwordForm.password_confirmation"
                             type="password"
                             required
-                            class="h-[48px] px-4 rounded-xl border border-border-gray bg-paper-white text-[15px] text-night-ink focus:outline-none focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 transition"
-                            :class="{ 'border-rose-500': passwordForm.errors.password_confirmation }"
+                            class="h-[48px] rounded-xl border border-border-gray bg-paper-white px-4 text-[15px] text-night-ink transition focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 focus:outline-none"
+                            :class="{
+                                'border-rose-500':
+                                    passwordForm.errors.password_confirmation,
+                            }"
                         />
                         <span
                             v-if="passwordForm.errors.password_confirmation"
-                            class="text-xs text-rose-500 font-semibold"
+                            class="text-xs font-semibold text-rose-500"
                         >
                             {{ passwordForm.errors.password_confirmation }}
                         </span>
                     </div>
 
-                    <div class="pt-3 flex items-center justify-end gap-3 border-t border-border-gray/70">
+                    <div
+                        class="flex items-center justify-end gap-3 border-t border-border-gray/70 pt-3"
+                    >
                         <AppButton
                             variant="outline"
                             size="md"
@@ -184,7 +205,11 @@ const resendVerification = () => {
                             type="submit"
                             :disabled="passwordForm.processing"
                         >
-                            {{ passwordForm.processing ? "Menyimpan..." : "Simpan kata sandi" }}
+                            {{
+                                passwordForm.processing
+                                    ? 'Menyimpan...'
+                                    : 'Simpan kata sandi'
+                            }}
                         </AppButton>
                     </div>
                 </form>
@@ -192,9 +217,11 @@ const resendVerification = () => {
 
             <!-- Right Card: Email Security -->
             <div
-                class="lg:col-span-5 bg-paper-white border border-border-gray rounded-[20px] p-6 sm:p-8 flex flex-col gap-5 shadow-xs"
+                class="flex flex-col gap-5 rounded-[20px] border border-border-gray bg-paper-white p-6 shadow-xs sm:p-8 lg:col-span-5"
             >
-                <h3 class="text-[21px] font-extrabold text-night-ink leading-snug">
+                <h3
+                    class="text-[21px] leading-snug font-extrabold text-night-ink"
+                >
                     Email akun
                 </h3>
 
@@ -204,7 +231,11 @@ const resendVerification = () => {
                 <div class="flex flex-col gap-3 pt-1">
                     <div class="flex items-center gap-2">
                         <StatusChip
-                            :label="isEmailVerified ? 'Email terverifikasi' : 'Belum diverifikasi'"
+                            :label="
+                                isEmailVerified
+                                    ? 'Email terverifikasi'
+                                    : 'Belum diverifikasi'
+                            "
                             :tone="isEmailVerified ? 'Green' : 'Amber'"
                         />
                     </div>
@@ -214,17 +245,21 @@ const resendVerification = () => {
                         type="button"
                         :disabled="verificationForm.processing"
                         @click="resendVerification"
-                        class="text-left text-xs font-bold text-eco-green hover:underline cursor-pointer"
+                        class="cursor-pointer text-left text-xs font-bold text-eco-green hover:underline"
                     >
-                        {{ verificationForm.processing ? "Mengirim ulang..." : "Kirim ulang email verifikasi" }}
+                        {{
+                            verificationForm.processing
+                                ? 'Mengirim ulang...'
+                                : 'Kirim ulang email verifikasi'
+                        }}
                     </button>
                 </div>
 
-                <div class="pt-3 border-t border-border-gray/50">
+                <div class="border-t border-border-gray/50 pt-3">
                     <button
                         type="button"
                         @click="emit('goToEditEmail')"
-                        class="text-[13px] font-extrabold text-night-ink hover:text-eco-green transition cursor-pointer select-none"
+                        class="cursor-pointer text-[13px] font-extrabold text-night-ink transition select-none hover:text-eco-green"
                     >
                         Ubah alamat email
                     </button>

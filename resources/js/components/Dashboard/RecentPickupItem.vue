@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import StatusChip from "./StatusChip.vue";
+import StatusChip from './StatusChip.vue';
 
 withDefaults(
     defineProps<{
@@ -7,31 +7,33 @@ withDefaults(
         meta: string;
         weight: string;
         statusText?: string;
-        statusTone?: "Green" | "Neutral" | "Blue" | "Amber";
+        statusTone?: 'Green' | 'Neutral' | 'Blue' | 'Amber';
     }>(),
     {
-        statusText: "Selesai",
-        statusTone: "Green",
-    }
+        statusText: 'Selesai',
+        statusTone: 'Green',
+    },
 );
 </script>
 
 <template>
     <div
-        class="flex items-center justify-between gap-4 py-3 px-2 border-b border-border-gray/70 hover:bg-cloud-surface/50 rounded-xl transition-colors cursor-default"
+        class="flex cursor-default items-center justify-between gap-4 rounded-xl border-b border-border-gray/70 px-2 py-3 transition-colors hover:bg-cloud-surface/50"
     >
         <!-- Identity & Code/Date -->
-        <div class="flex-1 min-w-0">
-            <p class="font-bold text-[14px] text-night-ink truncate leading-tight">
+        <div class="min-w-0 flex-1">
+            <p
+                class="truncate text-[14px] leading-tight font-bold text-night-ink"
+            >
                 {{ name }}
             </p>
-            <p class="text-[12px] font-normal text-charcoal truncate mt-0.5">
+            <p class="mt-0.5 truncate text-[12px] font-normal text-charcoal">
                 {{ meta }}
             </p>
         </div>
 
         <!-- Weight Amount -->
-        <div class="font-bold text-[14px] text-night-ink shrink-0">
+        <div class="shrink-0 text-[14px] font-bold text-night-ink">
             {{ weight }}
         </div>
 

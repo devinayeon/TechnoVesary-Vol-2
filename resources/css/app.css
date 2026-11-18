@@ -4,9 +4,9 @@
 @source '../../storage/framework/views/*.php';
 
 @theme inline {
-    --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+    --font-sans:
+        'Nunito', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     --color-paper-white: #ffffff;
     --color-cloud-surface: #f7f7f7;

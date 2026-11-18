@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import AuthLayout from "@/layouts/AuthLayout.vue";
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import AuthLayout from '@/layouts/AuthLayout.vue';
 
 defineProps<{
     status?: string;
 }>();
 
 const form = useForm({
-    email: "",
+    email: '',
 });
 
 const submit = () => {
-    form.post("/forgot-password");
+    form.post('/forgot-password');
 };
 </script>
 
@@ -20,23 +20,24 @@ const submit = () => {
         <Head title="Lupa Kata Sandi - ReValue" />
 
         <!-- Title & Subtitle -->
-        <div class="mb-6 sm:mb-8 text-left">
+        <div class="mb-6 text-left sm:mb-8">
             <h1
-                class="font-extrabold text-[30px] sm:text-[36px] text-night-ink leading-[1.2] tracking-tight mb-2"
+                class="mb-2 text-[30px] leading-[1.2] font-extrabold tracking-tight text-night-ink sm:text-[36px]"
             >
                 Lupa kata sandi?
             </h1>
             <p
-                class="font-medium text-[15px] sm:text-[16px] text-charcoal leading-relaxed"
+                class="text-[15px] leading-relaxed font-medium text-charcoal sm:text-[16px]"
             >
-                Jangan khawatir. Masukkan email terdaftar Anda dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi.
+                Jangan khawatir. Masukkan email terdaftar Anda dan kami akan
+                mengirimkan tautan untuk mengatur ulang kata sandi.
             </p>
         </div>
 
         <!-- Feedback Status Alert -->
         <div
             v-if="status"
-            class="mb-6 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 p-4 text-[14px] font-bold text-night-ink"
+            class="mb-6 rounded-2xl border-2 border-eco-green/40 bg-sprout-tint p-4 text-[14px] font-bold text-night-ink"
         >
             {{ status }}
         </div>
@@ -46,7 +47,7 @@ const submit = () => {
             <div>
                 <label
                     for="email"
-                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                    class="mb-1.5 block text-[14px] font-bold text-night-ink"
                 >
                     Alamat email terdaftar
                 </label>
@@ -58,7 +59,7 @@ const submit = () => {
                     autofocus
                     autocomplete="username"
                     placeholder="nama@email.com"
-                    class="w-full h-[52px] px-4 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                    class="h-[52px] w-full rounded-xl border-2 bg-paper-white px-4 text-[15px] font-semibold text-night-ink transition-all placeholder:text-charcoal/40 focus:outline-none sm:text-[16px]"
                     :class="
                         form.errors.email
                             ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
@@ -78,7 +79,7 @@ const submit = () => {
                 <button
                     type="submit"
                     :disabled="form.processing"
-                    class="w-full h-[52px] bg-eco-green text-night-ink font-extrabold text-[15px] sm:text-[16px] rounded-2xl border-2 border-eco-green border-b-[5px] border-b-eco-green-dark shadow-xs hover:brightness-105 active:translate-y-0.5 active:border-b-2 active:shadow-none transition-all flex items-center justify-center cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="flex h-[52px] w-full cursor-pointer items-center justify-center rounded-2xl border-2 border-b-[5px] border-eco-green border-b-eco-green-dark bg-eco-green text-[15px] font-extrabold text-night-ink shadow-xs transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2 active:shadow-none disabled:cursor-not-allowed disabled:opacity-60 sm:text-[16px]"
                 >
                     <span v-if="form.processing">Mengirim tautan...</span>
                     <span v-else>Kirim tautan pemulihan</span>
@@ -87,11 +88,13 @@ const submit = () => {
         </form>
 
         <!-- Back to Login Link -->
-        <div class="mt-8 text-center flex items-center justify-center gap-2 text-[14px] font-medium text-charcoal">
+        <div
+            class="mt-8 flex items-center justify-center gap-2 text-center text-[14px] font-medium text-charcoal"
+        >
             <span>Ingat kata sandi Anda?</span>
             <Link
                 href="/login"
-                class="font-extrabold text-night-ink hover:text-eco-green-dark underline decoration-2 underline-offset-4 transition-colors"
+                class="font-extrabold text-night-ink underline decoration-2 underline-offset-4 transition-colors hover:text-eco-green-dark"
             >
                 Masuk
             </Link>

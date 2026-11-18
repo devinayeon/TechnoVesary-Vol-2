@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
-import { Link } from "@inertiajs/vue3";
-import gsap from "gsap";
+import { ref, onMounted, onUnmounted } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import gsap from 'gsap';
 
 const mascotRef = ref<HTMLElement | null>(null);
 let gsapCtx: gsap.Context | null = null;
 
 onMounted(() => {
-    if (typeof window === "undefined" || !mascotRef.value) return;
+    if (typeof window === 'undefined' || !mascotRef.value) return;
 
     gsapCtx = gsap.context(() => {
         // Idle gentle floating animation untuk maskot Valu
         gsap.to(mascotRef.value, {
-            y: "-=8",
+            y: '-=8',
             duration: 2.8,
             repeat: -1,
             yoyo: true,
-            ease: "sine.inOut",
+            ease: 'sine.inOut',
         });
     }, mascotRef.value);
 });
@@ -28,26 +28,26 @@ onUnmounted(() => {
 
 <template>
     <div
-        class="relative hidden lg:flex flex-col justify-between w-[480px] xl:w-[540px] 2xl:w-[580px] min-h-screen h-full bg-sky-tint p-8 xl:p-12 overflow-hidden shrink-0 select-none border-r-2 border-border-gray/50 lg:rounded-r-[36px] xl:rounded-r-[40px] shadow-xs"
+        class="relative hidden h-full min-h-screen w-[480px] shrink-0 flex-col justify-between overflow-hidden border-r-2 border-border-gray/50 bg-sky-tint p-8 shadow-xs select-none lg:flex lg:rounded-r-[36px] xl:w-[540px] xl:rounded-r-[40px] xl:p-12 2xl:w-[580px]"
     >
         <!-- Background Landscape Illustration (Full Edge-to-Edge) -->
         <img
             src="/assets/background/Landscape · Background.png"
             alt=""
-            class="absolute inset-0 w-full h-full object-cover object-bottom pointer-events-none"
+            class="pointer-events-none absolute inset-0 h-full w-full object-cover object-bottom"
         />
 
         <!-- Top Section: Logo & Brand Story -->
         <div class="relative z-10">
             <!-- Brand Logo Lockup -->
-            <Link href="/" class="inline-flex items-center gap-2.5 group">
+            <Link href="/" class="group inline-flex items-center gap-2.5">
                 <img
                     src="/assets/Logo/logo_hijau_biru.png"
                     alt="ReValue"
-                    class="w-11 h-11 object-contain transition-transform duration-200 group-hover:scale-105"
+                    class="h-11 w-11 object-contain transition-transform duration-200 group-hover:scale-105"
                 />
                 <span
-                    class="text-[30px] xl:text-[32px] tracking-tight font-extrabold leading-none"
+                    class="text-[30px] leading-none font-extrabold tracking-tight xl:text-[32px]"
                 >
                     <span class="text-night-ink">Re</span
                     ><span class="text-eco-green-dark">Value</span>
@@ -57,13 +57,13 @@ onUnmounted(() => {
             <!-- Brand Story Headline -->
             <div class="mt-6">
                 <h2
-                    class="font-extrabold text-[34px] xl:text-[40px] text-night-ink leading-[1.2] tracking-tight mb-3"
+                    class="mb-3 text-[34px] leading-[1.2] font-extrabold tracking-tight text-night-ink xl:text-[40px]"
                 >
                     Langkah kecilmu,<br />
                     berarti untuk bumi.
                 </h2>
                 <p
-                    class="font-medium text-[15px] xl:text-[17px] text-charcoal leading-relaxed max-w-[360px]"
+                    class="max-w-[360px] text-[15px] leading-relaxed font-medium text-charcoal xl:text-[17px]"
                 >
                     Pilah dari rumah. Kami jemput,<br />
                     lalu sampahmu jadi lebih berarti.
@@ -79,7 +79,7 @@ onUnmounted(() => {
             <img
                 src="/assets/Maskot/Valu · In the neighborhood.png"
                 alt="Valu Mascot"
-                class="w-[280px] xl:w-[320px] object-contain filter drop-shadow-[0_12px_24px_rgba(0,4,55,0.15)] transition-transform duration-300 hover:scale-105"
+                class="w-[280px] object-contain drop-shadow-[0_12px_24px_rgba(0,4,55,0.15)] filter transition-transform duration-300 hover:scale-105 xl:w-[320px]"
             />
         </div>
 
@@ -87,17 +87,17 @@ onUnmounted(() => {
         <img
             src="/assets/background/Landscape · Foreground leaves.png"
             alt=""
-            class="absolute bottom-0 left-0 right-0 w-full pointer-events-none z-15 object-contain object-bottom"
+            class="pointer-events-none absolute right-0 bottom-0 left-0 z-15 w-full object-contain object-bottom"
         />
 
         <!-- Bottom Promise Card -->
         <div
-            class="relative z-20 bg-paper-white/95 backdrop-blur-xs border-2 border-b-[4px] border-border-gray rounded-2xl p-4 shadow-sm"
+            class="relative z-20 rounded-2xl border-2 border-b-[4px] border-border-gray bg-paper-white/95 p-4 shadow-sm backdrop-blur-xs"
         >
-            <p class="font-bold text-[14px] text-night-ink">
+            <p class="text-[14px] font-bold text-night-ink">
                 Dijemput dari rumah. Ditimbang transparan.
             </p>
-            <p class="font-medium text-[13px] text-charcoal mt-0.5">
+            <p class="mt-0.5 text-[13px] font-medium text-charcoal">
                 Kebiasaan baik dimulai dari satu langkah.
             </p>
         </div>

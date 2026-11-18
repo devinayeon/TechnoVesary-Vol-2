@@ -29,7 +29,7 @@ return [
     */
     'nominatim' => [
         'base_url' => env('NOMINATIM_BASE_URL', 'https://nominatim.openstreetmap.org'),
-        'user_agent' => env('NOMINATIM_USER_AGENT', env('APP_NAME', 'TechnoVesary') . ' BankSampah/1.0 (contact@banksampah.test)'),
+        'user_agent' => env('NOMINATIM_USER_AGENT', env('APP_NAME', 'TechnoVesary').' BankSampah/1.0 (contact@banksampah.test)'),
         'timeout' => (int) env('NOMINATIM_TIMEOUT', 10),
     ],
 

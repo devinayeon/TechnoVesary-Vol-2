@@ -17,7 +17,7 @@ class UserManagementService
     /**
      * Mengambil daftar pengguna terpaginasi dengan pencarian dan filter
      *
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      */
     public function getPaginatedUsers(array $filters = [], int $perPage = 10): LengthAwarePaginator
     {
@@ -52,7 +52,7 @@ class UserManagementService
     /**
      * Membuat pengguna baru beserta record profil tabel spesifiknya secara otomatis
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function createUser(array $data): User
     {
@@ -97,7 +97,7 @@ class UserManagementService
     /**
      * Memperbarui data pengguna, opsional reset password, dan sinkronisasi profil role
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function updateUser(User $user, array $data, ?int $currentUserId = null): User
     {

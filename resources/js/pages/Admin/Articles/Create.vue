@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import DashboardLayout from "@/layouts/DashboardLayout.vue";
-import RichTextEditor from "@/components/Dashboard/RichTextEditor.vue";
-import AppDropdown from "@/components/Dashboard/AppDropdown.vue";
-import ArticleCategoryModal from "@/components/Dashboard/ArticleCategoryModal.vue";
+import { ref, watch, computed } from 'vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import RichTextEditor from '@/components/Dashboard/RichTextEditor.vue';
+import AppDropdown from '@/components/Dashboard/AppDropdown.vue';
+import ArticleCategoryModal from '@/components/Dashboard/ArticleCategoryModal.vue';
 import {
     ArrowLeft,
     UploadCloud,
@@ -16,17 +16,17 @@ import {
     Info,
     AlertCircle,
     Plus,
-} from "lucide-vue-next";
+} from 'lucide-vue-next';
 
 const props = defineProps<{
     categories: Array<{ id: number; name: string }>;
 }>();
 
 const form = useForm({
-    title: "",
-    slug: "",
-    category_id: props.categories[0]?.id ? String(props.categories[0].id) : "",
-    content: "",
+    title: '',
+    slug: '',
+    category_id: props.categories[0]?.id ? String(props.categories[0].id) : '',
+    content: '',
     photo: null as File | null,
 });
 
@@ -44,11 +44,11 @@ watch(
             form.slug = newTitle
                 .toLowerCase()
                 .trim()
-                .replace(/[^\w\s-]/g, "")
-                .replace(/[\s_-]+/g, "-")
-                .replace(/^-+|-+$/g, "");
+                .replace(/[^\w\s-]/g, '')
+                .replace(/[\s_-]+/g, '-')
+                .replace(/^-+|-+$/g, '');
         }
-    }
+    },
 );
 
 const onSlugManualInput = () => {
@@ -65,15 +65,17 @@ const handleThumbnailChange = (e: Event) => {
     const file = target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-        thumbnailError.value = "File harus berupa format gambar (JPG, PNG, atau WebP).";
-        if (target) target.value = "";
+    if (!file.type.startsWith('image/')) {
+        thumbnailError.value =
+            'File harus berupa format gambar (JPG, PNG, atau WebP).';
+        if (target) target.value = '';
         return;
     }
 
     if (file.size > 2 * 1024 * 1024) {
-        thumbnailError.value = "Ukuran gambar thumbnail terlalu besar (maksimal 2MB).";
-        if (target) target.value = "";
+        thumbnailError.value =
+            'Ukuran gambar thumbnail terlalu besar (maksimal 2MB).';
+        if (target) target.value = '';
         return;
     }
 
@@ -87,7 +89,7 @@ const removeThumbnail = () => {
     thumbnailPreview.value = null;
     thumbnailError.value = null;
     if (thumbnailInputRef.value) {
-        thumbnailInputRef.value.value = "";
+        thumbnailInputRef.value.value = '';
     }
 };
 
@@ -95,11 +97,11 @@ const categoryDropdownOptions = computed(() =>
     props.categories.map((c) => ({
         value: String(c.id),
         label: c.name,
-    }))
+    })),
 );
 
 const submit = () => {
-    form.post("/admin/articles", {
+    form.post('/admin/articles', {
         preserveScroll: true,
     });
 };
@@ -113,7 +115,7 @@ const submit = () => {
         <div class="mb-6">
             <Link
                 href="/admin/articles"
-                class="inline-flex items-center gap-2 text-[13px] font-bold text-charcoal hover:text-night-ink transition-colors mb-3 group"
+                class="group mb-3 inline-flex items-center gap-2 text-[13px] font-bold text-charcoal transition-colors hover:text-night-ink"
             >
                 <ArrowLeft
                     class="size-4 transition-transform group-hover:-translate-x-1"
@@ -122,24 +124,30 @@ const submit = () => {
             </Link>
 
             <h1
-                class="text-[26px] sm:text-[30px] font-black text-night-ink tracking-tight leading-tight"
+                class="text-[26px] leading-tight font-black tracking-tight text-night-ink sm:text-[30px]"
             >
                 Tulis artikel edukasi baru
             </h1>
-            <p class="text-[14px] font-normal text-charcoal mt-1">
-                Publikasikan artikel, panduan pemilahan sampah, atau video edukasi untuk meningkatkan kesadaran lingkungan customer.
+            <p class="mt-1 text-[14px] font-normal text-charcoal">
+                Publikasikan artikel, panduan pemilahan sampah, atau video
+                edukasi untuk meningkatkan kesadaran lingkungan customer.
             </p>
         </div>
 
         <!-- 2-Column Form Layout -->
-        <form @submit.prevent="submit" class="flex flex-col lg:flex-row items-start gap-6">
+        <form
+            @submit.prevent="submit"
+            class="flex flex-col items-start gap-6 lg:flex-row"
+        >
             <!-- Left Column: Main Editor & Metadata (Wide) -->
             <div
-                class="flex-1 w-full bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-6 sm:p-7 shadow-xs space-y-6"
+                class="w-full flex-1 space-y-6 rounded-[22px] border-2 border-b-[4px] border-border-gray bg-paper-white p-6 shadow-xs sm:p-7"
             >
                 <!-- Judul Artikel -->
                 <div>
-                    <label class="block text-[13px] font-bold text-night-ink mb-1.5">
+                    <label
+                        class="mb-1.5 block text-[13px] font-bold text-night-ink"
+                    >
                         Judul Artikel
                         <span class="text-red-500">*</span>
                     </label>
@@ -147,22 +155,29 @@ const submit = () => {
                         v-model="form.title"
                         type="text"
                         placeholder="Contoh: 5 Langkah Memilah Sampah Rumah Tangga dengan Benar"
-                        class="w-full h-[48px] px-3.5 bg-paper-white border-2 border-border-gray rounded-xl text-[15px] font-bold text-night-ink placeholder:font-normal placeholder:text-charcoal/60 focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all shadow-2xs"
+                        class="h-[48px] w-full rounded-xl border-2 border-border-gray bg-paper-white px-3.5 text-[15px] font-bold text-night-ink shadow-2xs transition-all placeholder:font-normal placeholder:text-charcoal/60 focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 focus:outline-none"
                         :class="{ 'border-red-500': form.errors.title }"
                         autofocus
                     />
-                    <p v-if="form.errors.title" class="text-[12px] font-bold text-red-600 mt-1">
+                    <p
+                        v-if="form.errors.title"
+                        class="mt-1 text-[12px] font-bold text-red-600"
+                    >
                         {{ form.errors.title }}
                     </p>
                 </div>
 
                 <!-- Slug & Kategori Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <!-- Slug URL -->
                     <div>
-                        <label class="block text-[13px] font-bold text-night-ink mb-1.5">
+                        <label
+                            class="mb-1.5 block text-[13px] font-bold text-night-ink"
+                        >
                             Slug URL
-                            <span class="text-charcoal font-normal text-[12px]">(Otomatis)</span>
+                            <span class="text-[12px] font-normal text-charcoal"
+                                >(Otomatis)</span
+                            >
                         </label>
                         <div class="relative">
                             <input
@@ -170,26 +185,31 @@ const submit = () => {
                                 @input="onSlugManualInput"
                                 type="text"
                                 placeholder="judul-artikel-anda"
-                                class="w-full h-[44px] px-3.5 bg-paper-white border-2 border-border-gray rounded-xl text-[13px] font-medium text-night-ink placeholder:text-charcoal/60 focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all"
+                                class="h-[44px] w-full rounded-xl border-2 border-border-gray bg-paper-white px-3.5 text-[13px] font-medium text-night-ink transition-all placeholder:text-charcoal/60 focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 focus:outline-none"
                                 :class="{ 'border-red-500': form.errors.slug }"
                             />
                         </div>
-                        <p v-if="form.errors.slug" class="text-[12px] font-bold text-red-600 mt-1">
+                        <p
+                            v-if="form.errors.slug"
+                            class="mt-1 text-[12px] font-bold text-red-600"
+                        >
                             {{ form.errors.slug }}
                         </p>
                     </div>
 
                     <!-- Kategori -->
                     <div>
-                        <div class="flex items-center justify-between mb-1.5">
-                            <label class="block text-[13px] font-bold text-night-ink">
+                        <div class="mb-1.5 flex items-center justify-between">
+                            <label
+                                class="block text-[13px] font-bold text-night-ink"
+                            >
                                 Kategori Artikel
                                 <span class="text-red-500">*</span>
                             </label>
                             <button
                                 type="button"
                                 @click="isCategoryModalOpen = true"
-                                class="text-[12px] font-extrabold text-eco-green-dark hover:underline flex items-center gap-1 cursor-pointer"
+                                class="flex cursor-pointer items-center gap-1 text-[12px] font-extrabold text-eco-green-dark hover:underline"
                             >
                                 <Plus class="size-3.5" />
                                 <span>Kelola Kategori</span>
@@ -202,7 +222,10 @@ const submit = () => {
                             class="w-full"
                             menu-width="w-full"
                         />
-                        <p v-if="form.errors.category_id" class="text-[12px] font-bold text-red-600 mt-1">
+                        <p
+                            v-if="form.errors.category_id"
+                            class="mt-1 text-[12px] font-bold text-red-600"
+                        >
                             {{ form.errors.category_id }}
                         </p>
                     </div>
@@ -210,8 +233,10 @@ const submit = () => {
 
                 <!-- Konten Editor (RichTextEditor Tiptap) -->
                 <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <label class="block text-[13px] font-bold text-night-ink">
+                    <div class="mb-2 flex items-center justify-between">
+                        <label
+                            class="block text-[13px] font-bold text-night-ink"
+                        >
                             Isi Konten Artikel
                             <span class="text-red-500">*</span>
                         </label>
@@ -225,49 +250,53 @@ const submit = () => {
                         placeholder="Mulai tuliskan panduan, tips, atau inspirasi ramah lingkungan di sini..."
                     />
 
-                    <p v-if="form.errors.content" class="text-[12px] font-bold text-red-600 mt-1">
+                    <p
+                        v-if="form.errors.content"
+                        class="mt-1 text-[12px] font-bold text-red-600"
+                    >
                         {{ form.errors.content }}
                     </p>
                 </div>
             </div>
 
             <!-- Right Column: Thumbnail, Info & Action Card (Side Panel) -->
-            <div class="w-full lg:w-[360px] space-y-5 shrink-0">
+            <div class="w-full shrink-0 space-y-5 lg:w-[360px]">
                 <!-- Thumbnail Card -->
                 <div
-                    class="bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-5 shadow-xs"
+                    class="rounded-[22px] border-2 border-b-[4px] border-border-gray bg-paper-white p-5 shadow-xs"
                 >
-                    <h3 class="text-[16px] font-black text-night-ink mb-1">
+                    <h3 class="mb-1 text-[16px] font-black text-night-ink">
                         Foto Thumbnail
                     </h3>
-                    <p class="text-[12px] font-medium text-charcoal mb-4">
-                        Gambar sampul utama yang akan ditampilkan pada kartu artikel dan beranda.
+                    <p class="mb-4 text-[12px] font-medium text-charcoal">
+                        Gambar sampul utama yang akan ditampilkan pada kartu
+                        artikel dan beranda.
                     </p>
 
                     <!-- Preview or Upload Dropzone -->
                     <div
                         v-if="thumbnailPreview"
-                        class="relative rounded-2xl overflow-hidden border-2 border-border-gray bg-cloud-surface mb-3 group"
+                        class="group relative mb-3 overflow-hidden rounded-2xl border-2 border-border-gray bg-cloud-surface"
                     >
                         <img
                             :src="thumbnailPreview"
                             alt="Preview thumbnail"
-                            class="w-full h-[180px] object-cover"
+                            class="h-[180px] w-full object-cover"
                         />
                         <div
-                            class="absolute inset-0 bg-night-ink/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2"
+                            class="absolute inset-0 flex items-center justify-center gap-2 bg-night-ink/40 opacity-0 transition-opacity group-hover:opacity-100"
                         >
                             <button
                                 type="button"
                                 @click="triggerThumbnailSelect"
-                                class="px-3 py-1.5 rounded-lg bg-paper-white text-night-ink text-[12px] font-extrabold shadow-sm hover:bg-cloud-surface transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-lg bg-paper-white px-3 py-1.5 text-[12px] font-extrabold text-night-ink shadow-sm transition-colors hover:bg-cloud-surface"
                             >
                                 Ganti
                             </button>
                             <button
                                 type="button"
                                 @click="removeThumbnail"
-                                class="px-3 py-1.5 rounded-lg bg-red-600 text-white text-[12px] font-extrabold shadow-sm hover:bg-red-700 transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-lg bg-red-600 px-3 py-1.5 text-[12px] font-extrabold text-white shadow-sm transition-colors hover:bg-red-700"
                             >
                                 Hapus
                             </button>
@@ -277,22 +306,22 @@ const submit = () => {
                     <div
                         v-else
                         @click="triggerThumbnailSelect"
-                        class="border-2 border-dashed rounded-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-all mb-3 group"
+                        class="group mb-3 flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center transition-all"
                         :class="[
                             thumbnailError || form.errors.photo
                                 ? 'border-red-400 bg-red-50/20'
-                                : 'border-border-gray hover:border-eco-green hover:bg-sprout-tint/20'
+                                : 'border-border-gray hover:border-eco-green hover:bg-sprout-tint/20',
                         ]"
                     >
                         <div
-                            class="size-11 rounded-xl bg-cloud-surface border border-border-gray flex items-center justify-center text-charcoal group-hover:text-eco-green-dark group-hover:bg-sprout-tint/60 transition-colors mb-2.5"
+                            class="mb-2.5 flex size-11 items-center justify-center rounded-xl border border-border-gray bg-cloud-surface text-charcoal transition-colors group-hover:bg-sprout-tint/60 group-hover:text-eco-green-dark"
                         >
                             <UploadCloud class="size-5" />
                         </div>
-                        <p class="font-extrabold text-[13px] text-night-ink">
+                        <p class="text-[13px] font-extrabold text-night-ink">
                             Pilih Foto Thumbnail
                         </p>
-                        <p class="text-[11px] font-medium text-charcoal mt-0.5">
+                        <p class="mt-0.5 text-[11px] font-medium text-charcoal">
                             PNG, JPG, atau WebP (Maks. 2MB)
                         </p>
                     </div>
@@ -306,32 +335,42 @@ const submit = () => {
                         @change="handleThumbnailChange"
                     />
 
-                    <p v-if="thumbnailError" class="text-[12px] font-bold text-red-600 flex items-center gap-1.5">
+                    <p
+                        v-if="thumbnailError"
+                        class="flex items-center gap-1.5 text-[12px] font-bold text-red-600"
+                    >
                         <AlertCircle class="size-4 shrink-0" />
                         <span>{{ thumbnailError }}</span>
                     </p>
 
-                    <p v-if="form.errors.photo" class="text-[12px] font-bold text-red-600">
+                    <p
+                        v-if="form.errors.photo"
+                        class="text-[12px] font-bold text-red-600"
+                    >
                         {{ form.errors.photo }}
                     </p>
                 </div>
 
                 <!-- Action Card -->
                 <div
-                    class="bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-5 shadow-xs space-y-3"
+                    class="space-y-3 rounded-[22px] border-2 border-b-[4px] border-border-gray bg-paper-white p-5 shadow-xs"
                 >
                     <button
                         type="submit"
                         :disabled="form.processing"
-                        class="w-full h-[46px] rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green text-white font-extrabold text-[14px] hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-xs disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        class="flex h-[46px] w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green text-[14px] font-extrabold text-white shadow-xs transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         <Check class="size-4.5" />
-                        <span>{{ form.processing ? "Menerbitkan..." : "Terbitkan Artikel" }}</span>
+                        <span>{{
+                            form.processing
+                                ? 'Menerbitkan...'
+                                : 'Terbitkan Artikel'
+                        }}</span>
                     </button>
 
                     <Link
                         href="/admin/articles"
-                        class="w-full h-[44px] rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white text-night-ink font-extrabold text-[14px] hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer flex items-center justify-center"
+                        class="flex h-[44px] w-full cursor-pointer items-center justify-center rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white text-[14px] font-extrabold text-night-ink transition-all hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2"
                     >
                         Batal
                     </Link>
@@ -339,27 +378,44 @@ const submit = () => {
 
                 <!-- Writing Tips Card -->
                 <div
-                    class="bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-5 shadow-xs"
+                    class="rounded-[22px] border-2 border-b-[4px] border-border-gray bg-paper-white p-5 shadow-xs"
                 >
-                    <div class="flex items-center gap-2 mb-3">
+                    <div class="mb-3 flex items-center gap-2">
                         <Sparkles class="size-4.5 text-sunlight-gold" />
-                        <h4 class="font-extrabold text-[14px] text-night-ink">
+                        <h4 class="text-[14px] font-extrabold text-night-ink">
                             Tips Menulis Efektif
                         </h4>
                     </div>
 
-                    <ul class="text-[12px] font-medium text-charcoal space-y-2 leading-relaxed">
+                    <ul
+                        class="space-y-2 text-[12px] leading-relaxed font-medium text-charcoal"
+                    >
                         <li class="flex items-start gap-2">
-                            <span class="size-1.5 rounded-full bg-eco-green mt-1.5 shrink-0" />
-                            <span>Gunakan judul yang spesifik dan langsung menjawab kebutuhan customer.</span>
+                            <span
+                                class="mt-1.5 size-1.5 shrink-0 rounded-full bg-eco-green"
+                            />
+                            <span
+                                >Gunakan judul yang spesifik dan langsung
+                                menjawab kebutuhan customer.</span
+                            >
                         </li>
                         <li class="flex items-start gap-2">
-                            <span class="size-1.5 rounded-full bg-eco-green mt-1.5 shrink-0" />
-                            <span>Sisipkan video YouTube untuk tutorial kreasi daur ulang.</span>
+                            <span
+                                class="mt-1.5 size-1.5 shrink-0 rounded-full bg-eco-green"
+                            />
+                            <span
+                                >Sisipkan video YouTube untuk tutorial kreasi
+                                daur ulang.</span
+                            >
                         </li>
                         <li class="flex items-start gap-2">
-                            <span class="size-1.5 rounded-full bg-eco-green mt-1.5 shrink-0" />
-                            <span>Sertakan foto ilustrasi agar pembaca lebih mudah memahami langkah-langkahnya.</span>
+                            <span
+                                class="mt-1.5 size-1.5 shrink-0 rounded-full bg-eco-green"
+                            />
+                            <span
+                                >Sertakan foto ilustrasi agar pembaca lebih
+                                mudah memahami langkah-langkahnya.</span
+                            >
                         </li>
                     </ul>
                 </div>

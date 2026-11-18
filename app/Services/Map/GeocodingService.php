@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\Log;
 class GeocodingService
 {
     protected string $baseUrl;
+
     protected string $userAgent;
+
     protected int $timeout;
+
     protected bool $cacheEnabled;
+
     protected int $cacheTtl;
 
     public function __construct()
@@ -27,8 +31,6 @@ class GeocodingService
     /**
      * Convert geographic coordinates (latitude, longitude) into readable address (Reverse Geocoding).
      *
-     * @param float $lat
-     * @param float $lng
      * @return array<string, mixed>|null
      */
     public function reverseGeocode(float $lat, float $lng): ?array
@@ -50,7 +52,7 @@ class GeocodingService
                 'addressdetails' => 1,
             ]);
 
-            if ($response->successful() && !empty($response->json('display_name'))) {
+            if ($response->successful() && ! empty($response->json('display_name'))) {
                 $data = $response->json();
                 $addr = $data['address'] ?? [];
 
@@ -75,7 +77,7 @@ class GeocodingService
                 return $result;
             }
         } catch (Exception $e) {
-            Log::warning('Nominatim reverse geocode error: ' . $e->getMessage(), [
+            Log::warning('Nominatim reverse geocode error: '.$e->getMessage(), [
                 'lat' => $lat,
                 'lng' => $lng,
             ]);
@@ -92,8 +94,6 @@ class GeocodingService
     /**
      * Search addresses by query string (Forward Geocoding).
      *
-     * @param string $query
-     * @param int $limit
      * @return array<int, array<string, mixed>>
      */
     public function searchAddress(string $query, int $limit = 5): array
@@ -103,7 +103,7 @@ class GeocodingService
             return [];
         }
 
-        $cacheKey = 'osm_geo_search_' . md5(mb_strtolower($cleanQuery) . "_{$limit}");
+        $cacheKey = 'osm_geo_search_'.md5(mb_strtolower($cleanQuery)."_{$limit}");
 
         if ($this->cacheEnabled && Cache::has($cacheKey)) {
             return Cache::get($cacheKey);
@@ -142,7 +142,7 @@ class GeocodingService
                 return $results;
             }
         } catch (Exception $e) {
-            Log::warning('Nominatim search address error: ' . $e->getMessage(), [
+            Log::warning('Nominatim search address error: '.$e->getMessage(), [
                 'query' => $query,
             ]);
         }

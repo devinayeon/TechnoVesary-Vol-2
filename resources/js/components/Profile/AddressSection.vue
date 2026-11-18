@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { useForm } from "@inertiajs/vue3";
-import type { User } from "@/types/auth";
-import AppButton from "@/components/Landing/AppButton.vue";
-import DetailField from "./DetailField.vue";
-import LocationPicker from "@/components/Map/LocationPicker.vue";
-import ProfileHeroMap from "./ProfileHeroMap.vue";
+import { computed, ref, watch } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import type { User } from '@/types/auth';
+import AppButton from '@/components/Landing/AppButton.vue';
+import DetailField from './DetailField.vue';
+import LocationPicker from '@/components/Map/LocationPicker.vue';
+import ProfileHeroMap from './ProfileHeroMap.vue';
 
 const props = defineProps<{
     user: User;
+    basemapApiKey?: string;
 }>();
 
 const isEditing = ref(false);
@@ -31,7 +32,7 @@ const fullAddress = computed(() => {
     return (
         props.user.address ||
         (props.user as any).alamat ||
-        "JL. Kalimantan No. 12, Sumbersari, Jember"
+        'JL. Kalimantan No. 12, Sumbersari, Jember'
     );
 });
 
@@ -52,7 +53,7 @@ watch(
             form.address =
                 u.address ||
                 (u as any).alamat ||
-                "JL. Kalimantan No. 12, Sumbersari, Jember";
+                'JL. Kalimantan No. 12, Sumbersari, Jember';
             form.latitude =
                 u.latitude !== null && u.latitude !== undefined
                     ? Number(u.latitude)
@@ -63,10 +64,14 @@ watch(
                     : 113.6878;
         }
     },
-    { deep: true }
+    { deep: true },
 );
 
-const onLocationPicked = (loc: { lat: number; lng: number; address?: string }) => {
+const onLocationPicked = (loc: {
+    lat: number;
+    lng: number;
+    address?: string;
+}) => {
     form.latitude = loc.lat;
     form.longitude = loc.lng;
     if (loc.address) {
@@ -75,7 +80,7 @@ const onLocationPicked = (loc: { lat: number; lng: number; address?: string }) =
 };
 
 const saveAddress = () => {
-    form.patch("/profile", {
+    form.patch('/profile', {
         preserveScroll: true,
         onSuccess: () => {
             isEditing.value = false;
@@ -85,15 +90,20 @@ const saveAddress = () => {
 </script>
 
 <template>
-    <div class="flex flex-col gap-6 w-full">
+    <div class="flex w-full flex-col gap-6">
         <!-- Heading Row -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div
+            class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center"
+        >
             <div class="flex flex-col gap-1">
-                <h1 class="text-[28px] font-extrabold text-night-ink tracking-tight">
+                <h1
+                    class="text-[28px] font-extrabold tracking-tight text-night-ink"
+                >
                     Alamat utama
                 </h1>
                 <p class="text-[14px] text-charcoal">
-                    Alamat dan titik peta operasional penjemputan sampah terpilah.
+                    Alamat dan titik peta operasional penjemputan sampah
+                    terpilah.
                 </p>
             </div>
 
@@ -109,65 +119,81 @@ const saveAddress = () => {
         </div>
 
         <!-- Normal / Display View -->
-        <div v-if="!isEditing" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div
+            v-if="!isEditing"
+            class="grid grid-cols-1 items-start gap-6 lg:grid-cols-12"
+        >
             <!-- Left: Hero Map Preview & Details -->
-            <div class="lg:col-span-8 flex flex-col gap-5">
+            <div class="flex flex-col gap-5 lg:col-span-8">
                 <div class="flex flex-col gap-2">
                     <ProfileHeroMap
                         :lat="lat"
                         :lng="lng"
                         :address="fullAddress"
+                        :basemap-api-key="basemapApiKey"
                         height="440px"
                     />
-                    <p class="px-2 pt-1 text-[12px] text-charcoal font-bold tracking-wide uppercase">
+                    <p
+                        class="px-2 pt-1 text-[12px] font-bold tracking-wide text-charcoal uppercase"
+                    >
                         JEMBER · PETA ILUSTRASI ALAMAT UTAMA
                     </p>
                 </div>
 
                 <!-- Address Details Card -->
-                <div class="bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-6 flex flex-col gap-5 shadow-xs">
+                <div
+                    class="flex flex-col gap-5 rounded-[22px] border-2 border-b-[4px] border-border-gray bg-paper-white p-6 shadow-xs"
+                >
                     <DetailField label="Alamat lengkap" :value="fullAddress" />
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <DetailField
-                            label="Latitude"
-                            :value="lat.toFixed(8)"
-                        />
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <DetailField label="Latitude" :value="lat.toFixed(8)" />
                         <DetailField
                             label="Longitude"
                             :value="lng.toFixed(8)"
                         />
                     </div>
 
-                    <p class="pt-2 text-[12px] text-charcoal leading-relaxed font-normal border-t border-border-gray/50">
-                        Perubahan profil berlaku untuk pesanan baru; alamat pesanan lama tetap tersimpan.
+                    <p
+                        class="border-t border-border-gray/50 pt-2 text-[12px] leading-relaxed font-normal text-charcoal"
+                    >
+                        Perubahan profil berlaku untuk pesanan baru; alamat
+                        pesanan lama tetap tersimpan.
                     </p>
                 </div>
             </div>
 
             <!-- Right: Guidance Card -->
-            <div class="lg:col-span-4 bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-6 flex flex-col gap-5 shadow-xs">
+            <div
+                class="flex flex-col gap-5 rounded-[22px] border-2 border-b-[4px] border-border-gray bg-paper-white p-6 shadow-xs lg:col-span-4"
+            >
                 <template v-if="user.role !== 'admin'">
-                    <h3 class="text-[20px] font-extrabold text-night-ink leading-snug">
+                    <h3
+                        class="text-[20px] leading-snug font-extrabold text-night-ink"
+                    >
                         Pastikan titik sesuai alamat.
                     </h3>
-                    <p class="text-[13px] text-charcoal leading-relaxed">
-                        Koordinat membantu driver dan petugas menentukan rute penjemputan sampahmu dengan akurat.
+                    <p class="text-[13px] leading-relaxed text-charcoal">
+                        Koordinat membantu driver dan petugas menentukan rute
+                        penjemputan sampahmu dengan akurat.
                     </p>
                 </template>
                 <template v-else>
-                    <h3 class="text-[20px] font-extrabold text-night-ink leading-snug">
+                    <h3
+                        class="text-[20px] leading-snug font-extrabold text-night-ink"
+                    >
                         Alamat bersifat opsional.
                     </h3>
-                    <p class="text-[13px] text-charcoal leading-relaxed">
-                        Kamu dapat menambahkan alamat utama bila dibutuhkan. Alamat operasional memudahkan koordinasi.
+                    <p class="text-[13px] leading-relaxed text-charcoal">
+                        Kamu dapat menambahkan alamat utama bila dibutuhkan.
+                        Alamat operasional memudahkan koordinasi.
                     </p>
                 </template>
 
                 <AppButton
                     variant="outline"
                     size="md"
-                    class="w-full mt-2"
+                    class="mt-2 w-full"
                     @click="isEditing = true"
                 >
                     Ubah titik alamat
@@ -176,8 +202,13 @@ const saveAddress = () => {
         </div>
 
         <!-- Edit Address Mode -->
-        <div v-else class="bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-6 sm:p-8 flex flex-col gap-6 shadow-xs">
-            <div class="flex items-center justify-between pb-4 border-b border-border-gray/70">
+        <div
+            v-else
+            class="flex flex-col gap-6 rounded-[22px] border-2 border-b-[4px] border-border-gray bg-paper-white p-6 shadow-xs sm:p-8"
+        >
+            <div
+                class="flex items-center justify-between border-b border-border-gray/70 pb-4"
+            >
                 <h3 class="text-[22px] font-extrabold text-night-ink">
                     Tentukan Titik & Alamat Utama
                 </h3>
@@ -191,6 +222,7 @@ const saveAddress = () => {
                 <LocationPicker
                     :center="[lat, lng]"
                     :zoom="15"
+                    :basemap-api-key="basemapApiKey"
                     height="380px"
                     placeholder="Ketik alamat atau nama jalan..."
                     @update:model-value="onLocationPicked"
@@ -199,34 +231,50 @@ const saveAddress = () => {
 
             <!-- Address Input Textarea -->
             <div class="flex flex-col gap-2">
-                <label for="address-text" class="text-[14px] font-bold text-night-ink">
+                <label
+                    for="address-text"
+                    class="text-[14px] font-bold text-night-ink"
+                >
                     Alamat Lengkap *
                 </label>
                 <textarea
                     id="address-text"
                     v-model="form.address"
                     rows="3"
-                    class="p-4 rounded-xl border-2 border-border-gray bg-paper-white text-[15px] text-night-ink focus:outline-none focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 transition resize-none"
+                    class="resize-none rounded-xl border-2 border-border-gray bg-paper-white p-4 text-[15px] text-night-ink transition focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 focus:outline-none"
                     placeholder="Tuliskan nama jalan, nomor rumah, RT/RW, dan patokan..."
                 />
-                <span v-if="form.errors.address" class="text-xs text-rose-500 font-semibold">
+                <span
+                    v-if="form.errors.address"
+                    class="text-xs font-semibold text-rose-500"
+                >
                     {{ form.errors.address }}
                 </span>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div class="flex flex-col gap-1">
-                    <span class="text-xs font-semibold text-charcoal">Latitude Terpilih</span>
-                    <span class="text-sm font-bold text-night-ink font-mono">{{ form.latitude }}</span>
+                    <span class="text-xs font-semibold text-charcoal"
+                        >Latitude Terpilih</span
+                    >
+                    <span class="font-mono text-sm font-bold text-night-ink">{{
+                        form.latitude
+                    }}</span>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <span class="text-xs font-semibold text-charcoal">Longitude Terpilih</span>
-                    <span class="text-sm font-bold text-night-ink font-mono">{{ form.longitude }}</span>
+                    <span class="text-xs font-semibold text-charcoal"
+                        >Longitude Terpilih</span
+                    >
+                    <span class="font-mono text-sm font-bold text-night-ink">{{
+                        form.longitude
+                    }}</span>
                 </div>
             </div>
 
             <!-- Actions -->
-            <div class="pt-4 flex flex-col-reverse sm:flex-row items-center justify-end gap-3 border-t border-border-gray/70">
+            <div
+                class="flex flex-col-reverse items-center justify-end gap-3 border-t border-border-gray/70 pt-4 sm:flex-row"
+            >
                 <AppButton
                     variant="outline"
                     size="md"
@@ -244,7 +292,7 @@ const saveAddress = () => {
                     class="w-full sm:w-auto"
                     @click="saveAddress"
                 >
-                    {{ form.processing ? "Menyimpan..." : "Simpan Alamat" }}
+                    {{ form.processing ? 'Menyimpan...' : 'Simpan Alamat' }}
                 </AppButton>
             </div>
         </div>

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { Head, router, usePage } from "@inertiajs/vue3";
-import DashboardLayout from "@/layouts/DashboardLayout.vue";
-import StatusChip from "@/components/Dashboard/StatusChip.vue";
-import AppDropdown from "@/components/Dashboard/AppDropdown.vue";
-import AppTable from "@/components/Dashboard/AppTable.vue";
-import AppPagination from "@/components/Dashboard/AppPagination.vue";
-import PageHeader from "@/components/Dashboard/PageHeader.vue";
+import { ref, watch, computed } from 'vue';
+import { Head, router, usePage } from '@inertiajs/vue3';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import StatusChip from '@/components/Dashboard/StatusChip.vue';
+import AppDropdown from '@/components/Dashboard/AppDropdown.vue';
+import AppTable from '@/components/Dashboard/AppTable.vue';
+import AppPagination from '@/components/Dashboard/AppPagination.vue';
+import PageHeader from '@/components/Dashboard/PageHeader.vue';
 import WasteCategoryModal, {
     type WasteCategoryData,
-} from "@/components/Dashboard/WasteCategoryModal.vue";
+} from '@/components/Dashboard/WasteCategoryModal.vue';
 import WasteCategoryDeleteModal, {
     type WasteCategoryDeleteItem,
-} from "@/components/Dashboard/WasteCategoryDeleteModal.vue";
+} from '@/components/Dashboard/WasteCategoryDeleteModal.vue';
 import WasteCategoryRestoreModal, {
     type WasteCategoryRestoreItem,
-} from "@/components/Dashboard/WasteCategoryRestoreModal.vue";
+} from '@/components/Dashboard/WasteCategoryRestoreModal.vue';
 import {
     Search,
     Plus,
@@ -26,7 +26,7 @@ import {
     X,
     Edit3,
     Trash2,
-} from "lucide-vue-next";
+} from 'lucide-vue-next';
 
 export interface WasteCategoryItem {
     id: number;
@@ -92,13 +92,13 @@ watch(
 );
 
 // Search & Filter state
-const search = ref(props.filters.search || "");
-const selectedStatus = ref(props.filters.status || "active");
+const search = ref(props.filters.search || '');
+const selectedStatus = ref(props.filters.status || 'active');
 
 let searchTimeout: any = null;
 const applyFilters = () => {
     router.get(
-        "/admin/waste-categories",
+        '/admin/waste-categories',
         {
             search: search.value || undefined,
             status: selectedStatus.value || undefined,
@@ -123,16 +123,16 @@ const onStatusChange = () => {
 };
 
 const statusDropdownOptions = [
-    { value: "active", label: "Aktif" },
-    { value: "trashed", label: "Dinonaktifkan" },
-    { value: "all", label: "Semua Status" },
+    { value: 'active', label: 'Aktif' },
+    { value: 'trashed', label: 'Dinonaktifkan' },
+    { value: 'all', label: 'Semua Status' },
 ];
 
 const resetFilters = () => {
-    search.value = "";
-    selectedStatus.value = "active";
+    search.value = '';
+    selectedStatus.value = 'active';
     router.get(
-        "/admin/waste-categories",
+        '/admin/waste-categories',
         {},
         {
             preserveState: true,
@@ -205,7 +205,7 @@ const closeRestoreModal = () => {
 
 // Format currency / number
 const formatNumber = (num: number): string => {
-    return Number(num).toLocaleString("id-ID");
+    return Number(num).toLocaleString('id-ID');
 };
 </script>
 
@@ -216,16 +216,16 @@ const formatNumber = (num: number): string => {
         <!-- Success Flash Alert -->
         <div
             v-if="showSuccessFlash && flashSuccess"
-            class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 text-night-ink font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
+            class="animate-in fade-in mb-6 flex items-center justify-between gap-3 rounded-2xl border-2 border-eco-green/40 bg-sprout-tint p-4 text-[14px] font-bold text-night-ink shadow-2xs duration-200"
         >
-            <div class="flex items-center gap-3 min-w-0">
-                <CheckCircle2 class="size-5 text-eco-green-dark shrink-0" />
+            <div class="flex min-w-0 items-center gap-3">
+                <CheckCircle2 class="size-5 shrink-0 text-eco-green-dark" />
                 <span class="truncate">{{ flashSuccess }}</span>
             </div>
             <button
                 type="button"
                 @click="showSuccessFlash = false"
-                class="p-1 rounded-lg hover:bg-eco-green/20 text-charcoal hover:text-night-ink transition-colors cursor-pointer shrink-0"
+                class="shrink-0 cursor-pointer rounded-lg p-1 text-charcoal transition-colors hover:bg-eco-green/20 hover:text-night-ink"
                 aria-label="Tutup notifikasi"
             >
                 <X class="size-4" />
@@ -235,16 +235,16 @@ const formatNumber = (num: number): string => {
         <!-- Error Flash Alert -->
         <div
             v-if="showErrorFlash && flashError"
-            class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-red-50 border-2 border-red-300 text-red-800 font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
+            class="animate-in fade-in mb-6 flex items-center justify-between gap-3 rounded-2xl border-2 border-red-300 bg-red-50 p-4 text-[14px] font-bold text-red-800 shadow-2xs duration-200"
         >
-            <div class="flex items-center gap-3 min-w-0">
-                <XCircle class="size-5 text-red-600 shrink-0" />
+            <div class="flex min-w-0 items-center gap-3">
+                <XCircle class="size-5 shrink-0 text-red-600" />
                 <span class="truncate">{{ flashError }}</span>
             </div>
             <button
                 type="button"
                 @click="showErrorFlash = false"
-                class="p-1 rounded-lg hover:bg-red-100 text-red-700 hover:text-red-900 transition-colors cursor-pointer shrink-0"
+                class="shrink-0 cursor-pointer rounded-lg p-1 text-red-700 transition-colors hover:bg-red-100 hover:text-red-900"
                 aria-label="Tutup notifikasi"
             >
                 <X class="size-4" />
@@ -261,7 +261,7 @@ const formatNumber = (num: number): string => {
                 <button
                     type="button"
                     @click="openCreateModal"
-                    class="inline-flex items-center justify-center gap-2 px-5 h-[46px] rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green text-white font-extrabold text-[14px] hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-2xs shrink-0"
+                    class="inline-flex h-[46px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green px-5 text-[14px] font-extrabold text-white shadow-2xs transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2"
                 >
                     <Plus class="size-5 stroke-[2.5]" />
                     <span>Tambah Kategori</span>
@@ -271,24 +271,24 @@ const formatNumber = (num: number): string => {
 
         <!-- Toolbar: Search & Status Filter -->
         <div
-            class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 mb-6"
+            class="mb-6 flex flex-col items-stretch gap-3 lg:flex-row lg:items-center"
         >
             <!-- Search Input -->
             <div class="relative w-full">
                 <Search
-                    class="absolute left-3.5 top-1/2 -translate-y-1/2 size-4.5 text-charcoal/70 pointer-events-none"
+                    class="pointer-events-none absolute top-1/2 left-3.5 size-4.5 -translate-y-1/2 text-charcoal/70"
                 />
                 <input
                     v-model="search"
                     type="text"
                     placeholder="Cari nama jenis sampah atau deskripsi..."
-                    class="w-full h-[44px] pl-10 pr-10 bg-paper-white border-2 border-border-gray rounded-xl text-[14px] font-medium text-night-ink placeholder:text-charcoal/60 focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all shadow-2xs"
+                    class="h-[44px] w-full rounded-xl border-2 border-border-gray bg-paper-white pr-10 pl-10 text-[14px] font-medium text-night-ink shadow-2xs transition-all placeholder:text-charcoal/60 focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 focus:outline-none"
                 />
                 <button
                     v-if="search"
                     @click="search = ''"
                     type="button"
-                    class="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-charcoal hover:bg-cloud-surface hover:text-night-ink transition-colors cursor-pointer"
+                    class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer rounded-md p-1 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                     aria-label="Bersihkan pencarian"
                 >
                     <X class="size-3.5" />
@@ -297,14 +297,14 @@ const formatNumber = (num: number): string => {
 
             <!-- Filters Group -->
             <div
-                class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 w-full lg:w-auto"
+                class="flex w-full flex-wrap items-center gap-2.5 sm:flex-nowrap lg:w-auto"
             >
                 <!-- Status Filter Dropdown -->
                 <AppDropdown
                     v-model="selectedStatus"
                     :options="statusDropdownOptions"
                     placeholder="Semua Status"
-                    class="flex-1 sm:flex-initial min-w-[150px] sm:w-[200px]"
+                    class="min-w-[150px] flex-1 sm:w-[200px] sm:flex-initial"
                     menu-width="w-full sm:w-[210px]"
                     align="right"
                     @change="onStatusChange"
@@ -315,7 +315,7 @@ const formatNumber = (num: number): string => {
                     v-if="search || selectedStatus !== 'active'"
                     type="button"
                     @click="resetFilters"
-                    class="p-2.5 h-[44px] rounded-xl border-2 border-border-gray bg-paper-white text-charcoal hover:text-night-ink hover:bg-cloud-surface transition-colors cursor-pointer shrink-0"
+                    class="h-[44px] shrink-0 cursor-pointer rounded-xl border-2 border-border-gray bg-paper-white p-2.5 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                     title="Reset Filter"
                 >
                     <RotateCcw class="size-4" />
@@ -341,22 +341,22 @@ const formatNumber = (num: number): string => {
                 <div
                     v-for="cat in categories.data"
                     :key="`m-${cat.id}`"
-                    class="p-4 flex flex-col gap-3 hover:bg-cloud-surface/30 transition-colors"
+                    class="flex flex-col gap-3 p-4 transition-colors hover:bg-cloud-surface/30"
                     :class="{
-                        'opacity-70 bg-cloud-surface/30': cat.deleted_at,
+                        'bg-cloud-surface/30 opacity-70': cat.deleted_at,
                     }"
                 >
                     <!-- Header: Illustration + Name + Status -->
                     <div class="flex items-start justify-between gap-3">
-                        <div class="flex items-center gap-3 min-w-0">
+                        <div class="flex min-w-0 items-center gap-3">
                             <div class="min-w-0">
                                 <h4
-                                    class="font-extrabold text-[15px] text-night-ink leading-tight truncate"
+                                    class="truncate text-[15px] leading-tight font-extrabold text-night-ink"
                                 >
                                     {{ cat.name }}
                                 </h4>
                                 <p
-                                    class="text-[12px] font-medium text-charcoal truncate mt-0.5"
+                                    class="mt-0.5 truncate text-[12px] font-medium text-charcoal"
                                 >
                                     ID: #{{ cat.id }}
                                 </p>
@@ -370,16 +370,16 @@ const formatNumber = (num: number): string => {
 
                     <!-- Meta Box: Description & Points per Kg -->
                     <div
-                        class="flex items-center justify-between text-[12px] bg-cloud-surface/50 rounded-xl px-3 py-2 border border-border-gray/50"
+                        class="flex items-center justify-between rounded-xl border border-border-gray/50 bg-cloud-surface/50 px-3 py-2 text-[12px]"
                     >
-                        <span class="text-charcoal font-semibold truncate mr-2">
+                        <span class="mr-2 truncate font-semibold text-charcoal">
                             {{
                                 cat.description ||
-                                "Tidak ada deskripsi tambahan"
+                                'Tidak ada deskripsi tambahan'
                             }}
                         </span>
                         <div
-                            class="inline-flex items-center gap-1 font-extrabold text-night-ink shrink-0"
+                            class="inline-flex shrink-0 items-center gap-1 font-extrabold text-night-ink"
                         >
                             <span
                                 >{{
@@ -392,12 +392,12 @@ const formatNumber = (num: number): string => {
 
                     <!-- Actions -->
                     <div
-                        class="flex items-center justify-end gap-2 pt-1 border-t border-border-gray/40"
+                        class="flex items-center justify-end gap-2 border-t border-border-gray/40 pt-1"
                     >
                         <button
                             type="button"
                             @click="openEditModal(cat)"
-                            class="px-3 py-1.5 text-[12px] font-extrabold text-night-ink bg-cloud-surface hover:bg-sprout-tint hover:text-eco-green-dark rounded-xl transition-colors cursor-pointer"
+                            class="cursor-pointer rounded-xl bg-cloud-surface px-3 py-1.5 text-[12px] font-extrabold text-night-ink transition-colors hover:bg-sprout-tint hover:text-eco-green-dark"
                         >
                             Ubah
                         </button>
@@ -405,7 +405,7 @@ const formatNumber = (num: number): string => {
                             v-if="!cat.deleted_at"
                             type="button"
                             @click="openDeleteModal(cat)"
-                            class="px-3 py-1.5 text-[12px] font-extrabold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors cursor-pointer"
+                            class="cursor-pointer rounded-xl bg-red-50 px-3 py-1.5 text-[12px] font-extrabold text-red-600 transition-colors hover:bg-red-100"
                         >
                             Hapus
                         </button>
@@ -413,7 +413,7 @@ const formatNumber = (num: number): string => {
                             v-else
                             type="button"
                             @click="openRestoreModal(cat)"
-                            class="px-3 py-1.5 text-[12px] font-extrabold text-eco-green-dark bg-sprout-tint hover:brightness-105 rounded-xl transition-colors cursor-pointer"
+                            class="cursor-pointer rounded-xl bg-sprout-tint px-3 py-1.5 text-[12px] font-extrabold text-eco-green-dark transition-colors hover:brightness-105"
                         >
                             Pulihkan
                         </button>
@@ -423,11 +423,11 @@ const formatNumber = (num: number): string => {
 
             <!-- Desktop Table Header -->
             <template #header>
-                <th class="py-3.5 px-6">Jenis Sampah</th>
-                <th class="py-3.5 px-6">Nilai Poin</th>
-                <th class="py-3.5 px-6">Deskripsi & Kriteria</th>
-                <th class="py-3.5 px-6">Status</th>
-                <th class="py-3.5 px-6 text-right">Aksi</th>
+                <th class="px-6 py-3.5">Jenis Sampah</th>
+                <th class="px-6 py-3.5">Nilai Poin</th>
+                <th class="px-6 py-3.5">Deskripsi & Kriteria</th>
+                <th class="px-6 py-3.5">Status</th>
+                <th class="px-6 py-3.5 text-right">Aksi</th>
             </template>
 
             <!-- Desktop Table Body -->
@@ -435,22 +435,22 @@ const formatNumber = (num: number): string => {
                 <tr
                     v-for="cat in categories.data"
                     :key="cat.id"
-                    class="hover:bg-cloud-surface/50 transition-colors"
+                    class="transition-colors hover:bg-cloud-surface/50"
                     :class="{
-                        'opacity-60 bg-cloud-surface/20': cat.deleted_at,
+                        'bg-cloud-surface/20 opacity-60': cat.deleted_at,
                     }"
                 >
                     <!-- Nama & Ilustrasi -->
-                    <td class="py-3.5 px-6">
+                    <td class="px-6 py-3.5">
                         <div class="flex items-center gap-3">
                             <div>
                                 <p
-                                    class="font-bold text-[14px] text-night-ink leading-tight"
+                                    class="text-[14px] leading-tight font-bold text-night-ink"
                                 >
                                     {{ cat.name }}
                                 </p>
                                 <p
-                                    class="text-[12px] font-medium text-charcoal/70 mt-0.5"
+                                    class="mt-0.5 text-[12px] font-medium text-charcoal/70"
                                 >
                                     ID: #{{ cat.id }}
                                 </p>
@@ -459,38 +459,38 @@ const formatNumber = (num: number): string => {
                     </td>
 
                     <!-- Nilai Poin -->
-                    <td class="py-3.5 px-6">
+                    <td class="px-6 py-3.5">
                         <div
-                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gold-tint border border-sunlight-gold/30 text-night-ink font-extrabold text-[13px] shadow-2xs whitespace-nowrap"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-sunlight-gold/30 bg-gold-tint px-2.5 py-1 text-[13px] font-extrabold whitespace-nowrap text-night-ink shadow-2xs"
                         >
                             <Coins
-                                class="size-3.5 text-sunlight-gold shrink-0"
+                                class="size-3.5 shrink-0 text-sunlight-gold"
                             />
                             <span>{{ formatNumber(cat.points_per_kg) }}</span>
-                            <span class="text-[11px] text-charcoal font-bold"
+                            <span class="text-[11px] font-bold text-charcoal"
                                 >Poin / kg</span
                             >
                         </div>
                     </td>
 
                     <!-- Deskripsi & Kriteria -->
-                    <td class="py-3.5 px-6 max-w-[340px]">
+                    <td class="max-w-[340px] px-6 py-3.5">
                         <p
                             v-if="cat.description"
-                            class="text-[13px] font-medium text-charcoal line-clamp-2 leading-relaxed"
+                            class="line-clamp-2 text-[13px] leading-relaxed font-medium text-charcoal"
                         >
                             {{ cat.description }}
                         </p>
                         <span
                             v-else
-                            class="text-[12px] italic text-charcoal/50"
+                            class="text-[12px] text-charcoal/50 italic"
                         >
                             Tidak ada deskripsi tambahan
                         </span>
                     </td>
 
                     <!-- Status -->
-                    <td class="py-3.5 px-6">
+                    <td class="px-6 py-3.5">
                         <StatusChip
                             :label="cat.deleted_at ? 'Nonaktif' : 'Aktif'"
                             :tone="cat.deleted_at ? 'Neutral' : 'Green'"
@@ -498,15 +498,13 @@ const formatNumber = (num: number): string => {
                     </td>
 
                     <!-- Aksi (Konsisten dengan Manajemen Artikel) -->
-                    <td class="py-3.5 px-6 text-right whitespace-nowrap">
-                        <div
-                            class="inline-flex items-center justify-end gap-1"
-                        >
+                    <td class="px-6 py-3.5 text-right whitespace-nowrap">
+                        <div class="inline-flex items-center justify-end gap-1">
                             <!-- Ubah (membuka popup edit) -->
                             <button
                                 type="button"
                                 @click="openEditModal(cat)"
-                                class="p-2 rounded-lg text-charcoal hover:text-eco-green-dark hover:bg-sprout-tint/60 transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-lg p-2 text-charcoal transition-colors hover:bg-sprout-tint/60 hover:text-eco-green-dark"
                                 title="Ubah Kategori Sampah"
                             >
                                 <Edit3 class="size-4" />
@@ -517,7 +515,7 @@ const formatNumber = (num: number): string => {
                                 v-if="!cat.deleted_at"
                                 type="button"
                                 @click="openDeleteModal(cat)"
-                                class="p-2 rounded-lg text-charcoal hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-lg p-2 text-charcoal transition-colors hover:bg-red-50 hover:text-red-600"
                                 title="Nonaktifkan Kategori Sampah"
                             >
                                 <Trash2 class="size-4" />
@@ -528,7 +526,7 @@ const formatNumber = (num: number): string => {
                                 v-else
                                 type="button"
                                 @click="openRestoreModal(cat)"
-                                class="p-2 rounded-lg text-eco-green-dark hover:bg-sprout-tint transition-colors cursor-pointer"
+                                class="cursor-pointer rounded-lg p-2 text-eco-green-dark transition-colors hover:bg-sprout-tint"
                                 title="Pulihkan Kategori Sampah"
                             >
                                 <RotateCcw class="size-4" />

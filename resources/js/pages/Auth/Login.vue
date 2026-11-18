@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { Head, Link, useForm } from "@inertiajs/vue3";
-import AuthLayout from "@/layouts/AuthLayout.vue";
-import { Eye, EyeOff } from "lucide-vue-next";
+import { ref } from 'vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import AuthLayout from '@/layouts/AuthLayout.vue';
+import { Eye, EyeOff } from 'lucide-vue-next';
 
 defineProps<{
     canResetPassword?: boolean;
@@ -10,17 +10,17 @@ defineProps<{
 }>();
 
 const form = useForm({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     remember: false,
 });
 
 const showPassword = ref(false);
 
 const submit = () => {
-    form.post("/login", {
+    form.post('/login', {
         onFinish: () => {
-            form.reset("password");
+            form.reset('password');
         },
     });
 };
@@ -31,14 +31,14 @@ const submit = () => {
         <Head title="Masuk ke Akun - ReValue" />
 
         <!-- Title & Subtitle -->
-        <div class="mb-6 sm:mb-8 text-left">
+        <div class="mb-6 text-left sm:mb-8">
             <h1
-                class="font-extrabold text-[30px] sm:text-[36px] text-night-ink leading-[1.2] tracking-tight mb-2"
+                class="mb-2 text-[30px] leading-[1.2] font-extrabold tracking-tight text-night-ink sm:text-[36px]"
             >
                 Senang bertemu lagi.
             </h1>
             <p
-                class="font-medium text-[15px] sm:text-[16px] text-charcoal leading-relaxed"
+                class="text-[15px] leading-relaxed font-medium text-charcoal sm:text-[16px]"
             >
                 Masuk untuk melanjutkan langkah baik Anda.
             </p>
@@ -47,7 +47,7 @@ const submit = () => {
         <!-- Session Status Alert -->
         <div
             v-if="status"
-            class="mb-6 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 p-4 text-[14px] font-bold text-night-ink"
+            class="mb-6 rounded-2xl border-2 border-eco-green/40 bg-sprout-tint p-4 text-[14px] font-bold text-night-ink"
         >
             {{ status }}
         </div>
@@ -57,7 +57,7 @@ const submit = () => {
             <div>
                 <label
                     for="email"
-                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                    class="mb-1.5 block text-[14px] font-bold text-night-ink"
                 >
                     Alamat email
                 </label>
@@ -69,7 +69,7 @@ const submit = () => {
                     autofocus
                     autocomplete="username"
                     placeholder="nama@email.com"
-                    class="w-full h-[52px] px-4 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                    class="h-[52px] w-full rounded-xl border-2 bg-paper-white px-4 text-[15px] font-semibold text-night-ink transition-all placeholder:text-charcoal/40 focus:outline-none sm:text-[16px]"
                     :class="
                         form.errors.email
                             ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
@@ -88,7 +88,7 @@ const submit = () => {
             <div>
                 <label
                     for="password"
-                    class="block font-bold text-[14px] text-night-ink mb-1.5"
+                    class="mb-1.5 block text-[14px] font-bold text-night-ink"
                 >
                     Kata sandi
                 </label>
@@ -100,7 +100,7 @@ const submit = () => {
                         required
                         autocomplete="current-password"
                         placeholder="••••••••••••"
-                        class="w-full h-[52px] pl-4 pr-24 rounded-xl border-2 bg-paper-white text-[15px] sm:text-[16px] font-semibold text-night-ink placeholder:text-charcoal/40 transition-all focus:outline-none"
+                        class="h-[52px] w-full rounded-xl border-2 bg-paper-white pr-24 pl-4 text-[15px] font-semibold text-night-ink transition-all placeholder:text-charcoal/40 focus:outline-none sm:text-[16px]"
                         :class="
                             form.errors.password
                                 ? 'border-red-500 focus:border-red-500 focus:ring-4 focus:ring-red-500/15'
@@ -109,14 +109,14 @@ const submit = () => {
                     />
                     <button
                         type="button"
-                        class="absolute right-2 px-2.5 py-1.5 text-[13px] font-extrabold text-night-ink hover:text-eco-green-dark flex items-center gap-1.5 cursor-pointer rounded-lg hover:bg-cloud-surface transition-colors"
+                        class="absolute right-2 flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[13px] font-extrabold text-night-ink transition-colors hover:bg-cloud-surface hover:text-eco-green-dark"
                         @click="showPassword = !showPassword"
                     >
                         <component
                             :is="showPassword ? EyeOff : Eye"
                             class="size-4"
                         />
-                        <span>{{ showPassword ? "Tutup" : "Lihat" }}</span>
+                        <span>{{ showPassword ? 'Tutup' : 'Lihat' }}</span>
                     </button>
                 </div>
                 <p
@@ -129,11 +129,13 @@ const submit = () => {
 
             <!-- Login Options: Remember Me & Forgot Password -->
             <div class="flex items-center justify-between pt-1">
-                <label class="flex items-center gap-2.5 cursor-pointer select-none">
+                <label
+                    class="flex cursor-pointer items-center gap-2.5 select-none"
+                >
                     <input
                         type="checkbox"
                         v-model="form.remember"
-                        class="size-5 rounded-[6px] border-2 border-border-gray text-eco-green focus:ring-eco-green focus:ring-offset-0 cursor-pointer"
+                        class="size-5 cursor-pointer rounded-[6px] border-2 border-border-gray text-eco-green focus:ring-eco-green focus:ring-offset-0"
                     />
                     <span class="text-[14px] font-semibold text-night-ink">
                         Ingat saya
@@ -143,7 +145,7 @@ const submit = () => {
                 <Link
                     v-if="canResetPassword !== false"
                     href="/forgot-password"
-                    class="text-[14px] font-extrabold text-night-ink hover:text-eco-green-dark transition-colors"
+                    class="text-[14px] font-extrabold text-night-ink transition-colors hover:text-eco-green-dark"
                 >
                     Lupa kata sandi?
                 </Link>
@@ -154,7 +156,7 @@ const submit = () => {
                 <button
                     type="submit"
                     :disabled="form.processing"
-                    class="w-full h-[52px] bg-eco-green text-night-ink font-extrabold text-[15px] sm:text-[16px] rounded-2xl border-2 border-eco-green border-b-[5px] border-b-eco-green-dark shadow-xs hover:brightness-105 active:translate-y-0.5 active:border-b-2 active:shadow-none transition-all flex items-center justify-center cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    class="flex h-[52px] w-full cursor-pointer items-center justify-center rounded-2xl border-2 border-b-[5px] border-eco-green border-b-eco-green-dark bg-eco-green text-[15px] font-extrabold text-night-ink shadow-xs transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2 active:shadow-none disabled:cursor-not-allowed disabled:opacity-60 sm:text-[16px]"
                 >
                     <span v-if="form.processing">Memproses...</span>
                     <span v-else>Masuk ke akun</span>
@@ -163,11 +165,13 @@ const submit = () => {
         </form>
 
         <!-- Account Switcher Link -->
-        <div class="mt-8 text-center flex items-center justify-center gap-2 text-[14px] font-medium text-charcoal">
+        <div
+            class="mt-8 flex items-center justify-center gap-2 text-center text-[14px] font-medium text-charcoal"
+        >
             <span>Belum punya akun?</span>
             <Link
                 href="/register"
-                class="font-extrabold text-night-ink hover:text-eco-green-dark underline decoration-2 underline-offset-4 transition-colors"
+                class="font-extrabold text-night-ink underline decoration-2 underline-offset-4 transition-colors hover:text-eco-green-dark"
             >
                 Daftar
             </Link>

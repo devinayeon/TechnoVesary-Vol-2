@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'payment_method',
     'status',
     'snap_url',
+    'midtrans_order_id',
     'delivery_address',
     'latitude',
     'longitude',

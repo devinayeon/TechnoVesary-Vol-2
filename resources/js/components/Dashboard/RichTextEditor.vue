@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, onBeforeUnmount } from "vue";
-import { useEditor, EditorContent } from "@tiptap/vue-3";
-import StarterKit from "@tiptap/starter-kit";
-import Youtube from "@tiptap/extension-youtube";
-import Image from "@tiptap/extension-image";
-import Link from "@tiptap/extension-link";
-import Placeholder from "@tiptap/extension-placeholder";
+import { ref, watch, onBeforeUnmount } from 'vue';
+import { useEditor, EditorContent } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit';
+import Youtube from '@tiptap/extension-youtube';
+import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
+import Placeholder from '@tiptap/extension-placeholder';
 import {
     Bold,
     Italic,
@@ -27,7 +27,7 @@ import {
     X,
     Check,
     AlertCircle,
-} from "lucide-vue-next";
+} from 'lucide-vue-next';
 
 const props = withDefaults(
     defineProps<{
@@ -36,28 +36,28 @@ const props = withDefaults(
         editable?: boolean;
     }>(),
     {
-        modelValue: "",
-        placeholder: "Mulai tulis artikel edukasi ramah lingkungan di sini...",
+        modelValue: '',
+        placeholder: 'Mulai tulis artikel edukasi ramah lingkungan di sini...',
         editable: true,
-    }
+    },
 );
 
 const emit = defineEmits<{
-    (e: "update:modelValue", value: string): void;
+    (e: 'update:modelValue', value: string): void;
 }>();
 
 // Modals State
 const showYoutubeModal = ref(false);
-const youtubeUrl = ref("");
-const youtubeError = ref("");
+const youtubeUrl = ref('');
+const youtubeError = ref('');
 
 const showImageUrlModal = ref(false);
-const imageUrl = ref("");
+const imageUrl = ref('');
 const isUploadingImage = ref(false);
-const imageUploadError = ref("");
+const imageUploadError = ref('');
 
 const showLinkModal = ref(false);
-const linkUrl = ref("");
+const linkUrl = ref('');
 
 const fileInputRef = ref<HTMLInputElement | null>(null);
 
@@ -75,20 +75,20 @@ const editor = useEditor({
             nocookie: true,
             allowFullscreen: true,
             HTMLAttributes: {
-                class: "w-full aspect-video rounded-xl border-2 border-border-gray shadow-xs my-4",
+                class: 'w-full aspect-video rounded-xl border-2 border-border-gray shadow-xs my-4',
             },
         }),
         Image.configure({
             inline: true,
             allowBase64: false,
             HTMLAttributes: {
-                class: "max-w-full rounded-xl border border-border-gray my-4 shadow-2xs object-cover",
+                class: 'max-w-full rounded-xl border border-border-gray my-4 shadow-2xs object-cover',
             },
         }),
         Link.configure({
             openOnClick: false,
             HTMLAttributes: {
-                class: "text-eco-green-dark underline font-bold hover:text-eco-green cursor-pointer",
+                class: 'text-eco-green-dark underline font-bold hover:text-eco-green cursor-pointer',
             },
         }),
         Placeholder.configure({
@@ -99,7 +99,7 @@ const editor = useEditor({
         if (!editor.value) return;
         const html = editor.value.getHTML();
         // Emit empty string if editor only contains empty paragraph
-        emit("update:modelValue", html === "<p></p>" ? "" : html);
+        emit('update:modelValue', html === '<p></p>' ? '' : html);
     },
 });
 
@@ -111,7 +111,7 @@ watch(
         if (!isSame) {
             editor.value.commands.setContent(newValue, { emitUpdate: false });
         }
-    }
+    },
 );
 
 watch(
@@ -120,7 +120,7 @@ watch(
         if (editor.value) {
             editor.value.setEditable(newVal);
         }
-    }
+    },
 );
 
 onBeforeUnmount(() => {
@@ -129,14 +129,14 @@ onBeforeUnmount(() => {
 
 // YouTube Action
 const openYoutubeModal = () => {
-    youtubeUrl.value = "";
-    youtubeError.value = "";
+    youtubeUrl.value = '';
+    youtubeError.value = '';
     showYoutubeModal.value = true;
 };
 
 const insertYoutube = () => {
     if (!youtubeUrl.value.trim()) {
-        youtubeError.value = "Masukkan tautan video YouTube";
+        youtubeError.value = 'Masukkan tautan video YouTube';
         return;
     }
 
@@ -149,9 +149,9 @@ const insertYoutube = () => {
             })
             .run();
         showYoutubeModal.value = false;
-        youtubeUrl.value = "";
+        youtubeUrl.value = '';
     } catch (e: any) {
-        youtubeError.value = "Format tautan YouTube tidak valid";
+        youtubeError.value = 'Format tautan YouTube tidak valid';
     }
 };
 
@@ -165,42 +165,46 @@ const handleImageFileChange = async (event: Event) => {
     const file = target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith("image/")) {
-        imageUploadError.value = "File harus berupa format gambar (JPG, PNG, atau WebP).";
-        if (target) target.value = "";
+    if (!file.type.startsWith('image/')) {
+        imageUploadError.value =
+            'File harus berupa format gambar (JPG, PNG, atau WebP).';
+        if (target) target.value = '';
         return;
     }
 
     if (file.size > 3 * 1024 * 1024) {
-        imageUploadError.value = "Ukuran gambar terlalu besar (maksimal 3MB).";
-        if (target) target.value = "";
+        imageUploadError.value = 'Ukuran gambar terlalu besar (maksimal 3MB).';
+        if (target) target.value = '';
         return;
     }
 
     isUploadingImage.value = true;
-    imageUploadError.value = "";
+    imageUploadError.value = '';
 
     try {
         const formData = new FormData();
-        formData.append("image", file);
+        formData.append('image', file);
 
         // Fetch CSRF token
         const csrfToken =
-            (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)
-                ?.content || "";
+            (
+                document.querySelector(
+                    'meta[name="csrf-token"]',
+                ) as HTMLMetaElement
+            )?.content || '';
 
-        const response = await fetch("/admin/articles/upload-image", {
-            method: "POST",
+        const response = await fetch('/admin/articles/upload-image', {
+            method: 'POST',
             headers: {
-                "X-CSRF-TOKEN": csrfToken,
-                Accept: "application/json",
+                'X-CSRF-TOKEN': csrfToken,
+                Accept: 'application/json',
             },
             body: formData,
         });
 
         if (!response.ok) {
             const errData = await response.json();
-            throw new Error(errData.message || "Gagal mengunggah gambar");
+            throw new Error(errData.message || 'Gagal mengunggah gambar');
         }
 
         const data = await response.json();
@@ -212,10 +216,11 @@ const handleImageFileChange = async (event: Event) => {
                 .run();
         }
     } catch (err: any) {
-        imageUploadError.value = err.message || "Terjadi kesalahan saat mengunggah gambar ke server";
+        imageUploadError.value =
+            err.message || 'Terjadi kesalahan saat mengunggah gambar ke server';
     } finally {
         isUploadingImage.value = false;
-        if (target) target.value = "";
+        if (target) target.value = '';
     }
 };
 
@@ -227,12 +232,12 @@ const insertImageUrl = () => {
         .setImage({ src: imageUrl.value.trim() })
         .run();
     showImageUrlModal.value = false;
-    imageUrl.value = "";
+    imageUrl.value = '';
 };
 
 // Link Action
 const openLinkModal = () => {
-    const previousUrl = editor.value?.getAttributes("link").href || "";
+    const previousUrl = editor.value?.getAttributes('link').href || '';
     linkUrl.value = previousUrl;
     showLinkModal.value = true;
 };
@@ -248,7 +253,7 @@ const setLink = () => {
             .run();
     }
     showLinkModal.value = false;
-    linkUrl.value = "";
+    linkUrl.value = '';
 };
 
 const removeLink = () => {
@@ -258,22 +263,24 @@ const removeLink = () => {
 
 <template>
     <div
-        class="rich-text-editor border-2 border-border-gray rounded-2xl bg-paper-white overflow-hidden shadow-2xs focus-within:border-eco-green focus-within:ring-4 focus-within:ring-eco-green/15 transition-all"
+        class="rich-text-editor overflow-hidden rounded-2xl border-2 border-border-gray bg-paper-white shadow-2xs transition-all focus-within:border-eco-green focus-within:ring-4 focus-within:ring-eco-green/15"
     >
         <!-- Toolbar -->
         <div
             v-if="editor && editable"
-            class="p-2 sm:p-2.5 bg-cloud-surface/70 border-b-2 border-border-gray flex flex-wrap items-center gap-1 select-none"
+            class="flex flex-wrap items-center gap-1 border-b-2 border-border-gray bg-cloud-surface/70 p-2 select-none sm:p-2.5"
         >
             <!-- Headings -->
             <button
                 type="button"
-                @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+                @click="
+                    editor.chain().focus().toggleHeading({ level: 1 }).run()
+                "
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('heading', { level: 1 })
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Judul Utama (H1)"
             >
@@ -282,12 +289,14 @@ const removeLink = () => {
 
             <button
                 type="button"
-                @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+                @click="
+                    editor.chain().focus().toggleHeading({ level: 2 }).run()
+                "
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('heading', { level: 2 })
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Subjudul (H2)"
             >
@@ -296,29 +305,31 @@ const removeLink = () => {
 
             <button
                 type="button"
-                @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+                @click="
+                    editor.chain().focus().toggleHeading({ level: 3 }).run()
+                "
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('heading', { level: 3 })
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Poin Subjudul (H3)"
             >
                 <Heading3 class="size-4" />
             </button>
 
-            <div class="w-px h-5 bg-border-gray mx-1" />
+            <div class="mx-1 h-5 w-px bg-border-gray" />
 
             <!-- Text Formatting -->
             <button
                 type="button"
                 @click="editor.chain().focus().toggleBold().run()"
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('bold')
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Tebal (Ctrl+B)"
             >
@@ -329,10 +340,10 @@ const removeLink = () => {
                 type="button"
                 @click="editor.chain().focus().toggleItalic().run()"
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('italic')
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Miring (Ctrl+I)"
             >
@@ -343,27 +354,27 @@ const removeLink = () => {
                 type="button"
                 @click="editor.chain().focus().toggleStrike().run()"
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('strike')
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Coret"
             >
                 <Strikethrough class="size-4" />
             </button>
 
-            <div class="w-px h-5 bg-border-gray mx-1" />
+            <div class="mx-1 h-5 w-px bg-border-gray" />
 
             <!-- Lists -->
             <button
                 type="button"
                 @click="editor.chain().focus().toggleBulletList().run()"
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('bulletList')
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Daftar Poin"
             >
@@ -374,10 +385,10 @@ const removeLink = () => {
                 type="button"
                 @click="editor.chain().focus().toggleOrderedList().run()"
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('orderedList')
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Daftar Nomor"
             >
@@ -388,10 +399,10 @@ const removeLink = () => {
                 type="button"
                 @click="editor.chain().focus().toggleBlockquote().run()"
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('blockquote')
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Kutipan / Catatan"
             >
@@ -401,19 +412,19 @@ const removeLink = () => {
             <button
                 type="button"
                 @click="editor.chain().focus().setHorizontalRule().run()"
-                class="size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60 transition-all cursor-pointer"
+                class="flex size-8 cursor-pointer items-center justify-center rounded-lg border border-transparent text-[13px] font-black text-charcoal transition-all hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink sm:size-9"
                 title="Garis Pemisah"
             >
                 <Minus class="size-4" />
             </button>
 
-            <div class="w-px h-5 bg-border-gray mx-1" />
+            <div class="mx-1 h-5 w-px bg-border-gray" />
 
             <!-- Media: YouTube & Image Upload -->
             <button
                 type="button"
                 @click="openYoutubeModal"
-                class="px-2.5 h-8 sm:h-9 rounded-lg flex items-center gap-1.5 font-bold text-[12px] border border-border-gray/70 bg-paper-white text-night-ink hover:border-red-400 hover:text-red-600 transition-all cursor-pointer shadow-2xs"
+                class="flex h-8 cursor-pointer items-center gap-1.5 rounded-lg border border-border-gray/70 bg-paper-white px-2.5 text-[12px] font-bold text-night-ink shadow-2xs transition-all hover:border-red-400 hover:text-red-600 sm:h-9"
                 title="Sisipkan Video YouTube"
             >
                 <YoutubeIcon class="size-4 text-red-600" />
@@ -424,12 +435,12 @@ const removeLink = () => {
                 type="button"
                 @click="triggerImageUpload"
                 :disabled="isUploadingImage"
-                class="px-2.5 h-8 sm:h-9 rounded-lg flex items-center gap-1.5 font-bold text-[12px] border border-border-gray/70 bg-paper-white text-night-ink hover:border-eco-green hover:text-eco-green-dark transition-all cursor-pointer shadow-2xs disabled:opacity-60"
+                class="flex h-8 cursor-pointer items-center gap-1.5 rounded-lg border border-border-gray/70 bg-paper-white px-2.5 text-[12px] font-bold text-night-ink shadow-2xs transition-all hover:border-eco-green hover:text-eco-green-dark disabled:opacity-60 sm:h-9"
                 title="Unggah Gambar dari Perangkat"
             >
                 <UploadCloud class="size-4 text-eco-green-dark" />
                 <span class="hidden sm:inline">
-                    {{ isUploadingImage ? "Mengunggah..." : "Unggah Foto" }}
+                    {{ isUploadingImage ? 'Mengunggah...' : 'Unggah Foto' }}
                 </span>
             </button>
 
@@ -447,10 +458,10 @@ const removeLink = () => {
                 type="button"
                 @click="openLinkModal"
                 :class="[
-                    'size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border transition-all cursor-pointer',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-lg border text-[13px] font-black transition-all sm:size-9',
                     editor.isActive('link')
-                        ? 'bg-sprout-tint text-eco-green-dark border-eco-green/40 shadow-2xs'
-                        : 'border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60',
+                        ? 'border-eco-green/40 bg-sprout-tint text-eco-green-dark shadow-2xs'
+                        : 'border-transparent text-charcoal hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink',
                 ]"
                 title="Tautan / Link"
             >
@@ -461,20 +472,20 @@ const removeLink = () => {
                 v-if="editor.isActive('link')"
                 type="button"
                 @click="removeLink"
-                class="size-8 sm:size-9 rounded-lg flex items-center justify-center font-black text-[13px] border border-transparent text-red-600 hover:bg-red-50 transition-all cursor-pointer"
+                class="flex size-8 cursor-pointer items-center justify-center rounded-lg border border-transparent text-[13px] font-black text-red-600 transition-all hover:bg-red-50 sm:size-9"
                 title="Hapus Tautan"
             >
                 <Unlink class="size-4" />
             </button>
 
-            <div class="w-px h-5 bg-border-gray mx-1 ml-auto" />
+            <div class="mx-1 ml-auto h-5 w-px bg-border-gray" />
 
             <!-- Undo / Redo -->
             <button
                 type="button"
                 @click="editor.chain().focus().undo().run()"
                 :disabled="!editor.can().undo()"
-                class="size-8 sm:size-9 rounded-lg flex items-center justify-center border border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                class="flex size-8 cursor-pointer items-center justify-center rounded-lg border border-transparent text-charcoal transition-all hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink disabled:cursor-not-allowed disabled:opacity-30 sm:size-9"
                 title="Undo (Ctrl+Z)"
             >
                 <Undo2 class="size-4" />
@@ -484,7 +495,7 @@ const removeLink = () => {
                 type="button"
                 @click="editor.chain().focus().redo().run()"
                 :disabled="!editor.can().redo()"
-                class="size-8 sm:size-9 rounded-lg flex items-center justify-center border border-transparent text-charcoal hover:bg-paper-white hover:text-night-ink hover:border-border-gray/60 transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                class="flex size-8 cursor-pointer items-center justify-center rounded-lg border border-transparent text-charcoal transition-all hover:border-border-gray/60 hover:bg-paper-white hover:text-night-ink disabled:cursor-not-allowed disabled:opacity-30 sm:size-9"
                 title="Redo (Ctrl+Y)"
             >
                 <Redo2 class="size-4" />
@@ -494,16 +505,16 @@ const removeLink = () => {
         <!-- Image Upload Error Flash Banner -->
         <div
             v-if="imageUploadError"
-            class="m-3 p-3 rounded-xl bg-red-50 border-2 border-red-300 text-red-800 text-[13px] font-bold flex items-center justify-between gap-3 shadow-2xs animate-in fade-in duration-150"
+            class="animate-in fade-in m-3 flex items-center justify-between gap-3 rounded-xl border-2 border-red-300 bg-red-50 p-3 text-[13px] font-bold text-red-800 shadow-2xs duration-150"
         >
-            <div class="flex items-center gap-2.5 min-w-0">
-                <AlertCircle class="size-4.5 text-red-600 shrink-0" />
+            <div class="flex min-w-0 items-center gap-2.5">
+                <AlertCircle class="size-4.5 shrink-0 text-red-600" />
                 <span>{{ imageUploadError }}</span>
             </div>
             <button
                 type="button"
                 @click="imageUploadError = ''"
-                class="p-1 rounded-md hover:bg-red-100 text-red-700 transition-colors cursor-pointer shrink-0"
+                class="shrink-0 cursor-pointer rounded-md p-1 text-red-700 transition-colors hover:bg-red-100"
                 aria-label="Tutup error"
             >
                 <X class="size-3.5" />
@@ -513,53 +524,60 @@ const removeLink = () => {
         <!-- Editor Content Area -->
         <EditorContent
             :editor="editor"
-            class="tiptap-content-wrapper p-4 sm:p-6 min-h-[320px] max-h-[700px] overflow-y-auto focus:outline-none"
+            class="tiptap-content-wrapper max-h-[700px] min-h-[320px] overflow-y-auto p-4 focus:outline-none sm:p-6"
         />
 
         <!-- YouTube Embed Modal -->
         <teleport to="body">
             <div
                 v-if="showYoutubeModal"
-                class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-ink/50 backdrop-blur-xs select-none"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-night-ink/50 p-4 backdrop-blur-xs select-none"
                 @click.self="showYoutubeModal = false"
             >
                 <div
-                    class="w-full max-w-[460px] bg-paper-white border-2 border-border-gray rounded-[22px] p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-150"
+                    class="animate-in fade-in zoom-in-95 w-full max-w-[460px] rounded-[22px] border-2 border-border-gray bg-paper-white p-6 shadow-2xl duration-150"
                 >
-                    <div class="flex items-center justify-between gap-3 mb-4">
+                    <div class="mb-4 flex items-center justify-between gap-3">
                         <div class="flex items-center gap-2.5">
                             <div
-                                class="size-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0"
+                                class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600"
                             >
                                 <YoutubeIcon class="size-5" />
                             </div>
-                            <h3 class="font-extrabold text-[18px] text-night-ink">
+                            <h3
+                                class="text-[18px] font-extrabold text-night-ink"
+                            >
                                 Sisipkan Video YouTube
                             </h3>
                         </div>
                         <button
                             type="button"
                             @click="showYoutubeModal = false"
-                            class="p-1 rounded-lg text-charcoal hover:bg-cloud-surface hover:text-night-ink transition-colors cursor-pointer"
+                            class="cursor-pointer rounded-lg p-1 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                         >
                             <X class="size-4" />
                         </button>
                     </div>
 
-                    <p class="text-[13px] font-medium text-charcoal mb-4">
-                        Tempel URL tautan video YouTube (contoh: https://www.youtube.com/watch?v=... atau https://youtu.be/...).
+                    <p class="mb-4 text-[13px] font-medium text-charcoal">
+                        Tempel URL tautan video YouTube (contoh:
+                        https://www.youtube.com/watch?v=... atau
+                        https://youtu.be/...).
                     </p>
 
-                    <div class="space-y-2 mb-5">
+                    <div class="mb-5 space-y-2">
                         <input
                             v-model="youtubeUrl"
                             type="url"
                             placeholder="https://www.youtube.com/watch?v=..."
                             @keydown.enter.prevent="insertYoutube"
-                            class="w-full h-[46px] px-3.5 bg-paper-white border-2 border-border-gray rounded-xl text-[14px] font-medium text-night-ink focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all"
+                            class="h-[46px] w-full rounded-xl border-2 border-border-gray bg-paper-white px-3.5 text-[14px] font-medium text-night-ink transition-all focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 focus:outline-none"
                             :class="{ 'border-red-500': youtubeError }"
                         />
-                        <p v-if="youtubeError" class="text-[12px] font-bold text-red-600">
+                        <p
+                            v-if="youtubeError"
+                            class="text-[12px] font-bold text-red-600"
+                        >
                             {{ youtubeError }}
                         </p>
                     </div>
@@ -568,14 +586,14 @@ const removeLink = () => {
                         <button
                             type="button"
                             @click="showYoutubeModal = false"
-                            class="px-4 h-[42px] rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white font-extrabold text-[13px] text-night-ink hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer"
+                            class="h-[42px] cursor-pointer rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white px-4 text-[13px] font-extrabold text-night-ink transition-all hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2"
                         >
                             Batal
                         </button>
                         <button
                             type="button"
                             @click="insertYoutube"
-                            class="px-5 h-[42px] rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green font-extrabold text-[13px] text-white hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer flex items-center gap-1.5"
+                            class="flex h-[42px] cursor-pointer items-center gap-1.5 rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green px-5 text-[13px] font-extrabold text-white transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2"
                         >
                             <Check class="size-4" />
                             <span>Sisipkan Video</span>
@@ -589,39 +607,41 @@ const removeLink = () => {
         <teleport to="body">
             <div
                 v-if="showLinkModal"
-                class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-night-ink/50 backdrop-blur-xs select-none"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-night-ink/50 p-4 backdrop-blur-xs select-none"
                 @click.self="showLinkModal = false"
             >
                 <div
-                    class="w-full max-w-[440px] bg-paper-white border-2 border-border-gray rounded-[22px] p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-150"
+                    class="animate-in fade-in zoom-in-95 w-full max-w-[440px] rounded-[22px] border-2 border-border-gray bg-paper-white p-6 shadow-2xl duration-150"
                 >
-                    <div class="flex items-center justify-between gap-3 mb-4">
+                    <div class="mb-4 flex items-center justify-between gap-3">
                         <div class="flex items-center gap-2.5">
                             <div
-                                class="size-9 rounded-xl bg-sprout-tint text-eco-green-dark flex items-center justify-center shrink-0"
+                                class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-sprout-tint text-eco-green-dark"
                             >
                                 <LinkIcon class="size-5" />
                             </div>
-                            <h3 class="font-extrabold text-[18px] text-night-ink">
+                            <h3
+                                class="text-[18px] font-extrabold text-night-ink"
+                            >
                                 Pasang Tautan
                             </h3>
                         </div>
                         <button
                             type="button"
                             @click="showLinkModal = false"
-                            class="p-1 rounded-lg text-charcoal hover:bg-cloud-surface hover:text-night-ink transition-colors cursor-pointer"
+                            class="cursor-pointer rounded-lg p-1 text-charcoal transition-colors hover:bg-cloud-surface hover:text-night-ink"
                         >
                             <X class="size-4" />
                         </button>
                     </div>
 
-                    <div class="space-y-2 mb-5">
+                    <div class="mb-5 space-y-2">
                         <input
                             v-model="linkUrl"
                             type="url"
                             placeholder="https://example.com"
                             @keydown.enter.prevent="setLink"
-                            class="w-full h-[46px] px-3.5 bg-paper-white border-2 border-border-gray rounded-xl text-[14px] font-medium text-night-ink focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all"
+                            class="h-[46px] w-full rounded-xl border-2 border-border-gray bg-paper-white px-3.5 text-[14px] font-medium text-night-ink transition-all focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 focus:outline-none"
                         />
                     </div>
 
@@ -629,14 +649,14 @@ const removeLink = () => {
                         <button
                             type="button"
                             @click="showLinkModal = false"
-                            class="px-4 h-[42px] rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white font-extrabold text-[13px] text-night-ink hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer"
+                            class="h-[42px] cursor-pointer rounded-xl border-2 border-b-[4px] border-border-gray bg-paper-white px-4 text-[13px] font-extrabold text-night-ink transition-all hover:bg-cloud-surface active:translate-y-0.5 active:border-b-2"
                         >
                             Batal
                         </button>
                         <button
                             type="button"
                             @click="setLink"
-                            class="px-5 h-[42px] rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green font-extrabold text-[13px] text-white hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer flex items-center gap-1.5"
+                            class="flex h-[42px] cursor-pointer items-center gap-1.5 rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green px-5 text-[13px] font-extrabold text-white transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2"
                         >
                             <Check class="size-4" />
                             <span>Simpan Tautan</span>

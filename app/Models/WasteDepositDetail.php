@@ -36,4 +36,12 @@ class WasteDepositDetail extends Model
     {
         return $this->belongsTo(WasteCategory::class);
     }
+
+    /**
+     * Apakah kategori ini sudah ditimbang oleh driver.
+     */
+    public function isWeighed(): bool
+    {
+        return $this->weight !== null;
+    }
 }

@@ -23,7 +23,7 @@ class ArticleCategoryService
     /**
      * Simpan kategori artikel baru.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function createCategory(array $data): ArticleCategory
     {
@@ -35,7 +35,7 @@ class ArticleCategoryService
     /**
      * Perbarui nama kategori artikel.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function updateCategory(ArticleCategory $category, array $data): ArticleCategory
     {

@@ -22,7 +22,12 @@ class PickupHistoryController extends Controller
         $pickups = $this->service->getPaginatedPickups($filters, 15);
 
         $statuses = array_map(
-            fn (PickupStatus $s) => ['value' => $s->value, 'label' => $s->label()],
+            fn (PickupStatus $s) => [
+                'value' => $s->value,
+                'label' => $s->label(),
+                'short_label' => $s->shortLabel(),
+                'tone' => $s->tone(),
+            ],
             PickupStatus::cases()
         );
 
@@ -30,6 +35,7 @@ class PickupHistoryController extends Controller
             'pickups' => $pickups,
             'filters' => $filters,
             'statuses' => $statuses,
+            'basemapApiKey' => config('osm.basemap_api_key'),
         ]);
     }
 }

@@ -49,7 +49,7 @@ class SubscriptionController extends Controller
             ->route('admin.subscriptions.index')
             ->with(
                 'success',
-                'Harga paket langganan berhasil diperbarui menjadi Rp ' . number_format($updated->price, 0, ',', '.') . '.'
+                'Harga paket langganan berhasil diperbarui menjadi Rp '.number_format($updated->price, 0, ',', '.').'.'
             );
     }
 }

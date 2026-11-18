@@ -1,0 +1,43 @@
+.git
+.github
+.gitattributes
+.idea
+.vscode
+
+# Dependencies
+node_modules
+vendor
+
+# Build artifacts
+public/build
+public/hot
+public/fonts-manifest.dev.json
+bootstrap/ssr
+bootstrap/cache/*.php
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+.env.production.example
+
+# Runtime data
+storage/logs/*
+!storage/logs/.gitignore
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+database/*.sqlite*
+
+# Local-only files
+tests
+docs
+phpunit.xml
+phpstan.neon
+phpstan-baseline.neon
+pint.json
+
+# Generated frontend helpers (dibuat ulang saat build)
+resources/js/actions
+resources/js/routes
+resources/js/wayfinder

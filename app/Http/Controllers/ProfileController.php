@@ -26,6 +26,7 @@ class ProfileController extends Controller
             'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => session('status'),
             'userData' => $user,
+            'basemapApiKey' => config('osm.basemap_api_key'),
         ]);
     }
 
@@ -38,10 +39,10 @@ class ProfileController extends Controller
         $validated = $request->validated();
 
         // Pemetaan alias dari revalue.sql jika parameter dalam bahasa Indonesia
-        if (isset($validated['nomor_telepon']) && !isset($validated['phone_number'])) {
+        if (isset($validated['nomor_telepon']) && ! isset($validated['phone_number'])) {
             $validated['phone_number'] = $validated['nomor_telepon'];
         }
-        if (isset($validated['alamat']) && !isset($validated['address'])) {
+        if (isset($validated['alamat']) && ! isset($validated['address'])) {
             $validated['address'] = $validated['alamat'];
         }
 

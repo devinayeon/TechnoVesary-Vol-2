@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { Head, Link, router, usePage } from "@inertiajs/vue3";
-import DashboardLayout from "@/layouts/DashboardLayout.vue";
-import UserAvatar from "@/components/Dashboard/UserAvatar.vue";
-import StatusChip from "@/components/Dashboard/StatusChip.vue";
-import UserDeleteModal from "@/components/Dashboard/UserDeleteModal.vue";
+import { ref, computed } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import UserAvatar from '@/components/Dashboard/UserAvatar.vue';
+import StatusChip from '@/components/Dashboard/StatusChip.vue';
+import UserDeleteModal from '@/components/Dashboard/UserDeleteModal.vue';
 import {
     ArrowLeft,
     Edit3,
@@ -17,7 +17,7 @@ import {
     Sparkles,
     Calendar,
     Truck,
-} from "lucide-vue-next";
+} from 'lucide-vue-next';
 
 const props = defineProps<{
     user: {
@@ -59,7 +59,7 @@ const closeDeleteModal = () => {
 };
 
 const restoreUser = () => {
-    if (confirm("Aktifkan kembali akun pengguna ini?")) {
+    if (confirm('Aktifkan kembali akun pengguna ini?')) {
         router.post(
             `/admin/users/${props.user.id}/restore`,
             {},
@@ -72,13 +72,13 @@ const restoreUser = () => {
 
 const getRoleLabel = (role?: string): string => {
     switch (role?.toLowerCase()) {
-        case "admin":
-            return "Administrator";
-        case "driver":
-            return "Driver Armada";
-        case "customer":
+        case 'admin':
+            return 'Administrator';
+        case 'driver':
+            return 'Driver Armada';
+        case 'customer':
         default:
-            return "Customer";
+            return 'Customer';
     }
 };
 
@@ -86,23 +86,23 @@ const roleLabel = computed(() => getRoleLabel(props.user.role));
 
 const roleTone = computed(() => {
     switch (props.user.role?.toLowerCase()) {
-        case "admin":
-            return "Amber" as const;
-        case "driver":
-            return "Blue" as const;
-        case "customer":
+        case 'admin':
+            return 'Amber' as const;
+        case 'driver':
+            return 'Blue' as const;
+        case 'customer':
         default:
-            return "Green" as const;
+            return 'Green' as const;
     }
 });
 
 const formattedDate = (d?: string | null) => {
-    if (!d) return "—";
+    if (!d) return '—';
     try {
-        return new Date(d).toLocaleDateString("id-ID", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
+        return new Date(d).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
         });
     } catch {
         return d;
@@ -116,12 +116,12 @@ const formattedDate = (d?: string | null) => {
     <DashboardLayout>
         <!-- Page Heading & Actions (Figma Node 485:3076) -->
         <div
-            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"
+            class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
         >
             <div>
                 <Link
                     href="/admin/users"
-                    class="inline-flex items-center gap-2 text-[13px] font-bold text-charcoal hover:text-night-ink transition-colors mb-2 group"
+                    class="group mb-2 inline-flex items-center gap-2 text-[13px] font-bold text-charcoal transition-colors hover:text-night-ink"
                 >
                     <ArrowLeft
                         class="size-4 transition-transform group-hover:-translate-x-1"
@@ -130,11 +130,11 @@ const formattedDate = (d?: string | null) => {
                 </Link>
 
                 <h1
-                    class="text-[26px] sm:text-[30px] font-extrabold text-night-ink tracking-tight leading-tight"
+                    class="text-[26px] leading-tight font-extrabold tracking-tight text-night-ink sm:text-[30px]"
                 >
                     {{ user.name }}
                 </h1>
-                <p class="text-[14px] font-normal text-charcoal mt-0.5">
+                <p class="mt-0.5 text-[14px] font-normal text-charcoal">
                     Detail profil dan status layanan akun pengguna.
                 </p>
             </div>
@@ -144,7 +144,7 @@ const formattedDate = (d?: string | null) => {
                 <!-- Ubah Button -->
                 <Link
                     :href="`/admin/users/${user.id}/edit`"
-                    class="px-5 h-[44px] rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green font-extrabold text-[14px] text-night-ink hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+                    class="inline-flex h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green px-5 text-[14px] font-extrabold text-night-ink transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2"
                 >
                     <Edit3 class="size-4" />
                     <span>Ubah</span>
@@ -153,7 +153,7 @@ const formattedDate = (d?: string | null) => {
                 <!-- Self-lock badge (menggantikan tombol Hapus saat melihat profil sendiri) -->
                 <div
                     v-if="isSelf"
-                    class="px-4 h-[44px] rounded-xl border-2 border-amber-200 bg-amber-50 font-bold text-[13px] text-amber-700 inline-flex items-center gap-2 select-none"
+                    class="inline-flex h-[44px] items-center gap-2 rounded-xl border-2 border-amber-200 bg-amber-50 px-4 text-[13px] font-bold text-amber-700 select-none"
                     title="Admin tidak dapat menghapus akun miliknya sendiri"
                 >
                     <Shield class="size-4 shrink-0" />
@@ -165,7 +165,7 @@ const formattedDate = (d?: string | null) => {
                     <button
                         v-if="!user.deleted_at"
                         type="button"
-                        class="px-5 h-[44px] rounded-xl border-2 border-b-[4px] border-red-200 bg-red-50 font-extrabold text-[14px] text-red-600 hover:bg-red-100 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+                        class="inline-flex h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-b-[4px] border-red-200 bg-red-50 px-5 text-[14px] font-extrabold text-red-600 transition-all hover:bg-red-100 active:translate-y-0.5 active:border-b-2"
                         @click="openDeleteModal"
                     >
                         <Trash2 class="size-4" />
@@ -174,7 +174,7 @@ const formattedDate = (d?: string | null) => {
                     <button
                         v-else
                         type="button"
-                        class="px-5 h-[44px] rounded-xl border-2 border-b-[4px] border-eco-green/40 bg-sprout-tint font-extrabold text-[14px] text-night-ink hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer inline-flex items-center justify-center gap-2"
+                        class="inline-flex h-[44px] cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-b-[4px] border-eco-green/40 bg-sprout-tint px-5 text-[14px] font-extrabold text-night-ink transition-all hover:brightness-105 active:translate-y-0.5 active:border-b-2"
                         @click="restoreUser"
                     >
                         <RotateCcw class="size-4 text-eco-green-dark" />
@@ -185,14 +185,14 @@ const formattedDate = (d?: string | null) => {
         </div>
 
         <!-- 2-Column Detail Layout (Figma Node 485:3087) -->
-        <div class="flex flex-col lg:flex-row items-start gap-6">
+        <div class="flex flex-col items-start gap-6 lg:flex-row">
             <!-- Account Profile Card (Left Column - Figma Node 485:3088) -->
             <div
-                class="flex-1 w-full bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[20px] p-6 lg:p-8 shadow-xs flex flex-col gap-6"
+                class="flex w-full flex-1 flex-col gap-6 rounded-[20px] border-2 border-b-[4px] border-border-gray bg-paper-white p-6 shadow-xs lg:p-8"
             >
                 <!-- Profile Heading (Avatar + Name + Role Chip) -->
                 <div
-                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border-gray/70"
+                    class="flex flex-col justify-between gap-4 border-b border-border-gray/70 pb-6 sm:flex-row sm:items-center"
                 >
                     <div class="flex items-center gap-4">
                         <UserAvatar
@@ -203,17 +203,17 @@ const formattedDate = (d?: string | null) => {
                         />
                         <div>
                             <h2
-                                class="text-[22px] font-extrabold text-night-ink leading-tight"
+                                class="text-[22px] leading-tight font-extrabold text-night-ink"
                             >
                                 {{ user.name }}
                             </h2>
                             <p
-                                class="text-[14px] font-medium text-charcoal mt-0.5"
+                                class="mt-0.5 text-[14px] font-medium text-charcoal"
                             >
                                 {{ user.email }}
                             </p>
                             <p
-                                class="text-[12px] font-normal text-charcoal/70 mt-1"
+                                class="mt-1 text-[12px] font-normal text-charcoal/70"
                             >
                                 Bergabung sejak
                                 {{ formattedDate(user.created_at) }}
@@ -233,13 +233,13 @@ const formattedDate = (d?: string | null) => {
                 </div>
 
                 <!-- Identity & Contact Fields Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <!-- Nama Lengkap -->
                     <div
-                        class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                        class="rounded-xl border border-border-gray/60 bg-cloud-surface/50 p-4"
                     >
                         <span
-                            class="text-[12px] font-semibold text-charcoal block mb-1"
+                            class="mb-1 block text-[12px] font-semibold text-charcoal"
                         >
                             Nama Lengkap
                         </span>
@@ -250,10 +250,10 @@ const formattedDate = (d?: string | null) => {
 
                     <!-- Role -->
                     <div
-                        class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                        class="rounded-xl border border-border-gray/60 bg-cloud-surface/50 p-4"
                     >
                         <span
-                            class="text-[12px] font-semibold text-charcoal block mb-1"
+                            class="mb-1 block text-[12px] font-semibold text-charcoal"
                         >
                             Peran Pengguna (Role)
                         </span>
@@ -264,10 +264,10 @@ const formattedDate = (d?: string | null) => {
 
                     <!-- Email -->
                     <div
-                        class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                        class="rounded-xl border border-border-gray/60 bg-cloud-surface/50 p-4"
                     >
                         <div
-                            class="flex items-center gap-1.5 mb-1 text-charcoal"
+                            class="mb-1 flex items-center gap-1.5 text-charcoal"
                         >
                             <Mail class="size-3.5" />
                             <span class="text-[12px] font-semibold"
@@ -275,7 +275,7 @@ const formattedDate = (d?: string | null) => {
                             >
                         </div>
                         <span
-                            class="text-[15px] font-extrabold text-night-ink break-all"
+                            class="text-[15px] font-extrabold break-all text-night-ink"
                         >
                             {{ user.email }}
                         </span>
@@ -283,10 +283,10 @@ const formattedDate = (d?: string | null) => {
 
                     <!-- Nomor Telepon -->
                     <div
-                        class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                        class="rounded-xl border border-border-gray/60 bg-cloud-surface/50 p-4"
                     >
                         <div
-                            class="flex items-center gap-1.5 mb-1 text-charcoal"
+                            class="mb-1 flex items-center gap-1.5 text-charcoal"
                         >
                             <Phone class="size-3.5" />
                             <span class="text-[12px] font-semibold"
@@ -294,25 +294,25 @@ const formattedDate = (d?: string | null) => {
                             >
                         </div>
                         <span class="text-[15px] font-extrabold text-night-ink">
-                            {{ user.phone_number || "—" }}
+                            {{ user.phone_number || '—' }}
                         </span>
                     </div>
                 </div>
 
                 <!-- Alamat -->
                 <div
-                    class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                    class="rounded-xl border border-border-gray/60 bg-cloud-surface/50 p-4"
                 >
-                    <div class="flex items-center gap-1.5 mb-1 text-charcoal">
+                    <div class="mb-1 flex items-center gap-1.5 text-charcoal">
                         <MapPin class="size-3.5" />
                         <span class="text-[12px] font-semibold"
                             >Alamat Domisili</span
                         >
                     </div>
                     <span
-                        class="text-[14px] font-medium text-night-ink leading-relaxed"
+                        class="text-[14px] leading-relaxed font-medium text-night-ink"
                     >
-                        {{ user.address || "Belum ada data alamat domisili." }}
+                        {{ user.address || 'Belum ada data alamat domisili.' }}
                     </span>
                 </div>
 
@@ -333,10 +333,10 @@ const formattedDate = (d?: string | null) => {
 
             <!-- Service Status Card (Right Column - Figma Node 485:3116) -->
             <div
-                class="w-full lg:w-[368px] bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[20px] p-6 shadow-xs shrink-0 flex flex-col gap-5"
+                class="flex w-full shrink-0 flex-col gap-5 rounded-[20px] border-2 border-b-[4px] border-border-gray bg-paper-white p-6 shadow-xs lg:w-[368px]"
             >
                 <div
-                    class="flex items-center justify-between pb-3 border-b border-border-gray/70"
+                    class="flex items-center justify-between border-b border-border-gray/70 pb-3"
                 >
                     <h3 class="text-[18px] font-extrabold text-night-ink">
                         Status Layanan
@@ -351,10 +351,10 @@ const formattedDate = (d?: string | null) => {
                 >
                     <!-- Saldo Poin -->
                     <div
-                        class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60"
+                        class="rounded-xl border border-border-gray/60 bg-cloud-surface/70 p-3.5"
                     >
                         <div
-                            class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1"
+                            class="mb-1 flex items-center gap-1.5 text-[12px] font-semibold text-charcoal"
                         >
                             <Sparkles class="size-3.5 text-sunlight-gold" />
                             <span>Saldo Poin Eco-Reward</span>
@@ -362,7 +362,7 @@ const formattedDate = (d?: string | null) => {
                         <p class="text-[22px] font-extrabold text-night-ink">
                             {{
                                 (user.customer?.points ?? 0).toLocaleString(
-                                    "id-ID",
+                                    'id-ID',
                                 )
                             }}
                             Poin
@@ -371,10 +371,10 @@ const formattedDate = (d?: string | null) => {
 
                     <!-- Subscription Status -->
                     <div
-                        class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60"
+                        class="rounded-xl border border-border-gray/60 bg-cloud-surface/70 p-3.5"
                     >
                         <div
-                            class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1"
+                            class="mb-1 flex items-center gap-1.5 text-[12px] font-semibold text-charcoal"
                         >
                             <Shield class="size-3.5 text-eco-green-dark" />
                             <span>Langganan ReValue+</span>
@@ -382,13 +382,13 @@ const formattedDate = (d?: string | null) => {
                         <p class="text-[15px] font-extrabold text-night-ink">
                             {{
                                 user.customer?.is_member
-                                    ? "Aktif"
-                                    : "Belum Berlangganan"
+                                    ? 'Aktif'
+                                    : 'Belum Berlangganan'
                             }}
                         </p>
                         <p
                             v-if="user.customer?.membership_expires_at"
-                            class="text-[12px] font-medium text-charcoal mt-1"
+                            class="mt-1 text-[12px] font-medium text-charcoal"
                         >
                             Berlaku s/d
                             {{
@@ -400,7 +400,7 @@ const formattedDate = (d?: string | null) => {
                     </div>
 
                     <p
-                        class="text-[12px] font-medium text-charcoal/80 leading-relaxed bg-cloud-surface/40 p-3 rounded-xl"
+                        class="rounded-xl bg-cloud-surface/40 p-3 text-[12px] leading-relaxed font-medium text-charcoal/80"
                     >
                         Saldo dan langganan ditampilkan untuk audit data.
                         Perubahan saldo dilakukan otomatis saat penjemputan
@@ -414,10 +414,10 @@ const formattedDate = (d?: string | null) => {
                     class="space-y-4"
                 >
                     <div
-                        class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60"
+                        class="rounded-xl border border-border-gray/60 bg-cloud-surface/70 p-3.5"
                     >
                         <div
-                            class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1"
+                            class="mb-1 flex items-center gap-1.5 text-[12px] font-semibold text-charcoal"
                         >
                             <Truck class="size-3.5 text-sky-blue" />
                             <span>Ketersediaan Armada</span>
@@ -432,14 +432,14 @@ const formattedDate = (d?: string | null) => {
                         >
                             {{
                                 user.driver?.is_available
-                                    ? "Siap Menerima Tugas"
-                                    : "Sedang Istirahat / Nonaktif"
+                                    ? 'Siap Menerima Tugas'
+                                    : 'Sedang Istirahat / Nonaktif'
                             }}
                         </p>
                     </div>
 
                     <p
-                        class="text-[12px] font-medium text-charcoal/80 leading-relaxed bg-cloud-surface/40 p-3 rounded-xl"
+                        class="rounded-xl bg-cloud-surface/40 p-3 text-[12px] leading-relaxed font-medium text-charcoal/80"
                     >
                         Status armada menentukan apakah driver dapat menerima
                         tugas penjemputan sampah di wilayah terdekat.
@@ -449,10 +449,10 @@ const formattedDate = (d?: string | null) => {
                 <!-- Admin Details -->
                 <div v-else class="space-y-4">
                     <div
-                        class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60"
+                        class="rounded-xl border border-border-gray/60 bg-cloud-surface/70 p-3.5"
                     >
                         <div
-                            class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1"
+                            class="mb-1 flex items-center gap-1.5 text-[12px] font-semibold text-charcoal"
                         >
                             <Shield class="size-3.5 text-sunlight-gold" />
                             <span>Tingkat Akses</span>
@@ -463,7 +463,7 @@ const formattedDate = (d?: string | null) => {
                     </div>
 
                     <p
-                        class="text-[12px] font-medium text-charcoal/80 leading-relaxed bg-cloud-surface/40 p-3 rounded-xl"
+                        class="rounded-xl bg-cloud-surface/40 p-3 text-[12px] leading-relaxed font-medium text-charcoal/80"
                     >
                         Administrator memiliki kendali penuh atas tata kelola
                         sistem, manajemen pengguna, penjemputan, dan transaksi.

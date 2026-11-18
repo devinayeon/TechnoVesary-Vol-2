@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from "vue";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 interface Article {
     id: number;
@@ -20,7 +20,7 @@ const sectionRef = ref<HTMLElement | null>(null);
 let gsapCtx: gsap.Context | null = null;
 
 onMounted(async () => {
-    if (typeof window === "undefined" || !sectionRef.value) return;
+    if (typeof window === 'undefined' || !sectionRef.value) return;
     await nextTick();
     gsap.registerPlugin(ScrollTrigger);
 
@@ -28,7 +28,7 @@ onMounted(async () => {
         const root = sectionRef.value;
         if (!root) return;
 
-        const cards = root.querySelectorAll(".article-bento-card");
+        const cards = root.querySelectorAll('.article-bento-card');
         if (cards.length > 0) {
             gsap.fromTo(
                 cards,
@@ -39,11 +39,11 @@ onMounted(async () => {
                     scale: 1,
                     duration: 0.7,
                     stagger: 0.12,
-                    ease: "power3.out",
+                    ease: 'power3.out',
                     scrollTrigger: {
                         trigger: cards[0],
-                        start: "top 85%",
-                        toggleActions: "play none none none",
+                        start: 'top 85%',
+                        toggleActions: 'play none none none',
                     },
                 },
             );
@@ -60,21 +60,21 @@ onUnmounted(() => {
     <section
         id="artikel"
         ref="sectionRef"
-        class="bg-cloud-surface py-16 lg:py-20 overflow-hidden scroll-mt-28"
+        class="scroll-mt-28 overflow-hidden bg-cloud-surface py-16 lg:py-20"
     >
-        <div class="max-w-[1200px] mx-auto px-6">
+        <div class="mx-auto max-w-[1200px] px-6">
             <!-- Header -->
             <div
-                class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3"
+                class="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center"
             >
                 <h2
-                    class="font-extrabold text-3xl sm:text-5xl text-night-ink tracking-tight"
+                    class="text-3xl font-extrabold tracking-tight text-night-ink sm:text-5xl"
                 >
                     Mulai dari tahu, jadi kebiasaan.
                 </h2>
                 <a
                     href="#"
-                    class="font-bold text-[15px] tracking-wider uppercase text-night-ink hover:text-eco-green transition-colors inline-flex items-center gap-1.5 group"
+                    class="group inline-flex items-center gap-1.5 text-[15px] font-bold tracking-wider text-night-ink uppercase transition-colors hover:text-eco-green"
                 >
                     Semua artikel
                     <span class="transition-transform group-hover:translate-x-1"
@@ -83,7 +83,7 @@ onUnmounted(() => {
                 </a>
             </div>
             <p
-                class="font-medium text-[16px] sm:text-[17px] text-charcoal max-w-4xl mb-10 leading-relaxed"
+                class="mb-10 max-w-4xl text-[16px] leading-relaxed font-medium text-charcoal sm:text-[17px]"
             >
                 Produk upcycle berawal dari bahan yang terpilah dengan baik.
                 Kenali cara menyiapkan plastik, kardus, dan kaca agar setoran
@@ -92,17 +92,17 @@ onUnmounted(() => {
 
             <!-- Bento Grid (3 Columns) -->
             <div
-                class="article-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                class="article-grid grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
                 <!-- Article 1 (Left on desktop) -->
                 <article
                     v-if="articles.length > 0"
-                    class="article-bento-card group bg-paper-white border-2 border-b-[5px] border-border-gray rounded-[20px] p-5 flex flex-col justify-between hover:border-eco-green hover:border-b-[5px] hover:border-b-eco-green-dark hover:-translate-y-2 hover:shadow-[0_16px_32px_-8px_rgba(88,204,2,0.22)] transition-all duration-300 ease-out cursor-default"
+                    class="article-bento-card group flex cursor-default flex-col justify-between rounded-[20px] border-2 border-b-[5px] border-border-gray bg-paper-white p-5 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-b-[5px] hover:border-eco-green hover:border-b-eco-green-dark hover:shadow-[0_16px_32px_-8px_rgba(88,204,2,0.22)]"
                 >
                     <div>
                         <!-- Thumbnail / Image wrap -->
                         <div
-                            class="bg-sky-tint rounded-[14px] h-[160px] flex items-center justify-center overflow-hidden mb-4 p-2"
+                            class="mb-4 flex h-[160px] items-center justify-center overflow-hidden rounded-[14px] bg-sky-tint p-2"
                         >
                             <img
                                 v-if="
@@ -110,7 +110,7 @@ onUnmounted(() => {
                                 "
                                 :src="`/storage/${articles[0]?.thumbnail || articles[0]?.photo}`"
                                 :alt="articles[0]?.title"
-                                class="w-full h-full object-cover rounded-lg transition-transform duration-300 ease-out group-hover:scale-108"
+                                class="h-full w-full rounded-lg object-cover transition-transform duration-300 ease-out group-hover:scale-108"
                             />
                             <div
                                 v-else
@@ -123,22 +123,22 @@ onUnmounted(() => {
                         <!-- Tag -->
                         <div class="mb-3">
                             <span
-                                class="inline-block bg-sprout-tint text-night-ink font-bold text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
+                                class="inline-block rounded-full bg-sprout-tint px-2.5 py-1 text-[11px] font-bold tracking-wider text-night-ink uppercase"
                             >
                                 {{
                                     articles[0]?.category?.name ??
-                                    "PANDUAN PILAH · 4 MNT"
+                                    'PANDUAN PILAH · 4 MNT'
                                 }}
                             </span>
                         </div>
 
                         <h3
-                            class="font-extrabold text-[18px] text-night-ink leading-snug mb-2 transition-colors duration-200 group-hover:text-eco-green-dark"
+                            class="mb-2 text-[18px] leading-snug font-extrabold text-night-ink transition-colors duration-200 group-hover:text-eco-green-dark"
                         >
                             {{ articles[0]?.title }}
                         </h3>
                         <p
-                            class="font-medium text-[14px] text-charcoal line-clamp-3 leading-relaxed mb-4"
+                            class="mb-4 line-clamp-3 text-[14px] leading-relaxed font-medium text-charcoal"
                         >
                             {{ articles[0]?.excerpt || articles[0]?.content }}
                         </p>
@@ -146,7 +146,7 @@ onUnmounted(() => {
 
                     <a
                         :href="`/artikel/${articles[0]?.slug}`"
-                        class="font-bold text-[14px] text-night-ink group-hover:text-eco-green transition-colors inline-flex items-center gap-1 mt-auto"
+                        class="mt-auto inline-flex items-center gap-1 text-[14px] font-bold text-night-ink transition-colors group-hover:text-eco-green"
                     >
                         BACA ARTIKEL →
                     </a>
@@ -154,15 +154,15 @@ onUnmounted(() => {
 
                 <!-- Bento Info Card 1: Pilah Lebih Tepat (Span 2 cols on desktop) -->
                 <div
-                    class="article-bento-card lg:col-span-2 bg-sky-tint border-2 border-b-[5px] border-[#bfe7fa] rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:border-sky-blue hover:border-b-sky-blue-dark hover:-translate-y-1 hover:shadow-md transition-all duration-300 ease-out cursor-default"
+                    class="article-bento-card flex min-h-[200px] cursor-default flex-col justify-center rounded-[24px] border-2 border-b-[5px] border-[#bfe7fa] bg-sky-tint p-8 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-sky-blue hover:border-b-sky-blue-dark hover:shadow-md lg:col-span-2"
                 >
                     <h3
-                        class="font-bold text-2xl sm:text-[32px] text-night-ink tracking-tight mb-3"
+                        class="mb-3 text-2xl font-bold tracking-tight text-night-ink sm:text-[32px]"
                     >
                         Pilah lebih tepat, mulai dari tahu.
                     </h3>
                     <p
-                        class="font-medium text-[16px] sm:text-[17px] text-charcoal leading-relaxed"
+                        class="text-[16px] leading-relaxed font-medium text-charcoal sm:text-[17px]"
                     >
                         Mulai dari botol plastik yang paling sering dijumpai.
                         Lanjutkan ke kardus dan kaca untuk memahami cara
@@ -172,20 +172,20 @@ onUnmounted(() => {
 
                 <!-- Bento Info Card 2: Tiga Kebiasaan Sebelum Setor -->
                 <div
-                    class="article-bento-card bg-paper-white border-2 border-b-[5px] border-border-gray/70 rounded-[24px] p-8 flex flex-col justify-center min-h-[200px] hover:border-night-ink/20 hover:-translate-y-1 hover:shadow-md transition-all duration-300 ease-out cursor-default"
+                    class="article-bento-card flex min-h-[200px] cursor-default flex-col justify-center rounded-[24px] border-2 border-b-[5px] border-border-gray/70 bg-paper-white p-8 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-night-ink/20 hover:shadow-md"
                 >
                     <p
-                        class="font-bold text-[13px] tracking-[1.6px] uppercase text-charcoal mb-2"
+                        class="mb-2 text-[13px] font-bold tracking-[1.6px] text-charcoal uppercase"
                     >
                         PRAKTIKKAN DARI RUMAH
                     </p>
                     <h3
-                        class="font-bold text-xl sm:text-[26px] text-night-ink tracking-tight mb-3"
+                        class="mb-3 text-xl font-bold tracking-tight text-night-ink sm:text-[26px]"
                     >
                         Kecil, tapi konsisten.
                     </h3>
                     <div
-                        class="font-medium text-[15px] sm:text-[16px] text-charcoal leading-relaxed space-y-1"
+                        class="space-y-1 text-[15px] leading-relaxed font-medium text-charcoal sm:text-[16px]"
                     >
                         <p>01 &nbsp;Bilas kemasan plastik</p>
                         <p>02 &nbsp;Simpan kardus tetap kering</p>
@@ -196,11 +196,11 @@ onUnmounted(() => {
                 <!-- Article 2 -->
                 <article
                     v-if="articles.length > 1"
-                    class="article-bento-card group bg-paper-white border-2 border-b-[5px] border-border-gray rounded-[20px] p-5 flex flex-col justify-between hover:border-eco-green hover:border-b-[5px] hover:border-b-eco-green-dark hover:-translate-y-2 hover:shadow-[0_16px_32px_-8px_rgba(88,204,2,0.22)] transition-all duration-300 ease-out cursor-default"
+                    class="article-bento-card group flex cursor-default flex-col justify-between rounded-[20px] border-2 border-b-[5px] border-border-gray bg-paper-white p-5 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-b-[5px] hover:border-eco-green hover:border-b-eco-green-dark hover:shadow-[0_16px_32px_-8px_rgba(88,204,2,0.22)]"
                 >
                     <div>
                         <div
-                            class="bg-sky-tint rounded-[14px] h-[160px] flex items-center justify-center overflow-hidden mb-4 p-2"
+                            class="mb-4 flex h-[160px] items-center justify-center overflow-hidden rounded-[14px] bg-sky-tint p-2"
                         >
                             <img
                                 v-if="
@@ -208,7 +208,7 @@ onUnmounted(() => {
                                 "
                                 :src="`/storage/${articles[1]?.thumbnail || articles[1]?.photo}`"
                                 :alt="articles[1]?.title"
-                                class="w-full h-full object-cover rounded-lg transition-transform duration-300 ease-out group-hover:scale-108"
+                                class="h-full w-full rounded-lg object-cover transition-transform duration-300 ease-out group-hover:scale-108"
                             />
                             <div
                                 v-else
@@ -220,22 +220,22 @@ onUnmounted(() => {
 
                         <div class="mb-3">
                             <span
-                                class="inline-block bg-sprout-tint text-night-ink font-bold text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
+                                class="inline-block rounded-full bg-sprout-tint px-2.5 py-1 text-[11px] font-bold tracking-wider text-night-ink uppercase"
                             >
                                 {{
                                     articles[1]?.category?.name ??
-                                    "TIPS RUMAH · 3 MNT"
+                                    'TIPS RUMAH · 3 MNT'
                                 }}
                             </span>
                         </div>
 
                         <h3
-                            class="font-extrabold text-[18px] text-night-ink leading-snug mb-2 transition-colors duration-200 group-hover:text-eco-green-dark"
+                            class="mb-2 text-[18px] leading-snug font-extrabold text-night-ink transition-colors duration-200 group-hover:text-eco-green-dark"
                         >
                             {{ articles[1]?.title }}
                         </h3>
                         <p
-                            class="font-medium text-[14px] text-charcoal line-clamp-3 leading-relaxed mb-4"
+                            class="mb-4 line-clamp-3 text-[14px] leading-relaxed font-medium text-charcoal"
                         >
                             {{ articles[1]?.excerpt || articles[1]?.content }}
                         </p>
@@ -243,7 +243,7 @@ onUnmounted(() => {
 
                     <a
                         :href="`/artikel/${articles[1]?.slug}`"
-                        class="font-bold text-[14px] text-night-ink group-hover:text-eco-green transition-colors inline-flex items-center gap-1 mt-auto"
+                        class="mt-auto inline-flex items-center gap-1 text-[14px] font-bold text-night-ink transition-colors group-hover:text-eco-green"
                     >
                         BACA ARTIKEL →
                     </a>
@@ -252,11 +252,11 @@ onUnmounted(() => {
                 <!-- Article 3 -->
                 <article
                     v-if="articles.length > 2"
-                    class="article-bento-card group bg-paper-white border-2 border-b-[5px] border-border-gray rounded-[20px] p-5 flex flex-col justify-between hover:border-eco-green hover:border-b-[5px] hover:border-b-eco-green-dark hover:-translate-y-2 hover:shadow-[0_16px_32px_-8px_rgba(88,204,2,0.22)] transition-all duration-300 ease-out cursor-default"
+                    class="article-bento-card group flex cursor-default flex-col justify-between rounded-[20px] border-2 border-b-[5px] border-border-gray bg-paper-white p-5 transition-all duration-300 ease-out hover:-translate-y-2 hover:border-b-[5px] hover:border-eco-green hover:border-b-eco-green-dark hover:shadow-[0_16px_32px_-8px_rgba(88,204,2,0.22)]"
                 >
                     <div>
                         <div
-                            class="bg-sky-tint rounded-[14px] h-[160px] flex items-center justify-center overflow-hidden mb-4 p-2"
+                            class="mb-4 flex h-[160px] items-center justify-center overflow-hidden rounded-[14px] bg-sky-tint p-2"
                         >
                             <img
                                 v-if="
@@ -264,7 +264,7 @@ onUnmounted(() => {
                                 "
                                 :src="`/storage/${articles[2]?.thumbnail || articles[2]?.photo}`"
                                 :alt="articles[2]?.title"
-                                class="w-full h-full object-cover rounded-lg transition-transform duration-300 ease-out group-hover:scale-108"
+                                class="h-full w-full rounded-lg object-cover transition-transform duration-300 ease-out group-hover:scale-108"
                             />
                             <div
                                 v-else
@@ -276,22 +276,22 @@ onUnmounted(() => {
 
                         <div class="mb-3">
                             <span
-                                class="inline-block bg-sprout-tint text-night-ink font-bold text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
+                                class="inline-block rounded-full bg-sprout-tint px-2.5 py-1 text-[11px] font-bold tracking-wider text-night-ink uppercase"
                             >
                                 {{
                                     articles[2]?.category?.name ??
-                                    "DAUR ULANG · 5 MNT"
+                                    'DAUR ULANG · 5 MNT'
                                 }}
                             </span>
                         </div>
 
                         <h3
-                            class="font-extrabold text-[18px] text-night-ink leading-snug mb-2 transition-colors duration-200 group-hover:text-eco-green-dark"
+                            class="mb-2 text-[18px] leading-snug font-extrabold text-night-ink transition-colors duration-200 group-hover:text-eco-green-dark"
                         >
                             {{ articles[2]?.title }}
                         </h3>
                         <p
-                            class="font-medium text-[14px] text-charcoal line-clamp-3 leading-relaxed mb-4"
+                            class="mb-4 line-clamp-3 text-[14px] leading-relaxed font-medium text-charcoal"
                         >
                             {{ articles[2]?.excerpt || articles[2]?.content }}
                         </p>
@@ -299,7 +299,7 @@ onUnmounted(() => {
 
                     <a
                         :href="`/artikel/${articles[2]?.slug}`"
-                        class="font-bold text-[14px] text-night-ink group-hover:text-eco-green transition-colors inline-flex items-center gap-1 mt-auto"
+                        class="mt-auto inline-flex items-center gap-1 text-[14px] font-bold text-night-ink transition-colors group-hover:text-eco-green"
                     >
                         BACA ARTIKEL →
                     </a>

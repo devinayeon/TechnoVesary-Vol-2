@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, type Component } from "vue";
-import { ChevronDown, Check } from "lucide-vue-next";
+import { ref, computed, onMounted, onBeforeUnmount, type Component } from 'vue';
+import { ChevronDown, Check } from 'lucide-vue-next';
 
 export interface DropdownOption {
     value: string | number;
     label: string;
     icon?: Component;
-    tone?: "Green" | "Blue" | "Amber" | "Coral" | "Neutral";
+    tone?: 'Green' | 'Blue' | 'Amber' | 'Coral' | 'Neutral';
     description?: string;
 }
 
@@ -18,31 +18,31 @@ const props = withDefaults(
         icon?: Component;
         disabled?: boolean;
         menuWidth?: string;
-        align?: "left" | "right";
-        size?: "sm" | "md" | "lg";
+        align?: 'left' | 'right';
+        size?: 'sm' | 'md' | 'lg';
     }>(),
     {
-        modelValue: "",
-        placeholder: "Pilih...",
+        modelValue: '',
+        placeholder: 'Pilih...',
         disabled: false,
-        align: "left",
-        size: "md",
-    }
+        align: 'left',
+        size: 'md',
+    },
 );
 
 const emit = defineEmits<{
-    (e: "update:modelValue", value: string | number): void;
-    (e: "change", value: string | number): void;
+    (e: 'update:modelValue', value: string | number): void;
+    (e: 'change', value: string | number): void;
 }>();
 
 const isOpen = ref(false);
 const dropdownRef = ref<HTMLElement | null>(null);
-const computedAlign = ref<"left" | "right">(props.align);
+const computedAlign = ref<'left' | 'right'>(props.align);
 
 // Normalize options to DropdownOption format
 const normalizedOptions = computed<DropdownOption[]>(() => {
     return props.options.map((opt) => {
-        if (typeof opt === "string") {
+        if (typeof opt === 'string') {
             return {
                 value: opt,
                 label: opt,
@@ -54,7 +54,9 @@ const normalizedOptions = computed<DropdownOption[]>(() => {
 
 // Currently selected option object
 const selectedOption = computed(() => {
-    return normalizedOptions.value.find((opt) => opt.value === props.modelValue);
+    return normalizedOptions.value.find(
+        (opt) => opt.value === props.modelValue,
+    );
 });
 
 // Display label for the trigger button
@@ -66,7 +68,11 @@ const displayLabel = computed(() => {
 });
 
 const isPlaceholder = computed(() => {
-    return !selectedOption.value || props.modelValue === "" || props.modelValue === null;
+    return (
+        !selectedOption.value ||
+        props.modelValue === '' ||
+        props.modelValue === null
+    );
 });
 
 const toggleDropdown = () => {
@@ -74,10 +80,10 @@ const toggleDropdown = () => {
     if (!isOpen.value && dropdownRef.value) {
         const rect = dropdownRef.value.getBoundingClientRect();
         // If explicitly set to right, or if dropdown would overflow the right viewport boundary
-        if (props.align === "right" || rect.right + 140 > window.innerWidth) {
-            computedAlign.value = "right";
+        if (props.align === 'right' || rect.right + 140 > window.innerWidth) {
+            computedAlign.value = 'right';
         } else {
-            computedAlign.value = "left";
+            computedAlign.value = 'left';
         }
     }
     isOpen.value = !isOpen.value;
@@ -85,45 +91,48 @@ const toggleDropdown = () => {
 
 const selectOption = (opt: DropdownOption) => {
     if (props.disabled) return;
-    emit("update:modelValue", opt.value);
-    emit("change", opt.value);
+    emit('update:modelValue', opt.value);
+    emit('change', opt.value);
     isOpen.value = false;
 };
 
 // Close when clicking outside
 const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
+    if (
+        dropdownRef.value &&
+        !dropdownRef.value.contains(event.target as Node)
+    ) {
         isOpen.value = false;
     }
 };
 
 // Close on Escape key
 const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape" && isOpen.value) {
+    if (event.key === 'Escape' && isOpen.value) {
         isOpen.value = false;
     }
 };
 
 onMounted(() => {
-    document.addEventListener("click", handleClickOutside);
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
 });
 
 onBeforeUnmount(() => {
-    document.removeEventListener("click", handleClickOutside);
-    document.removeEventListener("keydown", handleKeyDown);
+    document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener('keydown', handleKeyDown);
 });
 
 // Sizing styles for trigger button
 const sizeClasses = computed(() => {
     switch (props.size) {
-        case "sm":
-            return "h-[36px] px-3 text-[12px] rounded-lg";
-        case "lg":
-            return "h-[48px] px-4 text-[15px] rounded-2xl";
-        case "md":
+        case 'sm':
+            return 'h-[36px] px-3 text-[12px] rounded-lg';
+        case 'lg':
+            return 'h-[48px] px-4 text-[15px] rounded-2xl';
+        case 'md':
         default:
-            return "h-[44px] px-3.5 text-[14px] rounded-xl";
+            return 'h-[44px] px-3.5 text-[14px] rounded-xl';
     }
 });
 </script>
@@ -132,7 +141,7 @@ const sizeClasses = computed(() => {
     <div
         ref="dropdownRef"
         class="relative inline-block text-left"
-        :class="{ 'opacity-60 pointer-events-none': disabled }"
+        :class="{ 'pointer-events-none opacity-60': disabled }"
     >
         <!-- Trigger Button (Figma 481:745 / 3D Duolingo Tactile) -->
         <button
@@ -140,14 +149,14 @@ const sizeClasses = computed(() => {
             @click="toggleDropdown"
             :disabled="disabled"
             :class="[
-                'w-full bg-paper-white border-2 flex items-center justify-between gap-2.5 font-bold transition-all select-none shadow-2xs cursor-pointer',
+                'flex w-full cursor-pointer items-center justify-between gap-2.5 border-2 bg-paper-white font-bold shadow-2xs transition-all select-none',
                 sizeClasses,
                 isOpen
-                    ? 'border-eco-green ring-4 ring-eco-green/15 text-night-ink'
-                    : 'border-border-gray hover:border-charcoal/40 text-night-ink active:translate-y-0.5',
+                    ? 'border-eco-green text-night-ink ring-4 ring-eco-green/15'
+                    : 'border-border-gray text-night-ink hover:border-charcoal/40 active:translate-y-0.5',
             ]"
         >
-            <div class="flex items-center gap-2 min-w-0 truncate">
+            <div class="flex min-w-0 items-center gap-2 truncate">
                 <!-- Optional leading icon -->
                 <component
                     v-if="icon || selectedOption?.icon"
@@ -156,9 +165,11 @@ const sizeClasses = computed(() => {
                 />
 
                 <span
-                    class="truncate block"
+                    class="block truncate"
                     :class="[
-                        isPlaceholder ? 'font-semibold text-charcoal/70' : 'font-bold text-night-ink'
+                        isPlaceholder
+                            ? 'font-semibold text-charcoal/70'
+                            : 'font-bold text-night-ink',
                     ]"
                 >
                     {{ displayLabel }}
@@ -184,9 +195,11 @@ const sizeClasses = computed(() => {
             <div
                 v-if="isOpen"
                 :class="[
-                    'absolute mt-1.5 z-50 bg-paper-white border-2 border-border-gray rounded-2xl shadow-lg p-1.5 max-h-64 overflow-y-auto focus:outline-none max-w-[calc(100vw-32px)]',
+                    'absolute z-50 mt-1.5 max-h-64 max-w-[calc(100vw-32px)] overflow-y-auto rounded-2xl border-2 border-border-gray bg-paper-white p-1.5 shadow-lg focus:outline-none',
                     menuWidth ? menuWidth : 'w-full min-w-[180px]',
-                    computedAlign === 'right' ? 'right-0 origin-top-right' : 'left-0 origin-top-left',
+                    computedAlign === 'right'
+                        ? 'right-0 origin-top-right'
+                        : 'left-0 origin-top-left',
                 ]"
             >
                 <div class="space-y-1">
@@ -196,24 +209,30 @@ const sizeClasses = computed(() => {
                         type="button"
                         @click="selectOption(opt)"
                         :class="[
-                            'w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-left text-[13px] transition-all cursor-pointer select-none group',
+                            'group flex w-full cursor-pointer items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left text-[13px] transition-all select-none',
                             opt.value === modelValue
-                                ? 'bg-sprout-tint text-night-ink font-extrabold shadow-2xs'
-                                : 'text-charcoal hover:bg-cloud-surface hover:text-night-ink font-bold',
+                                ? 'bg-sprout-tint font-extrabold text-night-ink shadow-2xs'
+                                : 'font-bold text-charcoal hover:bg-cloud-surface hover:text-night-ink',
                         ]"
                     >
-                        <div class="flex items-center gap-2.5 min-w-0 truncate">
+                        <div class="flex min-w-0 items-center gap-2.5 truncate">
                             <component
                                 v-if="opt.icon"
                                 :is="opt.icon"
                                 class="size-4 shrink-0"
-                                :class="opt.value === modelValue ? 'text-eco-green-dark' : 'text-charcoal/70 group-hover:text-night-ink'"
+                                :class="
+                                    opt.value === modelValue
+                                        ? 'text-eco-green-dark'
+                                        : 'text-charcoal/70 group-hover:text-night-ink'
+                                "
                             />
                             <div class="truncate">
-                                <span class="block truncate">{{ opt.label }}</span>
+                                <span class="block truncate">{{
+                                    opt.label
+                                }}</span>
                                 <span
                                     v-if="opt.description"
-                                    class="block text-[11px] text-charcoal/70 font-normal truncate mt-0.5"
+                                    class="mt-0.5 block truncate text-[11px] font-normal text-charcoal/70"
                                 >
                                     {{ opt.description }}
                                 </span>
@@ -223,7 +242,7 @@ const sizeClasses = computed(() => {
                         <!-- Checkmark when selected -->
                         <Check
                             v-if="opt.value === modelValue"
-                            class="size-4 shrink-0 text-eco-green-dark font-extrabold"
+                            class="size-4 shrink-0 font-extrabold text-eco-green-dark"
                         />
                     </button>
                 </div>

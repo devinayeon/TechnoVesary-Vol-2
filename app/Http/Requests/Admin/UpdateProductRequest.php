@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProductRequest extends FormRequest
@@ -17,16 +18,16 @@ class UpdateProductRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name'         => ['required', 'string', 'max:255'],
-            'description'  => ['nullable', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
             'price_rupiah' => ['required', 'integer', 'min:1'],
-            'stock'        => ['required', 'integer', 'min:0'],
-            'photo'        => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'stock' => ['required', 'integer', 'min:0'],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'remove_photo' => ['nullable', 'boolean'],
         ];
     }
@@ -39,11 +40,11 @@ class UpdateProductRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name'         => 'Nama produk',
-            'description'  => 'Deskripsi produk',
+            'name' => 'Nama produk',
+            'description' => 'Deskripsi produk',
             'price_rupiah' => 'Harga produk',
-            'stock'        => 'Stok produk',
-            'photo'        => 'Foto produk',
+            'stock' => 'Stok produk',
+            'photo' => 'Foto produk',
             'remove_photo' => 'Hapus foto',
         ];
     }

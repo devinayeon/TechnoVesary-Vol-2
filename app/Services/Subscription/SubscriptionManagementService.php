@@ -29,7 +29,7 @@ class SubscriptionManagementService
     /**
      * Memperbarui data harga dan deskripsi paket langganan.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function updatePrice(Subscription $subscription, array $data): Subscription
     {
@@ -44,7 +44,7 @@ class SubscriptionManagementService
     /**
      * Mengambil daftar transaksi subscription terpaginasi dengan pencarian dan filter status.
      *
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      */
     public function getPaginatedTransactions(array $filters = [], int $perPage = 10): LengthAwarePaginator
     {

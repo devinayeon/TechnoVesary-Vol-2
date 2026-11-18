@@ -2,5 +2,7 @@
 defineProps<{ text: string }>();
 </script>
 <template>
-  <span class="text-xs font-bold tracking-widest uppercase text-green-700">{{ text }}</span>
+    <span class="text-xs font-bold tracking-widest text-green-700 uppercase">{{
+        text
+    }}</span>
 </template>

@@ -2,7 +2,6 @@
 
 namespace App\Services\Pickup;
 
-use App\Enums\PickupStatus;
 use App\Models\WasteDeposit;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 

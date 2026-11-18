@@ -11,7 +11,7 @@ class MapController extends Controller
 {
     public function __construct(
         protected OsmRoutingService $routingService,
-        protected GeocodingService  $geocodingService,
+        protected GeocodingService $geocodingService,
     ) {}
 
     /**
@@ -25,8 +25,8 @@ class MapController extends Controller
         $validated = $request->validate([
             'start_lat' => ['required', 'numeric', 'between:-90,90'],
             'start_lng' => ['required', 'numeric', 'between:-180,180'],
-            'end_lat'   => ['required', 'numeric', 'between:-90,90'],
-            'end_lng'   => ['required', 'numeric', 'between:-180,180'],
+            'end_lat' => ['required', 'numeric', 'between:-90,90'],
+            'end_lng' => ['required', 'numeric', 'between:-180,180'],
         ]);
 
         $result = $this->routingService->getRoute(
@@ -69,7 +69,7 @@ class MapController extends Controller
     public function search(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'q'     => ['required', 'string', 'min:3', 'max:200'],
+            'q' => ['required', 'string', 'min:3', 'max:200'],
             'limit' => ['sometimes', 'integer', 'min:1', 'max:10'],
         ]);
 
@@ -90,9 +90,9 @@ class MapController extends Controller
     {
         return response()->json([
             'defaults' => [
-                'latitude'  => config('osm.defaults.latitude', -6.2088),
+                'latitude' => config('osm.defaults.latitude', -6.2088),
                 'longitude' => config('osm.defaults.longitude', 106.8456),
-                'zoom'      => config('osm.defaults.zoom', 13),
+                'zoom' => config('osm.defaults.zoom', 13),
             ],
             'tile_url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             'attribution' => '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',

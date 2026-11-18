@@ -17,7 +17,7 @@ class SubscriptionTransactionSeeder extends Seeder
     public function run(): void
     {
         $customer = Customer::first();
-        $subscription = Subscription::where('name', 'like', '%Pro%')->first();
+        $subscription = Subscription::first();
 
         if (! $customer || ! $subscription) {
             return;

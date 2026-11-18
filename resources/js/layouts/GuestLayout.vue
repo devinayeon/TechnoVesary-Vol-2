@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AuthLayout from "./AuthLayout.vue";
+import AuthLayout from './AuthLayout.vue';
 </script>
 
 <template>
@@ -7,4 +7,3 @@ import AuthLayout from "./AuthLayout.vue";
         <slot />
     </AuthLayout>
 </template>
-
