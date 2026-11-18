@@ -1,7 +1,10 @@
 name: revalue
 
 x-app: &app
-    image: ${IMAGE_NAME}:${IMAGE_TAG:-latest}
+    build:
+        context: .
+        dockerfile: Dockerfile
+    image: revalue:latest
     restart: unless-stopped
     env_file: .env
     volumes:
