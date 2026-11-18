@@ -163,10 +163,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
           envs: ENV_B64
-          script_stop: true
           script: |
             set -e
             cd /opt/revalue
+            git fetch --prune origin main
+            git reset --hard origin/main
             printf '%s' "$ENV_B64" | base64 -d > .env
             chmod 600 .env
-            ./deploy/deploy.sh
+            chmod +x ./deploy/deploy.sh
+            ./deploy/deploy.sh "${{ github.sha }}"
