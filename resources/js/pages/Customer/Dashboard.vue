@@ -5,61 +5,54 @@ import type { User } from '@/types/auth';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import MetricCard from '@/components/Dashboard/MetricCard.vue';
 import StatusChip from '@/components/Dashboard/StatusChip.vue';
-import { Wallet, Recycle, Sparkles, Star, Truck } from 'lucide-vue-next';
+import {
+    Coins,
+    Recycle,
+    Crown,
+    Star,
+    Truck,
+    PackageOpen,
+    ArrowRight,
+} from 'lucide-vue-next';
+
+interface MetricItem {
+    value: string;
+    sublabel: string;
+}
+
+interface RecentDepositItem {
+    id: number;
+    date: string;
+    weight: string;
+    earning: string;
+    types: string;
+    status: string;
+    status_label: string;
+    status_tone: 'Green' | 'Amber' | 'Blue' | 'Neutral';
+    show_url: string;
+}
+
+interface BadgeItem {
+    name: string;
+    desc: string;
+    icon: string;
+    unlocked: boolean;
+}
 
 const props = defineProps<{
     auth: { user: User };
+    metrics: {
+        points: MetricItem;
+        waste: MetricItem;
+        membership: MetricItem & { is_member: boolean };
+    };
+    recentDeposits: RecentDepositItem[];
+    badges: BadgeItem[];
+    totalWeightKg: number;
+    isMember: boolean;
 }>();
 
 const userName = computed(() => props.auth?.user?.name ?? 'Customer');
-
-const badges = [
-    {
-        name: 'Pilah Master',
-        desc: '50 Kg pertama disetor',
-        icon: '🏆',
-        unlocked: true,
-    },
-    {
-        name: 'Pejuang 25 Order',
-        desc: '25 kali penjemputan',
-        icon: '🌟',
-        unlocked: true,
-    },
-    {
-        name: 'Eco Warrior',
-        desc: '100 Kg sampah dikelola',
-        icon: '🌍',
-        unlocked: false,
-    },
-    {
-        name: 'ReValue+ Member',
-        desc: 'Berlangganan aktif',
-        icon: '💎',
-        unlocked: false,
-    },
-];
-
-const recentDeposits = [
-    {
-        date: '5 Nov 2024',
-        weight: '12.4 Kg',
-        earning: '+Rp 24.800',
-        types: 'Plastik, Kardus',
-    },
-    {
-        date: '28 Okt 2024',
-        weight: '8.9 Kg',
-        earning: '+Rp 17.800',
-        types: 'Plastik, Logam',
-    },
-    {
-        date: '20 Okt 2024',
-        weight: '15.2 Kg',
-        earning: '+Rp 30.400',
-        types: 'Kardus, Lainnya',
-    },
-];
 </script>
 
 <template>
@@ -79,31 +72,34 @@ const recentDeposits = [
                     Sampahmu hari ini adalah langkah baik untuk bumi besok.
                 </p>
             </div>
-            <StatusChip label="Customer Aktif" tone="Green" />
+            <StatusChip
+                :label="isMember ? 'ReValue+ Member' : 'Customer Aktif'"
+                :tone="isMember ? 'Green' : 'Green'"
+            />
         </div>
 
-        <!-- 3 Metric Cards -->
+        <!-- 3 Metric Cards (Real Database Data) -->
         <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <MetricCard
-                label="Saldo Tabungan Sampah"
-                value="Rp 450.000"
-                sublabel="+Rp 75.000 bulan ini"
-                :icon="Wallet"
-                iconColor="text-eco-green-dark"
+                label="Saldo Poin Reward"
+                :value="metrics.points.value"
+                :sublabel="metrics.points.sublabel"
+                :icon="Coins"
+                iconColor="text-sunlight-gold"
             />
             <MetricCard
                 label="Total Sampah Disetor"
-                value="84,5 Kg"
-                sublabel="+12.3 Kg bulan ini"
+                :value="metrics.waste.value"
+                :sublabel="metrics.waste.sublabel"
                 :icon="Recycle"
                 iconColor="text-sky-blue-dark"
             />
             <MetricCard
-                label="Poin Eco-Reward"
-                value="1.250 Poin"
-                sublabel="Dapat ditukar voucher"
-                :icon="Sparkles"
-                iconColor="text-sunlight-gold"
+                label="Status Keanggotaan"
+                :value="metrics.membership.value"
+                :sublabel="metrics.membership.sublabel"
+                :icon="Crown"
+                iconColor="text-eco-green-dark"
             />
         </div>
 
@@ -113,44 +109,84 @@ const recentDeposits = [
             <div
                 class="rounded-[20px] border-2 border-b-[4px] border-border-gray bg-paper-white p-5 lg:col-span-3 xl:p-6"
             >
-                <h3 class="mb-1 text-[15px] font-extrabold text-night-ink">
-                    Riwayat Setoran Terakhir
-                </h3>
-                <p class="mb-4 text-[12px] font-medium text-charcoal">
-                    3 setoran terbaru Anda
-                </p>
-                <div class="flex flex-col gap-3">
-                    <div
-                        v-for="dep in recentDeposits"
-                        :key="dep.date"
-                        class="flex items-center justify-between gap-3 rounded-xl border border-border-gray p-3 transition-colors hover:bg-cloud-surface"
+                <div class="mb-4 flex items-center justify-between">
+                    <div>
+                        <h3 class="text-[15px] font-extrabold text-night-ink">
+                            Riwayat Setoran Terakhir
+                        </h3>
+                        <p class="mt-0.5 text-[12px] font-medium text-charcoal">
+                            Aktivitas penjemputan sampah terbaru Anda
+                        </p>
+                    </div>
+                    <Link
+                        href="/customer/pickups"
+                        class="text-xs font-bold text-eco-green-dark hover:underline"
                     >
-                        <div>
-                            <p class="text-[13px] font-bold text-night-ink">
+                        Lihat Semua
+                    </Link>
+                </div>
+
+                <!-- Daftar Riwayat Riil -->
+                <div
+                    v-if="recentDeposits.length > 0"
+                    class="flex flex-col gap-3"
+                >
+                    <Link
+                        v-for="dep in recentDeposits"
+                        :key="dep.id"
+                        :href="dep.show_url"
+                        class="group flex items-center justify-between gap-3 rounded-xl border border-border-gray p-3.5 transition-colors hover:bg-cloud-surface"
+                    >
+                        <div class="min-w-0">
+                            <p
+                                class="text-[13px] font-bold text-night-ink group-hover:text-eco-green-dark"
+                            >
                                 {{ dep.weight }}
                             </p>
                             <p
-                                class="mt-0.5 text-[11px] font-medium text-charcoal"
+                                class="mt-0.5 truncate text-[11px] font-medium text-charcoal"
                             >
                                 {{ dep.types }} · {{ dep.date }}
                             </p>
                         </div>
-                        <span
-                            class="text-[13px] font-extrabold text-eco-green-dark"
-                            >{{ dep.earning }}</span
-                        >
-                    </div>
+                        <div class="flex items-center gap-2">
+                            <span
+                                class="text-[13px] font-extrabold text-eco-green-dark"
+                            >
+                                {{ dep.earning }}
+                            </span>
+                            <StatusChip
+                                :label="dep.status_label"
+                                :tone="dep.status_tone"
+                            />
+                        </div>
+                    </Link>
+                </div>
+
+                <!-- Empty State jika belum ada setoran -->
+                <div
+                    v-else
+                    class="flex flex-col items-center justify-center rounded-xl border border-dashed border-border-gray py-8 text-center"
+                >
+                    <PackageOpen class="size-10 text-charcoal/40" />
+                    <p class="mt-2 text-xs font-bold text-night-ink">
+                        Belum ada riwayat penjemputan sampah
+                    </p>
+                    <p class="mt-0.5 text-[11px] text-charcoal">
+                        Pilah sampah rumah tangga Anda dan mintalah penjemputan
+                        pertama!
+                    </p>
                 </div>
 
                 <!-- Quick action CTA -->
                 <div class="mt-5 border-t border-border-gray/60 pt-4">
-                    <button
-                        type="button"
-                        class="flex h-[48px] w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green text-[14px] font-extrabold text-night-ink transition-all hover:brightness-105 active:translate-y-px active:border-b-2"
+                    <Link
+                        href="/customer/pickups/create"
+                        class="flex h-[48px] w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green text-[14px] font-extrabold tracking-wide text-night-ink uppercase shadow-xs transition-all hover:brightness-105 active:translate-y-px active:border-b-2"
                     >
                         <Truck class="size-4" />
-                        Jadwalkan Penjemputan Sampah
-                    </button>
+                        <span>Jadwalkan Penjemputan Sampah</span>
+                    </Link>
                 </div>
             </div>
 
@@ -160,8 +196,8 @@ const recentDeposits = [
                 <div
                     class="relative flex min-h-[180px] flex-col justify-between overflow-hidden rounded-[20px] border-2 border-b-[4px] border-sunlight-gold/50 bg-gold-tint p-5"
                 >
-                    <div class="relative z-10">
-                        <StatusChip label="Valu Celebrate" tone="Amber" />
+                    <div class="relative z-10 max-w-[65%]">
+                        <StatusChip label="Pahlawan Bumi" tone="Amber" />
                         <h3
                             class="mt-2 text-[15px] leading-snug font-extrabold text-night-ink"
                         >
@@ -170,8 +206,9 @@ const recentDeposits = [
                         <p
                             class="mt-1 text-[12px] leading-relaxed font-medium text-charcoal"
                         >
-                            Kamu sudah berkontribusi mengurangi 84.5 Kg sampah.
-                            Terus semangat!
+                            Kamu sudah berkontribusi menyetor
+                            {{ totalWeightKg.toLocaleString('id-ID') }} Kg
+                            sampah terpilah. Terus semangat!
                         </p>
                     </div>
                     <div
@@ -189,11 +226,19 @@ const recentDeposits = [
                 <div
                     class="flex-1 rounded-[20px] border-2 border-b-[4px] border-border-gray bg-paper-white p-5"
                 >
-                    <div class="mb-3 flex items-center gap-2">
-                        <Star class="size-4 text-sunlight-gold" />
-                        <h3 class="text-[14px] font-extrabold text-night-ink">
-                            Pencapaian
-                        </h3>
+                    <div class="mb-3 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <Star class="size-4 text-sunlight-gold" />
+                            <h3
+                                class="text-[14px] font-extrabold text-night-ink"
+                            >
+                                Pencapaian
+                            </h3>
+                        </div>
+                        <span class="text-[11px] font-bold text-charcoal">
+                            {{ badges.filter((b) => b.unlocked).length }} /
+                            {{ badges.length }} Terbuka
+                        </span>
                     </div>
                     <div class="grid grid-cols-2 gap-2.5">
                         <div

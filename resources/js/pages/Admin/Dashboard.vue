@@ -8,87 +8,58 @@ import ChartBar from '@/components/Dashboard/ChartBar.vue';
 import CategoryProgress from '@/components/Dashboard/CategoryProgress.vue';
 import RecentPickupItem from '@/components/Dashboard/RecentPickupItem.vue';
 import StatusChip from '@/components/Dashboard/StatusChip.vue';
-import { Users, Coins, Recycle, Newspaper } from 'lucide-vue-next';
+import { Users, Coins, Recycle, Newspaper, PackageOpen } from 'lucide-vue-next';
+
+export interface MetricData {
+    value: string;
+    sublabel: string;
+}
+
+export interface BarChartItem {
+    month: string;
+    value: string;
+    heightPercentage: number;
+    isHighlighted: boolean;
+}
+
+export interface WasteCompositionItem {
+    label: string;
+    value: string;
+    percentage: number;
+    color: string;
+}
+
+export interface RecentPickupData {
+    name: string;
+    meta: string;
+    weight: string;
+    statusText: string;
+    statusTone: 'Green' | 'Blue' | 'Amber' | 'Neutral';
+}
+
+export interface OperationalInsight {
+    completedThisWeek: number;
+    message: string;
+}
 
 const props = defineProps<{
     auth: { user: User };
+    metrics: {
+        totalUsers: MetricData;
+        totalRevenue: MetricData;
+        totalCategories: MetricData;
+        totalArticles: MetricData;
+    };
+    chartBars: {
+        bars: BarChartItem[];
+        dateRangeText: string;
+    };
+    wasteComposition: WasteCompositionItem[];
+    recentPickups: RecentPickupData[];
+    insight: OperationalInsight;
 }>();
 
 const userName = computed(() => props.auth?.user?.name ?? 'Admin');
-
-const chartBars = [
-    { month: 'Jun', value: '32jt', heightPercentage: 55 },
-    { month: 'Jul', value: '41jt', heightPercentage: 70 },
-    { month: 'Ags', value: '38jt', heightPercentage: 65 },
-    { month: 'Sep', value: '52jt', heightPercentage: 90 },
-    { month: 'Okt', value: '48jt', heightPercentage: 82, isHighlighted: true },
-    { month: 'Nov', value: '29jt', heightPercentage: 48 },
-];
-
-const categories = [
-    {
-        label: 'Plastik',
-        value: '7.2 Ton',
-        percentage: 68,
-        color: 'bg-eco-green',
-    },
-    {
-        label: 'Kardus',
-        value: '4.8 Ton',
-        percentage: 46,
-        color: 'bg-eco-green/70',
-    },
-    {
-        label: 'Logam',
-        value: '3.1 Ton',
-        percentage: 30,
-        color: 'bg-sky-blue/60',
-    },
-    {
-        label: 'Lainnya',
-        value: '2.1 Ton',
-        percentage: 20,
-        color: 'bg-silver-tier/80',
-    },
-];
-
-const recentPickups = [
-    {
-        name: 'Budi Santoso',
-        meta: '#JMP-20241105 · 5 Nov 2024',
-        weight: '12.4 Kg',
-        statusText: 'Selesai',
-        statusTone: 'Green' as const,
-    },
-    {
-        name: 'Siti Rahayu',
-        meta: '#JMP-20241104 · 4 Nov 2024',
-        weight: '8.9 Kg',
-        statusText: 'Selesai',
-        statusTone: 'Green' as const,
-    },
-    {
-        name: 'Ahmad Farhan',
-        meta: '#JMP-20241104 · 4 Nov 2024',
-        weight: '15.2 Kg',
-        statusText: 'Selesai',
-        statusTone: 'Green' as const,
-    },
-    {
-        name: 'Dewi Lestari',
-        meta: '#JMP-20241103 · 3 Nov 2024',
-        weight: '6.7 Kg',
-        statusText: 'Selesai',
-        statusTone: 'Green' as const,
-    },
-    {
-        name: 'Rizky Pratama',
-        meta: '#JMP-20241103 · 3 Nov 2024',
-        weight: '10.1 Kg',
-        statusText: 'Dijemput',
-        statusTone: 'Blue' as const,
-    },
-];
 </script>
 
 <template>
@@ -109,36 +80,46 @@ const recentPickups = [
                     langkah berikutnya.
                 </p>
             </div>
-            <StatusChip label="Sejak awal" tone="Green" />
+            <StatusChip label="Data Terkini" tone="Green" />
         </div>
 
-        <!-- 4 Metric Cards -->
+        <!-- 4 Metric Cards (Data Riil Database) -->
         <div class="mb-6 grid grid-cols-2 gap-4 xl:grid-cols-4">
             <MetricCard
                 label="Total Pengguna"
-                value="1.482"
-                sublabel="Seluruh role aktif"
+                :value="metrics?.totalUsers?.value ?? '0'"
+                :sublabel="
+                    metrics?.totalUsers?.sublabel ?? 'Seluruh role aktif'
+                "
                 :icon="Users"
                 iconColor="text-night-ink"
             />
             <MetricCard
                 label="Total Penghasilan"
-                value="Rp48,65jt"
-                sublabel="Penerimaan rupiah"
+                :value="metrics?.totalRevenue?.value ?? 'Rp 0'"
+                :sublabel="
+                    metrics?.totalRevenue?.sublabel ??
+                    'Penerimaan toko & langganan'
+                "
                 :icon="Coins"
                 iconColor="text-eco-green-dark"
             />
             <MetricCard
                 label="Kategori Sampah"
-                value="8 Kategori"
-                sublabel="Semua aktif"
+                :value="metrics?.totalCategories?.value ?? '0 Kategori'"
+                :sublabel="
+                    metrics?.totalCategories?.sublabel ?? 'Katalog sampah aktif'
+                "
                 :icon="Recycle"
                 iconColor="text-sky-blue-dark"
             />
             <MetricCard
                 label="Total Artikel"
-                value="24 Materi"
-                sublabel="Konten tersedia"
+                :value="metrics?.totalArticles?.value ?? '0 Materi'"
+                :sublabel="
+                    metrics?.totalArticles?.sublabel ??
+                    'Konten edukasi tersedia'
+                "
                 :icon="Newspaper"
                 iconColor="text-charcoal"
             />
@@ -146,7 +127,7 @@ const recentPickups = [
 
         <!-- Chart Row -->
         <div class="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-5">
-            <!-- Bar Chart -->
+            <!-- Bar Chart Penerimaan Rupiah -->
             <div
                 class="rounded-[20px] border-2 border-b-[4px] border-border-gray bg-paper-white p-5 lg:col-span-3 xl:p-6"
             >
@@ -154,11 +135,11 @@ const recentPickups = [
                     Penerimaan Rupiah
                 </h3>
                 <p class="mb-5 text-[12px] font-medium text-charcoal">
-                    Juni – November 2024
+                    {{ chartBars?.dateRangeText ?? '6 Bulan Terakhir' }}
                 </p>
                 <div class="flex h-[180px] items-end justify-between gap-2">
                     <ChartBar
-                        v-for="bar in chartBars"
+                        v-for="bar in chartBars?.bars ?? []"
                         :key="bar.month"
                         :month="bar.month"
                         :value="bar.value"
@@ -178,15 +159,27 @@ const recentPickups = [
                 <p class="mb-5 text-[12px] font-medium text-charcoal">
                     yang kembali bernilai
                 </p>
-                <div class="flex flex-col gap-4">
+                <div
+                    v-if="wasteComposition && wasteComposition.length > 0"
+                    class="flex flex-col gap-4"
+                >
                     <CategoryProgress
-                        v-for="cat in categories"
+                        v-for="cat in wasteComposition"
                         :key="cat.label"
                         :label="cat.label"
                         :value="cat.value"
                         :percentage="cat.percentage"
                         :color="cat.color"
                     />
+                </div>
+                <div
+                    v-else
+                    class="flex flex-col items-center justify-center py-8 text-center"
+                >
+                    <PackageOpen class="size-8 text-charcoal/40" />
+                    <p class="mt-2 text-xs font-semibold text-charcoal">
+                        Belum ada data setoran sampah
+                    </p>
                 </div>
             </div>
         </div>
@@ -201,12 +194,15 @@ const recentPickups = [
                     Penjemputan terbaru
                 </h3>
                 <p class="mb-4 text-[12px] font-medium text-charcoal">
-                    Aktivitas jemput 7 hari terakhir
+                    Aktivitas penjemputan sampah terkini
                 </p>
-                <div class="flex flex-col">
+                <div
+                    v-if="recentPickups && recentPickups.length > 0"
+                    class="flex flex-col"
+                >
                     <RecentPickupItem
                         v-for="pickup in recentPickups"
-                        :key="pickup.name + pickup.meta"
+                        :key="pickup.meta"
                         :name="pickup.name"
                         :meta="pickup.meta"
                         :weight="pickup.weight"
@@ -214,13 +210,22 @@ const recentPickups = [
                         :statusTone="pickup.statusTone"
                     />
                 </div>
+                <div
+                    v-else
+                    class="flex flex-col items-center justify-center py-8 text-center"
+                >
+                    <PackageOpen class="size-8 text-charcoal/40" />
+                    <p class="mt-2 text-xs font-semibold text-charcoal">
+                        Belum ada aktivitas penjemputan
+                    </p>
+                </div>
             </div>
 
             <!-- Operational Note Card -->
             <div
                 class="relative flex min-h-[260px] flex-col justify-between overflow-hidden rounded-[20px] border-2 border-b-[4px] border-sky-blue/30 bg-sky-tint p-5 lg:col-span-2 xl:p-6"
             >
-                <div class="relative z-10">
+                <div class="relative z-10 max-w-[70%]">
                     <StatusChip label="Valu Insight" tone="Blue" />
                     <h3
                         class="mt-3 text-[16px] leading-snug font-extrabold text-night-ink"
@@ -230,8 +235,10 @@ const recentPickups = [
                     <p
                         class="mt-2 text-[13px] leading-relaxed font-medium text-charcoal"
                     >
-                        48 penjemputan berhasil diselesaikan minggu ini. Terus
-                        pantau kategori sampah dan ajak customer baru bergabung.
+                        {{
+                            insight?.message ??
+                            'Terus pantau kategori sampah dan ajak customer baru bergabung.'
+                        }}
                     </p>
                 </div>
                 <!-- Mascot -->
