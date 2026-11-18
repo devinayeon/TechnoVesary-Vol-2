@@ -6,7 +6,6 @@ use App\Enums\TransactionStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Customer\Concerns\ResolvesCustomerProfile;
 use App\Models\SubscriptionTransaction;
-use App\Models\User;
 use App\Services\Customer\SubscriptionOrderService;
 use App\Services\Payment\MidtransService;
 use Illuminate\Http\JsonResponse;

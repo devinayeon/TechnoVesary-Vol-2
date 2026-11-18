@@ -20,7 +20,7 @@ trait ResolvesCustomerProfile
             return $user->customer;
         }
 
-        $customer = new Customer();
+        $customer = new Customer;
         $customer->user_id = $user->id;
         $customer->points = 0;
         $customer->is_member = false;

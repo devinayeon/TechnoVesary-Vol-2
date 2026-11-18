@@ -26,7 +26,7 @@ class DashboardController extends Controller
 
         $driver = $user->driver;
         if (! ($driver instanceof Driver)) {
-            $driver = new Driver();
+            $driver = new Driver;
             $driver->user_id = $user->id;
             $driver->is_available = true;
             $driver->save();
