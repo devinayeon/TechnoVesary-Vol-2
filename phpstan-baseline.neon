@@ -25,6 +25,42 @@ parameters:
 			path: app/Http/Controllers/Admin/ProductController.php
 
 		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/ProductTransactionController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Admin/ProductTransactionController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Driver\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/Admin/ProductTransactionController.php
+
+		-
+			message: '#^Return type of call to method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Driver\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: method.unresolvableReturnType
+			count: 1
+			path: app/Http/Controllers/Admin/ProductTransactionController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/Admin/ProductTransactionController.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Http/Controllers/Admin/ProductTransactionController.php
+
+		-
 			message: '#^Match arm comparison between App\\Enums\\UserRole\:\:CUSTOMER and App\\Enums\\UserRole\:\:CUSTOMER is always true\.$#'
 			identifier: match.alwaysTrue
 			count: 1
@@ -47,6 +83,162 @@ parameters:
 			identifier: match.alwaysTrue
 			count: 1
 			path: app/Http/Controllers/Auth/VerifyEmailController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Product\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Product\>\:\:\$stock\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Customer/CheckoutController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Customer\\CheckoutController\:\:resolveCustomer\(\) should return App\\Models\\Customer but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/Customer/CheckoutController.php
+
+		-
+			message: '#^Parameter \$product of method App\\Services\\Customer\\ProductOrderService\:\:createOrder\(\) expects App\\Models\\Product, App\\Models\\Product\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Product\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Customer/CheckoutController.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Customer/PickupController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Customer\\PickupController\:\:resolveCustomer\(\) should return App\\Models\\Customer but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/Customer/PickupController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Customer\\PointHistoryController\:\:resolveCustomer\(\) should return App\\Models\\Customer but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/Customer/PointHistoryController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Http/Controllers/Customer/TransactionHistoryController.php
+
+		-
+			message: '#^Cannot call method label\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Customer/TransactionHistoryController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Customer\\TransactionHistoryController\:\:resolveCustomer\(\) should return App\\Models\\Customer but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/Customer/TransactionHistoryController.php
+
+		-
+			message: '#^Parameter \#2 \$customer of method App\\Services\\Customer\\ProductOrderService\:\:cancelOrder\(\) expects App\\Models\\Customer, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Customer/TransactionHistoryController.php
+
+		-
+			message: '#^Parameter \#2 \$customer of method App\\Services\\Customer\\ProductOrderService\:\:generateRepayToken\(\) expects App\\Models\\Customer, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Customer/TransactionHistoryController.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''canceled''\|''completed''\|''delivering''\|''pending''\|''processing'' and App\\Enums\\OrderStatus\:\:DELIVERED will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Http/Controllers/Customer/TransactionHistoryController.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''canceled''\|''completed''\|''delivering''\|''pending''\|''processing'' and App\\Enums\\OrderStatus\:\:PENDING will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Http/Controllers/Customer/TransactionHistoryController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: app/Http/Controllers/Customer/TransactionHistoryController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$current_latitude\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Driver/DeliveryController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$current_longitude\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/Driver/DeliveryController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Http/Controllers/Driver/DeliveryController.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''canceled''\|''completed''\|''delivering''\|''pending''\|''processing'' and App\\Enums\\OrderStatus\:\:DELIVERING will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Http/Controllers/Driver/DeliveryController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: app/Http/Controllers/Driver/DeliveryController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Controllers/Driver/PickupController.php
+
+		-
+			message: '#^Cannot access property \$value on string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Http/Controllers/Driver/PickupController.php
+
+		-
+			message: '#^Cannot call method shortLabel\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Http/Controllers/Driver/PickupController.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/Driver/PickupController.php
+
+		-
+			message: '#^Method App\\Http\\Controllers\\Driver\\PickupController\:\:resolveDriver\(\) should return App\\Models\\Driver but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Http/Controllers/Driver/PickupController.php
+
+		-
+			message: '#^Parameter \#2 \$customer of method App\\Services\\Customer\\ProductOrderService\:\:cancelOrder\(\) expects App\\Models\\Customer, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Webhook/MidtransWebhookController.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''canceled''\|''completed''\|''delivering''\|''pending''\|''processing'' and App\\Enums\\OrderStatus\:\:PENDING will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Http/Controllers/Webhook/MidtransWebhookController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
@@ -83,6 +275,12 @@ parameters:
 			identifier: method.unresolvableReturnType
 			count: 1
 			path: app/Http/Controllers/WelcomeController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isActiveMember\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Middleware/EnsureCustomerIsMember.php
 
 		-
 			message: '#^Instanceof between App\\Enums\\UserRole and App\\Enums\\UserRole will always evaluate to true\.$#'
@@ -149,6 +347,12 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/ArticleCategory.php
+
+		-
+			message: '#^Cannot call method isFuture\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/Customer.php
 
 		-
 			message: '#^Class App\\Models\\Customer uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
@@ -385,6 +589,42 @@ parameters:
 			path: app/Models/WasteDeposit.php
 
 		-
+			message: '#^Method App\\Models\\WasteDeposit\:\:photoUrl\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/WasteDeposit.php
+
+		-
+			message: '#^Method App\\Models\\WasteDeposit\:\:pickupProofPhotoUrl\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/WasteDeposit.php
+
+		-
+			message: '#^Method App\\Models\\WasteDeposit\:\:scopeForCustomer\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/WasteDeposit.php
+
+		-
+			message: '#^Method App\\Models\\WasteDeposit\:\:scopeForCustomer\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/WasteDeposit.php
+
+		-
+			message: '#^Method App\\Models\\WasteDeposit\:\:totalPoints\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/WasteDeposit.php
+
+		-
+			message: '#^Method App\\Models\\WasteDeposit\:\:totalWeight\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/WasteDeposit.php
+
+		-
 			message: '#^Class App\\Models\\WasteDepositDetail uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
 			identifier: missingType.generics
 			count: 1
@@ -419,6 +659,60 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: app/Services/Article/ArticleManagementService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Customer/ProductOrderService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/Customer/ProductOrderService.php
+
+		-
+			message: '#^Method App\\Services\\Customer\\ProductOrderService\:\:createOrder\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Customer/ProductOrderService.php
+
+		-
+			message: '#^Method App\\Services\\Customer\\ProductOrderService\:\:generateRepayToken\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Customer/ProductOrderService.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: app/Services/Customer/ProductOrderService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''canceled''\|''completed''\|''delivering''\|''pending''\|''processing'' and App\\Enums\\OrderStatus\:\:PENDING will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 2
+			path: app/Services/Customer/ProductOrderService.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: app/Services/Customer/ProductOrderService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>email" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/Customer/ProductOrderService.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Services/Customer/ProductOrderService.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\WasteDepositDetail\:\:\$total_weight\.$#'
@@ -553,6 +847,42 @@ parameters:
 			path: app/Services/Map/OsmRoutingService.php
 
 		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 3
+			path: app/Services/Payment/MidtransService.php
+
+		-
+			message: '#^Method App\\Services\\Payment\\MidtransService\:\:createSnapTransaction\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Payment/MidtransService.php
+
+		-
+			message: '#^Method App\\Services\\Payment\\MidtransService\:\:createSnapTransaction\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Payment/MidtransService.php
+
+		-
+			message: '#^Method App\\Services\\Payment\\MidtransService\:\:getMockSnapResponse\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Payment/MidtransService.php
+
+		-
+			message: '#^Method App\\Services\\Payment\\MidtransService\:\:getMockSnapResponse\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Payment/MidtransService.php
+
+		-
+			message: '#^Method App\\Services\\Payment\\MidtransService\:\:getTransactionStatus\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Payment/MidtransService.php
+
+		-
 			message: '#^Method App\\Services\\Pickup\\PickupHistoryService\:\:getPaginatedPickups\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -563,6 +893,96 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: app/Services/Pickup/PickupHistoryService.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:forCustomer\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Method App\\Services\\Pickup\\PickupManagementService\:\:baseQuery\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Method App\\Services\\Pickup\\PickupManagementService\:\:detailQuery\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Method App\\Services\\Pickup\\PickupManagementService\:\:findDriverTask\(\) should return App\\Models\\WasteDeposit but returns Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Method App\\Services\\Pickup\\PickupManagementService\:\:getCustomerPickups\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Method App\\Services\\Pickup\\PickupManagementService\:\:getDriverHistory\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Method App\\Services\\Pickup\\PickupManagementService\:\:getDriverTasks\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''canceled''\|''completed''\|''on_the_way''\|''pending''\|''picked_up'' and App\\Enums\\PickupStatus\:\:ON_THE_WAY will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''canceled''\|''completed''\|''on_the_way''\|''pending''\|''picked_up'' and App\\Enums\\PickupStatus\:\:PENDING will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 2
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between ''canceled''\|''completed''\|''on_the_way''\|''pending''\|''picked_up'' and App\\Enums\\PickupStatus\:\:PICKED_UP will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between ''canceled''\|''completed''\|''on_the_way''\|''pending''\|''picked_up'' and App\\Enums\\PickupStatus\:\:COMPLETED will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Unable to resolve the template type TKey in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Unable to resolve the template type TValue in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 4
+			path: app/Services/Pickup/PickupManagementService.php
+
+		-
+			message: '#^Method App\\Services\\Point\\PointHistoryService\:\:getCustomerHistories\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/Point/PointHistoryService.php
 
 		-
 			message: '#^Method App\\Services\\Product\\ProductManagementService\:\:getPaginatedProducts\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
