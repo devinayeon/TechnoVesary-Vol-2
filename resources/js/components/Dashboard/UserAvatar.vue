@@ -6,7 +6,7 @@ const props = withDefaults(
         photo?: string | null;
         role?: string | null;
         name?: string | null;
-        size?: "sm" | "md" | "lg" | "xl";
+        size?: "sm" | "md" | "lg" | "xl" | "2xl";
     }>(),
     {
         photo: null,
@@ -28,12 +28,16 @@ const getRolePlaceholder = (role?: string | null) => {
 };
 
 const avatarSrc = computed(() => {
-    const p = props.photo;
+    const p = props.photo || (props as any).foto;
     if (p && typeof p === "string" && p.trim() !== "") {
-        if (p.startsWith("http://") || p.startsWith("https://") || p.startsWith("/")) {
+        if (p.startsWith("http://") || p.startsWith("https://")) {
             return p;
         }
-        return `/storage/${p}`;
+        if (p.startsWith("/")) {
+            return p;
+        }
+        const clean = p.startsWith("storage/") ? p.slice(8) : p;
+        return `/storage/${clean}`;
     }
     return getRolePlaceholder(props.role);
 });
@@ -51,6 +55,8 @@ const sizeClasses = computed(() => {
             return "size-11 text-[14px]";
         case "xl":
             return "size-16 text-[22px]";
+        case "2xl":
+            return "size-[88px] text-[28px]";
         case "md":
         default:
             return "size-9 text-[12px]";

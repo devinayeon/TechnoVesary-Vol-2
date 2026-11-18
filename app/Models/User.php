@@ -49,6 +49,13 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory, Notifiable, SoftDeletes;
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = ['foto', 'alamat', 'nomor_telepon'];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -86,6 +93,24 @@ class User extends Authenticatable implements MustVerifyEmail
     public function customer(): HasOne
     {
         return $this->hasOne(Customer::class);
+    }
+
+    /**
+     * Accessors untuk kompatibilitas skema DBML/SQL (yeon-ui-dev/revalue.sql)
+     */
+    public function getFotoAttribute(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function getAlamatAttribute(): ?string
+    {
+        return $this->address;
+    }
+
+    public function getNomorTeleponAttribute(): ?string
+    {
+        return $this->phone_number;
     }
 
     /**

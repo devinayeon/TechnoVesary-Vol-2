@@ -41,16 +41,16 @@ const getRolePlaceholder = (role?: string) => {
 };
 
 const userPhoto = computed(() => {
-    const photo = user.value?.photo;
+    const photo = user.value?.photo || user.value?.foto;
     if (photo && typeof photo === "string" && photo.trim() !== "") {
-        if (
-            photo.startsWith("http://") ||
-            photo.startsWith("https://") ||
-            photo.startsWith("/")
-        ) {
+        if (photo.startsWith("http://") || photo.startsWith("https://")) {
             return photo;
         }
-        return `/storage/${photo}`;
+        if (photo.startsWith("/")) {
+            return photo;
+        }
+        const clean = photo.startsWith("storage/") ? photo.slice(8) : photo;
+        return `/storage/${clean}`;
     }
     return getRolePlaceholder(user.value?.role);
 });
