@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ArticleCategoryController;
+use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WasteCategoryController;
@@ -56,6 +58,14 @@ Route::middleware(['auth'])->group(function () {
                 // Manajemen Langganan (Admin Only)
                 Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
                 Route::put('/subscriptions/{subscription}', [SubscriptionController::class, 'update'])->name('subscriptions.update');
+
+                // Manajemen Kategori Artikel (Admin Only)
+                Route::resource('article-categories', ArticleCategoryController::class)->only(['index', 'store', 'update', 'destroy']);
+
+                // Manajemen Artikel Edukasi (Admin Only)
+                Route::post('/articles/upload-image', [ArticleController::class, 'uploadImage'])->name('articles.upload-image');
+                Route::post('/articles/{id}/restore', [ArticleController::class, 'restore'])->name('articles.restore');
+                Route::resource('articles', ArticleController::class)->withTrashed(['show', 'edit', 'update']);
             });
 
         // 2. Driver Group

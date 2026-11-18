@@ -12,6 +12,7 @@ import {
     User,
     LogOut,
     Sparkles,
+    Newspaper,
 } from "lucide-vue-next";
 
 defineProps<{
@@ -72,6 +73,12 @@ const navItems = computed<NavItem[]>(() => {
                 href: "/admin/subscriptions",
                 icon: CreditCard,
                 isActive: url.startsWith("/admin/subscriptions"),
+            },
+            {
+                label: "Artikel",
+                href: "/admin/articles",
+                icon: Newspaper,
+                isActive: url.startsWith("/admin/articles"),
             },
             {
                 label: "Konversi Poin",
