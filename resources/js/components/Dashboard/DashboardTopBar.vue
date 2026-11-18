@@ -94,14 +94,6 @@ const currentPageTitle = computed(() => {
             </button>
 
             <!-- Breadcrumb lockup -->
-            <nav
-                class="flex items-center gap-3 text-[15px] leading-[1.4]"
-                aria-label="Breadcrumb"
-            >
-                <span class="font-bold text-night-ink">
-                    {{ currentPageTitle }}
-                </span>
-            </nav>
         </div>
 
         <!-- Right: act:account User Dropdown Lockup (Figma Node 482:1009) -->

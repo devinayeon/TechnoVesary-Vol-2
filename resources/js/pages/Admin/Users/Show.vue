@@ -60,9 +60,13 @@ const closeDeleteModal = () => {
 
 const restoreUser = () => {
     if (confirm("Aktifkan kembali akun pengguna ini?")) {
-        router.post(`/admin/users/${props.user.id}/restore`, {}, {
-            preserveScroll: true,
-        });
+        router.post(
+            `/admin/users/${props.user.id}/restore`,
+            {},
+            {
+                preserveScroll: true,
+            },
+        );
     }
 };
 
@@ -111,17 +115,23 @@ const formattedDate = (d?: string | null) => {
 
     <DashboardLayout>
         <!-- Page Heading & Actions (Figma Node 485:3076) -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"
+        >
             <div>
                 <Link
                     href="/admin/users"
                     class="inline-flex items-center gap-2 text-[13px] font-bold text-charcoal hover:text-night-ink transition-colors mb-2 group"
                 >
-                    <ArrowLeft class="size-4 transition-transform group-hover:-translate-x-1" />
+                    <ArrowLeft
+                        class="size-4 transition-transform group-hover:-translate-x-1"
+                    />
                     <span>Kembali ke Pengguna</span>
                 </Link>
 
-                <h1 class="text-[26px] sm:text-[28px] font-extrabold text-night-ink tracking-tight leading-tight">
+                <h1
+                    class="text-[26px] sm:text-[30px] font-extrabold text-night-ink tracking-tight leading-tight"
+                >
                     {{ user.name }}
                 </h1>
                 <p class="text-[14px] font-normal text-charcoal mt-0.5">
@@ -177,9 +187,13 @@ const formattedDate = (d?: string | null) => {
         <!-- 2-Column Detail Layout (Figma Node 485:3087) -->
         <div class="flex flex-col lg:flex-row items-start gap-6">
             <!-- Account Profile Card (Left Column - Figma Node 485:3088) -->
-            <div class="flex-1 w-full bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[20px] p-6 lg:p-8 shadow-xs flex flex-col gap-6">
+            <div
+                class="flex-1 w-full bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[20px] p-6 lg:p-8 shadow-xs flex flex-col gap-6"
+            >
                 <!-- Profile Heading (Avatar + Name + Role Chip) -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border-gray/70">
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border-gray/70"
+                >
                     <div class="flex items-center gap-4">
                         <UserAvatar
                             :photo="user.photo"
@@ -188,14 +202,21 @@ const formattedDate = (d?: string | null) => {
                             size="xl"
                         />
                         <div>
-                            <h2 class="text-[22px] font-extrabold text-night-ink leading-tight">
+                            <h2
+                                class="text-[22px] font-extrabold text-night-ink leading-tight"
+                            >
                                 {{ user.name }}
                             </h2>
-                            <p class="text-[14px] font-medium text-charcoal mt-0.5">
+                            <p
+                                class="text-[14px] font-medium text-charcoal mt-0.5"
+                            >
                                 {{ user.email }}
                             </p>
-                            <p class="text-[12px] font-normal text-charcoal/70 mt-1">
-                                Bergabung sejak {{ formattedDate(user.created_at) }}
+                            <p
+                                class="text-[12px] font-normal text-charcoal/70 mt-1"
+                            >
+                                Bergabung sejak
+                                {{ formattedDate(user.created_at) }}
                             </p>
                         </div>
                     </div>
@@ -207,19 +228,19 @@ const formattedDate = (d?: string | null) => {
                             label="Nonaktif"
                             tone="Neutral"
                         />
-                        <StatusChip
-                            v-else
-                            label="Aktif"
-                            tone="Green"
-                        />
+                        <StatusChip v-else label="Aktif" tone="Green" />
                     </div>
                 </div>
 
                 <!-- Identity & Contact Fields Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <!-- Nama Lengkap -->
-                    <div class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4">
-                        <span class="text-[12px] font-semibold text-charcoal block mb-1">
+                    <div
+                        class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                    >
+                        <span
+                            class="text-[12px] font-semibold text-charcoal block mb-1"
+                        >
                             Nama Lengkap
                         </span>
                         <span class="text-[15px] font-extrabold text-night-ink">
@@ -228,8 +249,12 @@ const formattedDate = (d?: string | null) => {
                     </div>
 
                     <!-- Role -->
-                    <div class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4">
-                        <span class="text-[12px] font-semibold text-charcoal block mb-1">
+                    <div
+                        class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                    >
+                        <span
+                            class="text-[12px] font-semibold text-charcoal block mb-1"
+                        >
                             Peran Pengguna (Role)
                         </span>
                         <span class="text-[15px] font-extrabold text-night-ink">
@@ -238,21 +263,35 @@ const formattedDate = (d?: string | null) => {
                     </div>
 
                     <!-- Email -->
-                    <div class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4">
-                        <div class="flex items-center gap-1.5 mb-1 text-charcoal">
+                    <div
+                        class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                    >
+                        <div
+                            class="flex items-center gap-1.5 mb-1 text-charcoal"
+                        >
                             <Mail class="size-3.5" />
-                            <span class="text-[12px] font-semibold">Alamat Email</span>
+                            <span class="text-[12px] font-semibold"
+                                >Alamat Email</span
+                            >
                         </div>
-                        <span class="text-[15px] font-extrabold text-night-ink break-all">
+                        <span
+                            class="text-[15px] font-extrabold text-night-ink break-all"
+                        >
                             {{ user.email }}
                         </span>
                     </div>
 
                     <!-- Nomor Telepon -->
-                    <div class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4">
-                        <div class="flex items-center gap-1.5 mb-1 text-charcoal">
+                    <div
+                        class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                    >
+                        <div
+                            class="flex items-center gap-1.5 mb-1 text-charcoal"
+                        >
                             <Phone class="size-3.5" />
-                            <span class="text-[12px] font-semibold">Nomor Telepon</span>
+                            <span class="text-[12px] font-semibold"
+                                >Nomor Telepon</span
+                            >
                         </div>
                         <span class="text-[15px] font-extrabold text-night-ink">
                             {{ user.phone_number || "—" }}
@@ -261,12 +300,18 @@ const formattedDate = (d?: string | null) => {
                 </div>
 
                 <!-- Alamat -->
-                <div class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4">
+                <div
+                    class="bg-cloud-surface/50 border border-border-gray/60 rounded-xl p-4"
+                >
                     <div class="flex items-center gap-1.5 mb-1 text-charcoal">
                         <MapPin class="size-3.5" />
-                        <span class="text-[12px] font-semibold">Alamat Domisili</span>
+                        <span class="text-[12px] font-semibold"
+                            >Alamat Domisili</span
+                        >
                     </div>
-                    <span class="text-[14px] font-medium text-night-ink leading-relaxed">
+                    <span
+                        class="text-[14px] font-medium text-night-ink leading-relaxed"
+                    >
                         {{ user.address || "Belum ada data alamat domisili." }}
                     </span>
                 </div>
@@ -287,8 +332,12 @@ const formattedDate = (d?: string | null) => {
             </div>
 
             <!-- Service Status Card (Right Column - Figma Node 485:3116) -->
-            <div class="w-full lg:w-[368px] bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[20px] p-6 shadow-xs shrink-0 flex flex-col gap-5">
-                <div class="flex items-center justify-between pb-3 border-b border-border-gray/70">
+            <div
+                class="w-full lg:w-[368px] bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[20px] p-6 shadow-xs shrink-0 flex flex-col gap-5"
+            >
+                <div
+                    class="flex items-center justify-between pb-3 border-b border-border-gray/70"
+                >
                     <h3 class="text-[18px] font-extrabold text-night-ink">
                         Status Layanan
                     </h3>
@@ -296,58 +345,115 @@ const formattedDate = (d?: string | null) => {
                 </div>
 
                 <!-- Customer Details -->
-                <div v-if="user.role?.toLowerCase() === 'customer'" class="space-y-4">
+                <div
+                    v-if="user.role?.toLowerCase() === 'customer'"
+                    class="space-y-4"
+                >
                     <!-- Saldo Poin -->
-                    <div class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60">
-                        <div class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1">
+                    <div
+                        class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60"
+                    >
+                        <div
+                            class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1"
+                        >
                             <Sparkles class="size-3.5 text-sunlight-gold" />
                             <span>Saldo Poin Eco-Reward</span>
                         </div>
                         <p class="text-[22px] font-extrabold text-night-ink">
-                            {{ (user.customer?.points ?? 0).toLocaleString("id-ID") }} Poin
+                            {{
+                                (user.customer?.points ?? 0).toLocaleString(
+                                    "id-ID",
+                                )
+                            }}
+                            Poin
                         </p>
                     </div>
 
                     <!-- Subscription Status -->
-                    <div class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60">
-                        <div class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1">
+                    <div
+                        class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60"
+                    >
+                        <div
+                            class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1"
+                        >
                             <Shield class="size-3.5 text-eco-green-dark" />
                             <span>Langganan ReValue+</span>
                         </div>
                         <p class="text-[15px] font-extrabold text-night-ink">
-                            {{ user.customer?.is_member ? "Aktif" : "Belum Berlangganan" }}
+                            {{
+                                user.customer?.is_member
+                                    ? "Aktif"
+                                    : "Belum Berlangganan"
+                            }}
                         </p>
-                        <p v-if="user.customer?.membership_expires_at" class="text-[12px] font-medium text-charcoal mt-1">
-                            Berlaku s/d {{ formattedDate(user.customer.membership_expires_at) }}
+                        <p
+                            v-if="user.customer?.membership_expires_at"
+                            class="text-[12px] font-medium text-charcoal mt-1"
+                        >
+                            Berlaku s/d
+                            {{
+                                formattedDate(
+                                    user.customer.membership_expires_at,
+                                )
+                            }}
                         </p>
                     </div>
 
-                    <p class="text-[12px] font-medium text-charcoal/80 leading-relaxed bg-cloud-surface/40 p-3 rounded-xl">
-                        Saldo dan langganan ditampilkan untuk audit data. Perubahan saldo dilakukan otomatis saat penjemputan sampah.
+                    <p
+                        class="text-[12px] font-medium text-charcoal/80 leading-relaxed bg-cloud-surface/40 p-3 rounded-xl"
+                    >
+                        Saldo dan langganan ditampilkan untuk audit data.
+                        Perubahan saldo dilakukan otomatis saat penjemputan
+                        sampah.
                     </p>
                 </div>
 
                 <!-- Driver Details -->
-                <div v-else-if="user.role?.toLowerCase() === 'driver'" class="space-y-4">
-                    <div class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60">
-                        <div class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1">
+                <div
+                    v-else-if="user.role?.toLowerCase() === 'driver'"
+                    class="space-y-4"
+                >
+                    <div
+                        class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60"
+                    >
+                        <div
+                            class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1"
+                        >
                             <Truck class="size-3.5 text-sky-blue" />
                             <span>Ketersediaan Armada</span>
                         </div>
-                        <p class="text-[16px] font-extrabold" :class="user.driver?.is_available ? 'text-eco-green-dark' : 'text-charcoal'">
-                            {{ user.driver?.is_available ? "Siap Menerima Tugas" : "Sedang Istirahat / Nonaktif" }}
+                        <p
+                            class="text-[16px] font-extrabold"
+                            :class="
+                                user.driver?.is_available
+                                    ? 'text-eco-green-dark'
+                                    : 'text-charcoal'
+                            "
+                        >
+                            {{
+                                user.driver?.is_available
+                                    ? "Siap Menerima Tugas"
+                                    : "Sedang Istirahat / Nonaktif"
+                            }}
                         </p>
                     </div>
 
-                    <p class="text-[12px] font-medium text-charcoal/80 leading-relaxed bg-cloud-surface/40 p-3 rounded-xl">
-                        Status armada menentukan apakah driver dapat menerima tugas penjemputan sampah di wilayah terdekat.
+                    <p
+                        class="text-[12px] font-medium text-charcoal/80 leading-relaxed bg-cloud-surface/40 p-3 rounded-xl"
+                    >
+                        Status armada menentukan apakah driver dapat menerima
+                        tugas penjemputan sampah di wilayah terdekat.
                     </p>
                 </div>
 
                 <!-- Admin Details -->
                 <div v-else class="space-y-4">
-                    <div class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60">
-                        <div class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1">
+                    <div
+                        class="bg-cloud-surface/70 rounded-xl p-3.5 border border-border-gray/60"
+                    >
+                        <div
+                            class="flex items-center gap-1.5 text-charcoal text-[12px] font-semibold mb-1"
+                        >
                             <Shield class="size-3.5 text-sunlight-gold" />
                             <span>Tingkat Akses</span>
                         </div>
@@ -356,8 +462,11 @@ const formattedDate = (d?: string | null) => {
                         </p>
                     </div>
 
-                    <p class="text-[12px] font-medium text-charcoal/80 leading-relaxed bg-cloud-surface/40 p-3 rounded-xl">
-                        Administrator memiliki kendali penuh atas tata kelola sistem, manajemen pengguna, penjemputan, dan transaksi.
+                    <p
+                        class="text-[12px] font-medium text-charcoal/80 leading-relaxed bg-cloud-surface/40 p-3 rounded-xl"
+                    >
+                        Administrator memiliki kendali penuh atas tata kelola
+                        sistem, manajemen pengguna, penjemputan, dan transaksi.
                     </p>
                 </div>
             </div>

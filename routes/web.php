@@ -50,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
 
                 // Manajemen Jenis Sampah (Admin Only)
                 Route::post('/waste-categories/{id}/restore', [WasteCategoryController::class, 'restore'])->name('waste-categories.restore');
-                Route::resource('waste-categories', WasteCategoryController::class);
+                Route::resource('waste-categories', WasteCategoryController::class)->withTrashed(['show', 'edit', 'update']);
             });
 
         // 2. Driver Group

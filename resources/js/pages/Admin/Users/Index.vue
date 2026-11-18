@@ -6,6 +6,7 @@ import UserAvatar from "@/components/Dashboard/UserAvatar.vue";
 import StatusChip from "@/components/Dashboard/StatusChip.vue";
 import UserDeleteModal from "@/components/Dashboard/UserDeleteModal.vue";
 import AppDropdown from "@/components/Dashboard/AppDropdown.vue";
+import PageHeader from "@/components/Dashboard/PageHeader.vue";
 import {
     Search,
     UserPlus,
@@ -68,13 +69,18 @@ const currentUserId = computed(() => page.props.auth?.user?.id);
 const showSuccessFlash = ref(true);
 const showErrorFlash = ref(true);
 
+const flashSuccess = computed(() => page.props.flash?.success);
+const flashError = computed(
+    () => page.props.flash?.error || (page.props.errors as any)?.error,
+);
+
 watch(
     () => page.props.flash,
     () => {
         showSuccessFlash.value = true;
         showErrorFlash.value = true;
     },
-    { deep: true }
+    { deep: true },
 );
 
 // Search & Filter local state
@@ -210,12 +216,12 @@ const getRoleLabel = (role: string): string => {
     <DashboardLayout>
         <!-- Success Flash Alert -->
         <div
-            v-if="showSuccessFlash && page.props.flash?.success"
+            v-if="showSuccessFlash && flashSuccess"
             class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-sprout-tint border-2 border-eco-green/40 text-night-ink font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
         >
             <div class="flex items-center gap-3 min-w-0">
                 <CheckCircle2 class="size-5 text-eco-green-dark shrink-0" />
-                <span class="truncate">{{ page.props.flash.success }}</span>
+                <span class="truncate">{{ flashSuccess }}</span>
             </div>
             <button
                 type="button"
@@ -229,12 +235,12 @@ const getRoleLabel = (role: string): string => {
 
         <!-- Error Flash Alert -->
         <div
-            v-if="showErrorFlash && (page.props.flash?.error || (page.props.errors as any)?.error)"
+            v-if="showErrorFlash && flashError"
             class="mb-6 flex items-center justify-between gap-3 p-4 rounded-2xl bg-red-50 border-2 border-red-200 text-red-700 font-bold text-[14px] shadow-2xs animate-in fade-in duration-200"
         >
             <div class="flex items-center gap-3 min-w-0">
                 <XCircle class="size-5 text-red-600 shrink-0" />
-                <span class="truncate">{{ page.props.flash?.error || (page.props.errors as any)?.error }}</span>
+                <span class="truncate">{{ flashError }}</span>
             </div>
             <button
                 type="button"
@@ -246,30 +252,22 @@ const getRoleLabel = (role: string): string => {
             </button>
         </div>
 
-        <!-- Page Heading (Figma Node 482:1258) -->
-        <div
-            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"
+        <!-- Page Heading -->
+        <PageHeader
+            title="Pengguna"
+            subtitle="Kelola akun dan akses Customer, Driver, serta Admin."
+            badge="Master Data"
         >
-            <div>
-                <h1
-                    class="text-[26px] sm:text-[28px] font-extrabold text-night-ink tracking-tight leading-tight"
+            <template #action>
+                <Link
+                    href="/admin/users/create"
+                    class="inline-flex items-center justify-center gap-2 px-5 h-[46px] rounded-xl border-2 border-b-[4px] border-eco-green-dark bg-eco-green text-white font-extrabold text-[14px] hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-2xs shrink-0"
                 >
-                    Pengguna
-                </h1>
-                <p class="text-[14px] font-normal text-charcoal mt-1">
-                    Kelola akun dan akses Customer, Driver, serta Admin.
-                </p>
-            </div>
-
-            <!-- Tambah Pengguna Button -->
-            <Link
-                href="/admin/users/create"
-                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 h-[44px] bg-eco-green text-night-ink font-extrabold text-[14px] rounded-2xl border-2 border-b-[4px] border-eco-green-dark hover:brightness-105 active:translate-y-0.5 active:border-b-2 transition-all cursor-pointer shadow-xs shrink-0"
-            >
-                <UserPlus class="size-4.5" />
-                <span>Tambah Pengguna</span>
-            </Link>
-        </div>
+                    <UserPlus class="size-5 stroke-[2.5]" />
+                    <span>Tambah Pengguna</span>
+                </Link>
+            </template>
+        </PageHeader>
 
         <!-- Summary Chip (Figma Node 482:1264) -->
         <div class="flex items-center gap-2 mb-6">
@@ -283,10 +281,10 @@ const getRoleLabel = (role: string): string => {
 
         <!-- Toolbar: Search & Select Filter (Figma Node 482:1267) -->
         <div
-            class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 mb-6"
+            class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 mb-6"
         >
             <!-- Search Input -->
-            <div class="relative w-full lg:w-[360px] xl:w-[420px]">
+            <div class="relative w-full">
                 <Search
                     class="absolute left-3.5 top-1/2 -translate-y-1/2 size-4.5 text-charcoal/70 pointer-events-none"
                 />
@@ -294,12 +292,23 @@ const getRoleLabel = (role: string): string => {
                     v-model="search"
                     type="text"
                     placeholder="Cari nama, email, atau telepon..."
-                    class="w-full h-[44px] pl-10 pr-4 bg-paper-white border-2 border-border-gray rounded-xl text-[14px] font-medium text-night-ink placeholder:text-charcoal/60 focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all shadow-2xs"
+                    class="w-full h-[44px] pl-10 pr-10 bg-paper-white border-2 border-border-gray rounded-xl text-[14px] font-medium text-night-ink placeholder:text-charcoal/60 focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all shadow-2xs"
                 />
+                <button
+                    v-if="search"
+                    @click="search = ''"
+                    type="button"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-charcoal hover:bg-cloud-surface hover:text-night-ink transition-colors cursor-pointer"
+                    aria-label="Bersihkan pencarian"
+                >
+                    <X class="size-3.5" />
+                </button>
             </div>
 
             <!-- Filters Group -->
-            <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 w-full lg:w-auto">
+            <div
+                class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 w-full lg:w-auto"
+            >
                 <!-- Role Dropdown -->
                 <AppDropdown
                     v-model="selectedRole"
@@ -358,10 +367,14 @@ const getRoleLabel = (role: string): string => {
                                 size="md"
                             />
                             <div class="min-w-0">
-                                <h4 class="font-extrabold text-[15px] text-night-ink leading-tight truncate">
+                                <h4
+                                    class="font-extrabold text-[15px] text-night-ink leading-tight truncate"
+                                >
                                     {{ u.name }}
                                 </h4>
-                                <p class="text-[12px] font-medium text-charcoal truncate mt-0.5">
+                                <p
+                                    class="text-[12px] font-medium text-charcoal truncate mt-0.5"
+                                >
                                     {{ u.email }}
                                 </p>
                             </div>
@@ -373,7 +386,9 @@ const getRoleLabel = (role: string): string => {
                     </div>
 
                     <!-- User Meta: Phone & Status -->
-                    <div class="flex items-center justify-between text-[12px] bg-cloud-surface/50 rounded-xl px-3 py-2 border border-border-gray/50">
+                    <div
+                        class="flex items-center justify-between text-[12px] bg-cloud-surface/50 rounded-xl px-3 py-2 border border-border-gray/50"
+                    >
                         <span class="text-charcoal font-semibold truncate">
                             {{ u.phone_number || "Tidak ada telepon" }}
                         </span>
@@ -386,7 +401,9 @@ const getRoleLabel = (role: string): string => {
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="flex items-center justify-end gap-2 pt-1 border-t border-border-gray/40">
+                    <div
+                        class="flex items-center justify-end gap-2 pt-1 border-t border-border-gray/40"
+                    >
                         <Link
                             :href="`/admin/users/${u.id}`"
                             class="px-3 py-1.5 text-[12px] font-extrabold text-night-ink bg-cloud-surface hover:bg-sprout-tint hover:text-eco-green-dark rounded-xl transition-colors"
@@ -622,7 +639,9 @@ const getRoleLabel = (role: string): string => {
                 v-if="users.total > 0"
                 class="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 sm:px-6 py-4 border-t border-border-gray bg-paper-white"
             >
-                <p class="text-[13px] font-normal text-charcoal text-center sm:text-left">
+                <p
+                    class="text-[13px] font-normal text-charcoal text-center sm:text-left"
+                >
                     Menampilkan
                     <span class="font-bold text-night-ink"
                         >{{ users.from || 0 }}–{{ users.to || 0 }}</span
@@ -634,7 +653,9 @@ const getRoleLabel = (role: string): string => {
                     data
                 </p>
 
-                <div class="flex items-center gap-1 sm:gap-1.5 flex-wrap justify-center">
+                <div
+                    class="flex items-center gap-1 sm:gap-1.5 flex-wrap justify-center"
+                >
                     <!-- Prev Button -->
                     <Link
                         v-if="users.prev_page_url"
