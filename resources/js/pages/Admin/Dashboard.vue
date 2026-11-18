@@ -151,7 +151,7 @@ const recentPickups = [
                         Operasional berjalan baik hari ini!
                     </h3>
                     <p class="text-[13px] font-medium text-charcoal mt-2 leading-relaxed">
-                        48 penjemputan berhasil diselesaikan minggu ini. Terus pantau kategori sampah dan ajak nasabah baru bergabung.
+                        48 penjemputan berhasil diselesaikan minggu ini. Terus pantau kategori sampah dan ajak customer baru bergabung.
                     </p>
                 </div>
                 <!-- Mascot -->

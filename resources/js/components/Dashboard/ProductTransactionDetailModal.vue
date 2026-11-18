@@ -167,10 +167,10 @@ const formatRupiah = (n: number) =>
 
                     <!-- Body -->
                     <div class="p-6 space-y-6">
-                        <!-- Nasabah -->
+                        <!-- Customer -->
                         <div>
                             <h3 class="text-xs font-bold text-muted-text uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                <User class="size-3.5" /> Pembeli
+                                <User class="size-3.5" /> Customer
                             </h3>
                             <div v-if="transaction.customer?.user" class="flex items-center gap-3 p-3 rounded-xl bg-cloud-hover border border-border-gray/50">
                                 <UserAvatar :user="transaction.customer.user" size="sm" />

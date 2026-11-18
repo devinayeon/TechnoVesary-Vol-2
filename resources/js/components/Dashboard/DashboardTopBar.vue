@@ -64,7 +64,7 @@ const roleLabel = computed(() => {
     const r: string = (user.value?.role || "").toLowerCase();
     if (r === "admin") return "Admin";
     if (r === "driver") return "Driver";
-    return "Nasabah";
+    return "Customer";
 });
 
 const currentPageTitle = computed(() => {

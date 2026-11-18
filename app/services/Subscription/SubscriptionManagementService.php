@@ -56,7 +56,7 @@ class SubscriptionManagementService
             $query->where('status', $filters['status']);
         }
 
-        // Filter Search (ID transaksi, nama nasabah, email nasabah)
+        // Filter Search (ID transaksi, nama customer, email customer)
         if (! empty($filters['search'])) {
             $search = trim((string) $filters['search']);
             $searchClean = preg_replace('/[^0-9]/', '', $search);

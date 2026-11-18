@@ -80,7 +80,7 @@ const confirmRestore = () => {
 
                     <!-- Description -->
                     <p class="text-[14px] font-normal text-charcoal leading-relaxed mb-5">
-                        Kategori sampah ini akan diaktifkan kembali. Nasabah akan dapat memilih kategori ini kembali saat menyetorkan sampah.
+                        Kategori sampah ini akan diaktifkan kembali. Customer akan dapat memilih kategori ini kembali saat menyetorkan sampah.
                     </p>
 
                     <!-- Target Category Box -->

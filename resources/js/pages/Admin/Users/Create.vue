@@ -305,7 +305,7 @@ const submit = () => {
                         <h2
                             class="text-[16px] font-extrabold text-night-ink mb-4 pb-2 border-b border-border-gray/70"
                         >
-                            Pengaturan Nasabah
+                            Pengaturan Customer
                         </h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
@@ -404,7 +404,7 @@ const submit = () => {
                         ></div>
                         <p>
                             <strong class="text-night-ink">Customer:</strong>
-                            Mendapat akses ke aplikasi nasabah untuk
+                            Mendapat akses ke aplikasi customer untuk
                             menjadwalkan jemput sampah, mengumpulkan poin, dan
                             melihat saldo.
                         </p>
@@ -417,7 +417,7 @@ const submit = () => {
                         <p>
                             <strong class="text-night-ink">Driver:</strong>
                             Bertugas menerima antrean jemput, melihat rute
-                            logistik, dan mencatat timbangan setoran nasabah.
+                            logistik, dan mencatat timbangan setoran customer.
                         </p>
                     </div>
 

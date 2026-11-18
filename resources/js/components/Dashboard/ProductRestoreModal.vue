@@ -81,7 +81,7 @@ const confirmRestore = () => {
 
                     <!-- Description -->
                     <p class="text-[14px] font-normal text-charcoal leading-relaxed mb-5">
-                        Produk ini akan diaktifkan kembali di Upcycle Store. Nasabah akan dapat melihat dan membeli produk ini kembali melalui platform ReValue.
+                        Produk ini akan diaktifkan kembali di Upcycle Store. Customer akan dapat melihat dan membeli produk ini kembali melalui platform ReValue.
                     </p>
 
                     <!-- Target Product Box -->

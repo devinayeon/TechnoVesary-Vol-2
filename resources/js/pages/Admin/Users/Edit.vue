@@ -355,7 +355,7 @@ const submit = () => {
                         <h2
                             class="text-[16px] font-extrabold text-night-ink mb-4 pb-2 border-b border-border-gray/70"
                         >
-                            Pengaturan Nasabah
+                            Pengaturan Customer
                         </h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>

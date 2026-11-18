@@ -88,7 +88,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Relasi One-to-One profil Customer (Nasabah)
+     * Relasi One-to-One profil Customer
      */
     public function customer(): HasOne
     {

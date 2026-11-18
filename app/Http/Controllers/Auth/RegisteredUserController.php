@@ -48,7 +48,7 @@ class RegisteredUserController extends Controller
                 'role' => UserRole::CUSTOMER,
             ]);
 
-            // Otomatis membuat data profil nasabah di tabel customers
+            // Otomatis membuat data profil customer di tabel customers
             $user->customer()->create([
                 'points' => 0,
                 'is_member' => false,

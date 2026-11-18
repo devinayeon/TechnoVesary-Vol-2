@@ -89,7 +89,7 @@ onUnmounted(() => {
                 <p
                     class="font-medium text-[16px] sm:text-[17px] text-charcoal max-w-2xl mx-auto"
                 >
-                    Contoh testimoni untuk menggambarkan pengalaman nasabah
+                    Contoh testimoni untuk menggambarkan pengalaman customer
                     kami.
                 </p>
             </div>

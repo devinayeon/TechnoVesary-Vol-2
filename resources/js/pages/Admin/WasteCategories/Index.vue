@@ -254,7 +254,7 @@ const formatNumber = (num: number): string => {
         <!-- Header Section -->
         <PageHeader
             title="Kategori & Poin Sampah"
-            subtitle="Kelola data jenis sampah dan atur nilai konversi perolehan poin per kilogram untuk nasabah."
+            subtitle="Kelola data jenis sampah dan atur nilai konversi perolehan poin per kilogram untuk customer."
             badge="Master Data"
         >
             <template #action>

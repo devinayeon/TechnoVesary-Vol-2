@@ -151,10 +151,10 @@ const formatNumber = (n: number) =>
 
                     <!-- Body -->
                     <div class="p-6 space-y-6">
-                        <!-- Nasabah -->
+                        <!-- Customer -->
                         <div>
                             <h3 class="text-xs font-bold text-muted-text uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                <User class="size-3.5" /> Nasabah
+                                <User class="size-3.5" /> Customer
                             </h3>
                             <div v-if="pickup.customer?.user" class="flex items-center gap-3 p-3 rounded-xl bg-cloud-hover border border-border-gray/50">
                                 <UserAvatar :user="pickup.customer.user" size="sm" />
@@ -163,7 +163,7 @@ const formatNumber = (n: number) =>
                                     <p class="text-xs text-muted-text">{{ pickup.customer.user.email }}</p>
                                 </div>
                             </div>
-                            <p v-else class="text-sm text-muted-text italic">Data nasabah tidak tersedia</p>
+                            <p v-else class="text-sm text-muted-text italic">Data customer tidak tersedia</p>
                         </div>
 
                         <!-- Driver -->

@@ -81,7 +81,7 @@ const confirmRestore = () => {
 
                     <!-- Description -->
                     <p class="text-[14px] font-normal text-charcoal leading-relaxed mb-5">
-                        Artikel edukasi ini akan diaktifkan kembali. Nasabah akan dapat membaca kembali artikel ini di halaman utama dan platform ReValue.
+                        Artikel edukasi ini akan diaktifkan kembali. Customer akan dapat membaca kembali artikel ini di halaman utama dan platform ReValue.
                     </p>
 
                     <!-- Target Article Box -->

@@ -19,7 +19,7 @@ class SubscriptionController extends Controller
     ) {}
 
     /**
-     * Menampilkan overview paket langganan dan riwayat transaksi nasabah.
+     * Menampilkan overview paket langganan dan riwayat transaksi customer.
      */
     public function index(Request $request): Response
     {

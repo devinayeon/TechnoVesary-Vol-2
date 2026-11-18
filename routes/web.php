@@ -91,7 +91,7 @@ Route::middleware(['auth'])->group(function () {
                 })->name('dashboard');
             });
 
-        // 3. Customer Group (Nasabah)
+        // 3. Customer Group
         Route::middleware(['role:customer'])
             ->prefix('customer')
             ->name('customer.')

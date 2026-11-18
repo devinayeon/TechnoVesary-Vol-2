@@ -258,7 +258,7 @@ const closeDetailModal = () => {
         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
             <PageHeader
                 title="Riwayat Penjemputan"
-                subtitle="Riwayat seluruh penjemputan sampah dari nasabah oleh driver ReValue."
+                subtitle="Riwayat seluruh penjemputan sampah dari customer oleh driver ReValue."
                 badge="Semua Driver"
                 class="mb-0"
             />
@@ -274,7 +274,7 @@ const closeDetailModal = () => {
                 <input
                     v-model="search"
                     type="text"
-                    placeholder="Cari nama nasabah, driver, atau alamat..."
+                    placeholder="Cari nama customer, driver, atau alamat..."
                     class="w-full h-[44px] pl-10 pr-10 bg-paper-white border-2 border-border-gray rounded-xl text-[14px] font-medium text-night-ink placeholder:text-charcoal/60 focus:outline-none focus:border-eco-green focus:ring-4 focus:ring-eco-green/15 transition-all shadow-2xs"
                 />
                 <button
@@ -350,7 +350,7 @@ const closeDetailModal = () => {
                     <div class="flex items-start gap-3">
                         <div class="min-w-0 flex-1">
                             <div class="flex items-center gap-1.5 mb-1">
-                                <span class="text-xs text-muted-text font-semibold">Nasabah:</span>
+                                <span class="text-xs text-muted-text font-semibold">Customer:</span>
                                 <span class="text-sm font-bold text-night-ink truncate">
                                     {{ pickup.customer?.user?.name ?? "-" }}
                                 </span>
@@ -380,7 +380,7 @@ const closeDetailModal = () => {
                     ID
                 </th>
                 <th class="px-4 py-3.5 text-left text-[12px] font-extrabold text-charcoal uppercase tracking-wider">
-                    Nasabah
+                    Customer
                 </th>
                 <th class="px-4 py-3.5 text-left text-[12px] font-extrabold text-charcoal uppercase tracking-wider">
                     Driver
@@ -408,7 +408,7 @@ const closeDetailModal = () => {
                         <span class="text-[13px] font-bold text-charcoal/60">#{{ pickup.id }}</span>
                     </td>
 
-                    <!-- Nasabah -->
+                    <!-- Customer -->
                     <td class="px-4 py-4">
                         <div v-if="pickup.customer?.user" class="flex items-center gap-2.5">
                             <UserAvatar :user="pickup.customer.user" size="sm" />

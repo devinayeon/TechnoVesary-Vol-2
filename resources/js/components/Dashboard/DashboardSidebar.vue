@@ -123,7 +123,7 @@ const navItems = computed<NavItem[]>(() => {
             },
         ];
     } else {
-        // Customer / Nasabah
+        // Customer
         return [
             {
                 label: "Dashboard",
@@ -168,7 +168,7 @@ const roleTitle = computed(() => {
         case "driver":
             return "Portal Driver";
         default:
-            return "Portal Nasabah";
+            return "Portal Customer";
     }
 });
 

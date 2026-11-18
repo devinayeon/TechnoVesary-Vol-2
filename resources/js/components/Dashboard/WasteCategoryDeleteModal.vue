@@ -76,7 +76,7 @@ const confirmDelete = () => {
 
                     <!-- Description -->
                     <p class="text-[14px] font-normal text-charcoal leading-relaxed mb-5">
-                        Kategori sampah ini akan dinonaktifkan secara aman (soft delete). Nasabah tidak dapat lagi memilih kategori ini untuk setoran baru, namun riwayat setoran sebelumnya tetap aman dan data dapat dipulihkan kapan saja.
+                        Kategori sampah ini akan dinonaktifkan secara aman (soft delete). Customer tidak dapat lagi memilih kategori ini untuk setoran baru, namun riwayat setoran sebelumnya tetap aman dan data dapat dipulihkan kapan saja.
                     </p>
 
                     <!-- Target Category Box -->

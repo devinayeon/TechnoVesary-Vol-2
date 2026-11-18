@@ -11,7 +11,7 @@ const props = defineProps<{
     auth: { user: User };
 }>();
 
-const userName = computed(() => props.auth?.user?.name ?? "Nasabah");
+const userName = computed(() => props.auth?.user?.name ?? "Customer");
 
 const badges = [
     { name: "Pilah Master", desc: "50 Kg pertama disetor", icon: "🏆", unlocked: true },
@@ -28,7 +28,7 @@ const recentDeposits = [
 </script>
 
 <template>
-    <Head title="Dashboard Nasabah - ReValue" />
+    <Head title="Dashboard Customer - ReValue" />
     <DashboardLayout>
         <!-- Page Header -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
@@ -40,7 +40,7 @@ const recentDeposits = [
                     Sampahmu hari ini adalah langkah baik untuk bumi besok.
                 </p>
             </div>
-            <StatusChip label="Nasabah Aktif" tone="Green" />
+            <StatusChip label="Customer Aktif" tone="Green" />
         </div>
 
         <!-- 3 Metric Cards -->

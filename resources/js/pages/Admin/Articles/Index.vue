@@ -316,7 +316,7 @@ const stripExcerpt = (html: string, length = 90): string => {
         >
             <PageHeader
                 title="Manajemen Artikel"
-                subtitle="Kelola artikel edukasi lingkungan, panduan pemilahan sampah, dan tips daur ulang untuk nasabah."
+                subtitle="Kelola artikel edukasi lingkungan, panduan pemilahan sampah, dan tips daur ulang untuk customer."
                 badge="Edukasi"
                 class="mb-0"
             />
@@ -421,7 +421,7 @@ const stripExcerpt = (html: string, length = 90): string => {
                 )
             "
             empty-title="Belum ada artikel edukasi"
-            empty-description="Mulai publikasikan artikel pertama Anda untuk mengedukasi nasabah tentang gaya hidup zero waste."
+            empty-description="Mulai publikasikan artikel pertama Anda untuk mengedukasi customer tentang gaya hidup zero waste."
             empty-filter-title="Tidak ada artikel yang cocok"
             empty-filter-description="Coba ubah kata kunci pencarian atau sesuaikan filter status dan kategori."
             empty-action-label="Tambah Artikel Baru"

@@ -199,7 +199,7 @@ const submit = () => {
                             <p
                                 class="mt-1 text-[12px] font-medium text-charcoal"
                             >
-                                Nasabah akan memperoleh poin ini untuk setiap 1
+                                Customer akan memperoleh poin ini untuk setiap 1
                                 kg sampah yang disetorkan.
                             </p>
                             <p

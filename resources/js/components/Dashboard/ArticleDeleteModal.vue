@@ -81,7 +81,7 @@ const confirmDelete = () => {
 
                     <!-- Description -->
                     <p class="text-[14px] font-normal text-charcoal leading-relaxed mb-5">
-                        Artikel edukasi ini akan dinonaktifkan secara aman (soft delete). Artikel tidak akan lagi tampil di halaman publik nasabah, namun riwayat dan data kontennya tetap tersimpan serta dapat dipulihkan kapan saja.
+                        Artikel edukasi ini akan dinonaktifkan secara aman (soft delete). Artikel tidak akan lagi tampil di halaman publik customer, namun riwayat dan data kontennya tetap tersimpan serta dapat dipulihkan kapan saja.
                     </p>
 
                     <!-- Target Article Box -->

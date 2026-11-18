@@ -247,7 +247,7 @@ const formatDate = (dateStr: string) => {
         >
             <PageHeader
                 title="Manajemen Produk"
-                subtitle="Kelola produk daur ulang dan ramah lingkungan untuk dijual kepada nasabah ReValue."
+                subtitle="Kelola produk daur ulang dan ramah lingkungan untuk dijual kepada customer ReValue."
                 badge="Upcycle Store"
                 class="mb-0"
             />
@@ -322,7 +322,7 @@ const formatDate = (dateStr: string) => {
             :is-empty="products.data.length === 0"
             :has-filter="!!(search || selectedStatus !== 'active')"
             empty-title="Belum ada produk di Upcycle Store"
-            empty-description="Mulai tambahkan produk daur ulang ramah lingkungan pertama untuk dijual kepada nasabah ReValue."
+            empty-description="Mulai tambahkan produk daur ulang ramah lingkungan pertama untuk dijual kepada customer ReValue."
             empty-filter-title="Tidak ada produk yang cocok"
             empty-filter-description="Coba ubah kata kunci pencarian atau sesuaikan filter status untuk melihat produk lainnya."
             empty-action-label="Tambah Produk Baru"

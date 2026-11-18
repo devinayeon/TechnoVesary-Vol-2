@@ -127,7 +127,7 @@ const submit = () => {
                 Tulis artikel edukasi baru
             </h1>
             <p class="text-[14px] font-normal text-charcoal mt-1">
-                Publikasikan artikel, panduan pemilahan sampah, atau video edukasi untuk meningkatkan kesadaran lingkungan nasabah.
+                Publikasikan artikel, panduan pemilahan sampah, atau video edukasi untuk meningkatkan kesadaran lingkungan customer.
             </p>
         </div>
 
@@ -351,7 +351,7 @@ const submit = () => {
                     <ul class="text-[12px] font-medium text-charcoal space-y-2 leading-relaxed">
                         <li class="flex items-start gap-2">
                             <span class="size-1.5 rounded-full bg-eco-green mt-1.5 shrink-0" />
-                            <span>Gunakan judul yang spesifik dan langsung menjawab kebutuhan nasabah.</span>
+                            <span>Gunakan judul yang spesifik dan langsung menjawab kebutuhan customer.</span>
                         </li>
                         <li class="flex items-start gap-2">
                             <span class="size-1.5 rounded-full bg-eco-green mt-1.5 shrink-0" />
