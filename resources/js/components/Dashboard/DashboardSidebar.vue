@@ -158,6 +158,20 @@ const navItems = computed<NavItem[]>(() => {
                 isActive: url.startsWith('/customer/points'),
             },
             {
+                label: 'ReValue+',
+                href: '/customer/subscription',
+                icon: Sparkles,
+                isActive:
+                    url.startsWith('/customer/subscription') &&
+                    !url.startsWith('/customer/subscription/history'),
+            },
+            {
+                label: 'Riwayat Langganan',
+                href: '/customer/subscription/history',
+                icon: CreditCard,
+                isActive: url.startsWith('/customer/subscription/history'),
+            },
+            {
                 label: 'Upcycle Store',
                 href: '/customer/products',
                 icon: ShoppingBag,

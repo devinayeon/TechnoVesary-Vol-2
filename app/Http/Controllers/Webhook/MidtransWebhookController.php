@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Webhook;
 
 use App\Enums\OrderStatus;
+use App\Enums\TransactionStatus;
 use App\Http\Controllers\Controller;
+use App\Models\SubscriptionTransaction;
 use App\Models\Transaction;
 use App\Services\Customer\ProductOrderService;
+use App\Services\Customer\SubscriptionOrderService;
 use App\Services\Payment\MidtransService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,7 +18,8 @@ class MidtransWebhookController extends Controller
 {
     public function __construct(
         private readonly MidtransService $midtransService,
-        private readonly ProductOrderService $orderService
+        private readonly ProductOrderService $orderService,
+        private readonly SubscriptionOrderService $subscriptionOrderService
     ) {}
 
     /**
@@ -59,10 +63,34 @@ class MidtransWebhookController extends Controller
             Log::info("Midtrans Webhook: Melanjutkan pembaruan status {$orderId} dalam mode Sandbox/Local testing.");
         }
 
-        // Format order_id: TRX-{id}-{timestamp}
         $parts = explode('-', $orderId);
+        $prefix = $parts[0] ?? '';
         $transactionId = $parts[1] ?? null;
 
+        // Tangani Transaksi Langganan ReValue+ (SUB-xxx)
+        if ($prefix === 'SUB') {
+            $subTrx = SubscriptionTransaction::find($transactionId)
+                ?? SubscriptionTransaction::where('midtrans_order_id', $orderId)->first();
+            if (! $subTrx) {
+                return response()->json(['message' => 'Transaksi langganan tidak ditemukan.'], 404);
+            }
+
+            if (empty($subTrx->midtrans_order_id)) {
+                $subTrx->update(['midtrans_order_id' => $orderId]);
+            }
+
+            if ($transactionStatus === 'settlement' || ($transactionStatus === 'capture' && $fraudStatus === 'accept')) {
+                $this->subscriptionOrderService->settleSubscription($subTrx);
+            } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
+                if ($subTrx->status === TransactionStatus::PENDING && $subTrx->customer) {
+                    $this->subscriptionOrderService->cancelSubscription($subTrx, $subTrx->customer);
+                }
+            }
+
+            return response()->json(['status' => 'success']);
+        }
+
+        // Tangani Transaksi Pembelian Produk (TRX-xxx)
         $transaction = Transaction::find($transactionId);
         if (! $transaction) {
             return response()->json(['message' => 'Transaksi tidak ditemukan.'], 404);

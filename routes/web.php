@@ -16,6 +16,8 @@ use App\Http\Controllers\Customer\DashboardController as CustomerDashboardContro
 use App\Http\Controllers\Customer\PickupController as CustomerPickupController;
 use App\Http\Controllers\Customer\PointHistoryController as CustomerPointHistoryController;
 use App\Http\Controllers\Customer\ProductController as CustomerProductController;
+use App\Http\Controllers\Customer\SubscriptionHistoryController as CustomerSubscriptionHistoryController;
+use App\Http\Controllers\Customer\SubscriptionPlanController as CustomerSubscriptionPlanController;
 use App\Http\Controllers\Customer\TransactionHistoryController as CustomerTransactionHistoryController;
 use App\Http\Controllers\Driver\DashboardController as DriverDashboardController;
 use App\Http\Controllers\Driver\DeliveryController as DriverDeliveryController;
@@ -161,6 +163,14 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/transactions/{transaction}/repay', [CustomerTransactionHistoryController::class, 'repay'])->name('transactions.repay');
                 Route::post('/transactions/{transaction}/check-status', [CustomerTransactionHistoryController::class, 'checkStatus'])->name('transactions.check-status');
                 Route::post('/transactions/{transaction}/confirm-received', [CustomerTransactionHistoryController::class, 'confirmReceived'])->name('transactions.confirm-received');
+                // Langganan ReValue+ (Customer)
+                Route::get('/subscription', [CustomerSubscriptionPlanController::class, 'index'])->name('subscription.index');
+                Route::get('/subscription/checkout', [CustomerSubscriptionPlanController::class, 'checkout'])->name('subscription.checkout');
+                Route::post('/subscription/checkout', [CustomerSubscriptionPlanController::class, 'processCheckout'])->name('subscription.checkout.process');
+                Route::get('/subscription/history', [CustomerSubscriptionHistoryController::class, 'index'])->name('subscription.history');
+                Route::post('/subscription/history/{transaction}/check-status', [CustomerSubscriptionHistoryController::class, 'checkStatus'])->name('subscription.history.check-status');
+                Route::post('/subscription/history/{transaction}/repay', [CustomerSubscriptionHistoryController::class, 'repay'])->name('subscription.history.repay');
+                Route::post('/subscription/history/{transaction}/cancel', [CustomerSubscriptionHistoryController::class, 'cancel'])->name('subscription.history.cancel');
             });
     });
 

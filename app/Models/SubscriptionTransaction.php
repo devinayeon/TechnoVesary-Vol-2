@@ -12,12 +12,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable([
     'customer_id',
     'subscription_id',
+    'package_key',
+    'duration_months',
     'total_amount',
     'points_used',
     'points_discount_amount',
     'payable_amount',
     'payment_method',
     'snap_url',
+    'snap_token',
+    'midtrans_order_id',
     'status',
     'settled_at',
     'canceled_at',
@@ -29,6 +33,7 @@ class SubscriptionTransaction extends Model
     protected function casts(): array
     {
         return [
+            'duration_months' => 'integer',
             'total_amount' => 'integer',
             'points_used' => 'integer',
             'points_discount_amount' => 'integer',
