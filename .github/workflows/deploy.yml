@@ -80,6 +80,8 @@ jobs:
           cp .env.example .env
           php artisan key:generate
           php artisan config:clear
+          mkdir -p public/build
+          echo '{}' > public/build/manifest.json
 
       - name: Check code style (Pint)
         run: vendor/bin/pint --test --parallel
