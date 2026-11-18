@@ -62,13 +62,6 @@ onMounted(async () => {
     L = leafletModule.default || leafletModule;
     await import('leaflet/dist/leaflet.css');
 
-    const iconUrl = (await import('leaflet/dist/images/marker-icon.png')).default;
-    const iconRetinaUrl = (await import('leaflet/dist/images/marker-icon-2x.png')).default;
-    const shadowUrl = (await import('leaflet/dist/images/marker-shadow.png')).default;
-
-    delete (L.Icon.Default.prototype as any)._getIconUrl;
-    L.Icon.Default.mergeOptions({ iconUrl, iconRetinaUrl, shadowUrl });
-
     initMap();
   } catch (e) {
     console.error('Failed to init LocationPicker:', e);
@@ -96,10 +89,15 @@ function initMap() {
     zoomControl: true,
   });
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
+  const cartoUrl = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+  let hasFallback = false;
+  const tileLayer = L.tileLayer(cartoUrl, { maxZoom: 19, subdomains: 'abcd' }).addTo(map);
+  tileLayer.on('tileerror', () => {
+    if (!hasFallback && map) {
+      hasFallback = true;
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+    }
+  });
 
   // Place initial marker if modelValue provided
   if (props.modelValue) {
@@ -121,7 +119,19 @@ function placeMarker(lat: number, lng: number, addressLabel?: string) {
   if (marker) {
     marker.setLatLng([lat, lng]);
   } else {
-    marker = L.marker([lat, lng], { draggable: !props.disabled }).addTo(map);
+    const redPinIcon = L.divIcon({
+      html: `<div style="display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 4px 10px rgba(239,68,68,0.45));cursor:grab;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="#ef4444" stroke="#000437" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 10 4 10a8 8 0 0 1 16 0"/>
+          <circle cx="12" cy="10" r="3" fill="#ffffff" stroke="#000437" stroke-width="1.5"/>
+        </svg>
+      </div>`,
+      className: '',
+      iconSize: [42, 42],
+      iconAnchor: [21, 42],
+    });
+
+    marker = L.marker([lat, lng], { icon: redPinIcon, draggable: !props.disabled }).addTo(map);
 
     if (!props.disabled && marker) {
       marker.on('dragend', () => {

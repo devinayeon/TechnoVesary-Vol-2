@@ -5,7 +5,7 @@ import type { User } from "@/types/auth";
 import AppButton from "@/components/Landing/AppButton.vue";
 import DetailField from "./DetailField.vue";
 import LocationPicker from "@/components/Map/LocationPicker.vue";
-import CoverageMap from "@/components/Map/CoverageMap.vue";
+import ProfileHeroMap from "./ProfileHeroMap.vue";
 
 const props = defineProps<{
     user: User;
@@ -17,14 +17,14 @@ const lat = computed(() => {
     if (props.user.latitude !== null && props.user.latitude !== undefined) {
         return Number(props.user.latitude);
     }
-    return -8.1642;
+    return -8.1739;
 });
 
 const lng = computed(() => {
     if (props.user.longitude !== null && props.user.longitude !== undefined) {
         return Number(props.user.longitude);
     }
-    return 113.7171;
+    return 113.6878;
 });
 
 const fullAddress = computed(() => {
@@ -56,11 +56,11 @@ watch(
             form.latitude =
                 u.latitude !== null && u.latitude !== undefined
                     ? Number(u.latitude)
-                    : -8.1642;
+                    : -8.1739;
             form.longitude =
                 u.longitude !== null && u.longitude !== undefined
                     ? Number(u.longitude)
-                    : 113.7171;
+                    : 113.6878;
         }
     },
     { deep: true }
@@ -82,15 +82,6 @@ const saveAddress = () => {
         },
     });
 };
-
-const mapMarkers = computed(() => [
-    {
-        lat: lat.value,
-        lng: lng.value,
-        label: fullAddress.value,
-        type: "hq" as const,
-    },
-]);
 </script>
 
 <template>
@@ -102,7 +93,7 @@ const mapMarkers = computed(() => [
                     Alamat utama
                 </h1>
                 <p class="text-[14px] text-charcoal">
-                    Alamat dan titik peta yang digunakan sebagai isian awal.
+                    Alamat dan titik peta operasional penjemputan sampah terpilah.
                 </p>
             </div>
 
@@ -119,27 +110,22 @@ const mapMarkers = computed(() => [
 
         <!-- Normal / Display View -->
         <div v-if="!isEditing" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <!-- Left: Map Preview & Details -->
+            <!-- Left: Hero Map Preview & Details -->
             <div class="lg:col-span-8 flex flex-col gap-5">
-                <!-- Map Container Card -->
-                <div class="bg-paper-white border border-border-gray rounded-[20px] overflow-hidden p-3 shadow-xs">
-                    <div class="h-[280px] sm:h-[340px] w-full rounded-[14px] overflow-hidden relative">
-                        <CoverageMap
-                            :center="[lat, lng]"
-                            :zoom="15"
-                            :radius-km="1"
-                            :markers="mapMarkers"
-                            height="100%"
-                            :interactive="true"
-                        />
-                    </div>
-                    <p class="px-3 pt-3 pb-1 text-[12px] text-charcoal font-medium">
-                        Jember • Peta ilustrasi alamat utama.
+                <div class="flex flex-col gap-2">
+                    <ProfileHeroMap
+                        :lat="lat"
+                        :lng="lng"
+                        :address="fullAddress"
+                        height="440px"
+                    />
+                    <p class="px-2 pt-1 text-[12px] text-charcoal font-bold tracking-wide uppercase">
+                        JEMBER · PETA ILUSTRASI ALAMAT UTAMA
                     </p>
                 </div>
 
                 <!-- Address Details Card -->
-                <div class="bg-paper-white border border-border-gray rounded-[20px] p-6 flex flex-col gap-5 shadow-xs">
+                <div class="bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-6 flex flex-col gap-5 shadow-xs">
                     <DetailField label="Alamat lengkap" :value="fullAddress" />
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -160,17 +146,17 @@ const mapMarkers = computed(() => [
             </div>
 
             <!-- Right: Guidance Card -->
-            <div class="lg:col-span-4 bg-paper-white border border-border-gray rounded-[20px] p-6 flex flex-col gap-5 shadow-xs">
+            <div class="lg:col-span-4 bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-6 flex flex-col gap-5 shadow-xs">
                 <template v-if="user.role !== 'admin'">
-                    <h3 class="text-[21px] font-extrabold text-night-ink leading-snug">
+                    <h3 class="text-[20px] font-extrabold text-night-ink leading-snug">
                         Pastikan titik sesuai alamat.
                     </h3>
                     <p class="text-[13px] text-charcoal leading-relaxed">
-                        Koordinat membantu menentukan lokasi penjemputan. Peta pada prototipe ini berupa ilustrasi.
+                        Koordinat membantu driver dan petugas menentukan rute penjemputan sampahmu dengan akurat.
                     </p>
                 </template>
                 <template v-else>
-                    <h3 class="text-[21px] font-extrabold text-night-ink leading-snug">
+                    <h3 class="text-[20px] font-extrabold text-night-ink leading-snug">
                         Alamat bersifat opsional.
                     </h3>
                     <p class="text-[13px] text-charcoal leading-relaxed">
@@ -190,7 +176,7 @@ const mapMarkers = computed(() => [
         </div>
 
         <!-- Edit Address Mode -->
-        <div v-else class="bg-paper-white border border-border-gray rounded-[20px] p-6 sm:p-8 flex flex-col gap-6 shadow-xs">
+        <div v-else class="bg-paper-white border-2 border-b-[4px] border-border-gray rounded-[22px] p-6 sm:p-8 flex flex-col gap-6 shadow-xs">
             <div class="flex items-center justify-between pb-4 border-b border-border-gray/70">
                 <h3 class="text-[22px] font-extrabold text-night-ink">
                     Tentukan Titik & Alamat Utama
@@ -220,7 +206,7 @@ const mapMarkers = computed(() => [
                     id="address-text"
                     v-model="form.address"
                     rows="3"
-                    class="p-4 rounded-xl border border-border-gray bg-paper-white text-[15px] text-night-ink focus:outline-none focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 transition resize-none"
+                    class="p-4 rounded-xl border-2 border-border-gray bg-paper-white text-[15px] text-night-ink focus:outline-none focus:border-eco-green focus:ring-2 focus:ring-eco-green/20 transition resize-none"
                     placeholder="Tuliskan nama jalan, nomor rumah, RT/RW, dan patokan..."
                 />
                 <span v-if="form.errors.address" class="text-xs text-rose-500 font-semibold">
