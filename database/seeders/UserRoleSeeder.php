@@ -24,7 +24,7 @@ class UserRoleSeeder extends Seeder
                 'name' => 'Admin Bank Sampah',
                 'password' => Hash::make('password'),
                 'role' => UserRole::ADMIN,
-                'phone_number' => '081234567890',
+                'phone_number' => '081234567890',   
                 'address' => 'Kantor Pusat Bank Sampah Digital, Jl. Kebersihan No. 10, Jakarta Pusat',
                 'latitude' => -6.17539240,
                 'longitude' => 106.82715280,

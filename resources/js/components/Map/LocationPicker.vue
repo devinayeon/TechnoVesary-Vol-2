@@ -107,7 +107,7 @@ function initMap() {
   }
 
   // Click to place marker
-  if (!props.disabled) {
+  if (!props.disabled && map) {
     map.on('click', (e: any) => {
       placeMarker(e.latlng.lat, e.latlng.lng);
     });
@@ -123,7 +123,7 @@ function placeMarker(lat: number, lng: number, addressLabel?: string) {
   } else {
     marker = L.marker([lat, lng], { draggable: !props.disabled }).addTo(map);
 
-    if (!props.disabled) {
+    if (!props.disabled && marker) {
       marker.on('dragend', () => {
         const pos = marker!.getLatLng();
         doReverseGeocode(pos.lat, pos.lng);

@@ -19,6 +19,10 @@ test('informasi profil dapat diperbarui', function () {
     $response = $this->actingAs($user)->patch('/profile', [
         'name' => 'Nama Baru Nasabah',
         'email' => 'namabaru@banksampah.test',
+        'phone_number' => '081234567890',
+        'address' => 'JL. Kalimantan No. 12 Jember',
+        'latitude' => -8.1642,
+        'longitude' => 113.7171,
     ]);
 
     $response->assertSessionHasNoErrors();
@@ -28,7 +32,49 @@ test('informasi profil dapat diperbarui', function () {
 
     expect($user->name)->toBe('Nama Baru Nasabah');
     expect($user->email)->toBe('namabaru@banksampah.test');
+    expect($user->phone_number)->toBe('081234567890');
+    expect($user->address)->toBe('JL. Kalimantan No. 12 Jember');
+    expect((float) $user->latitude)->toBe(-8.1642);
+    expect((float) $user->longitude)->toBe(113.7171);
     expect($user->email_verified_at)->toBeNull();
+});
+
+test('informasi profil dapat diperbarui menggunakan alias bahasa indonesia', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->patch('/profile', [
+        'name' => 'Nama Baru Alias',
+        'email' => 'alias@banksampah.test',
+        'nomor_telepon' => '089876543210',
+        'alamat' => 'JL. Mastrip No. 5 Jember',
+    ]);
+
+    $response->assertSessionHasNoErrors();
+    $response->assertRedirect(route('profile.edit'));
+
+    $user->refresh();
+
+    expect($user->nomor_telepon)->toBe('089876543210');
+    expect($user->phone_number)->toBe('089876543210');
+    expect($user->alamat)->toBe('JL. Mastrip No. 5 Jember');
+    expect($user->address)->toBe('JL. Mastrip No. 5 Jember');
+});
+
+test('driver dapat mengubah status ketersediaan tugas', function () {
+    $user = User::factory()->create([
+        'role' => \App\Enums\UserRole::DRIVER,
+    ]);
+    \App\Models\Driver::create([
+        'user_id' => $user->id,
+        'is_available' => true,
+    ]);
+
+    $response = $this->actingAs($user)->patch('/profile', [
+        'is_available' => false,
+    ]);
+
+    $response->assertSessionHasNoErrors();
+    expect($user->fresh()->driver->is_available)->toBeFalse();
 });
 
 test('status verifikasi email tidak berubah jika email tidak diganti', function () {

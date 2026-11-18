@@ -1,73 +1,135 @@
 <script setup lang="ts">
-import { Head, Link, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
-import type { User } from '@/types/auth';
-import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
-import DeleteUserForm from './Partials/DeleteUserForm.vue';
+import { computed, ref } from "vue";
+import { Head, usePage } from "@inertiajs/vue3";
+import type { User } from "@/types/auth";
+import ProfileSidebar from "@/components/Profile/ProfileSidebar.vue";
+import ProfileHeader from "@/components/Profile/ProfileHeader.vue";
+import ProfileMainView from "@/components/Profile/ProfileMainView.vue";
+import AddressSection from "@/components/Profile/AddressSection.vue";
+import SecuritySection from "@/components/Profile/SecuritySection.vue";
+import AccountInfoSection from "@/components/Profile/AccountInfoSection.vue";
+import AvatarUploadModal from "@/components/Profile/AvatarUploadModal.vue";
 
-defineProps<{
-  mustVerifyEmail?: boolean;
-  status?: string;
+const props = defineProps<{
+    mustVerifyEmail?: boolean;
+    status?: string;
+    userData?: User;
 }>();
 
-const user = usePage().props.auth.user as User;
-
-const dashboardRoute = computed(() => {
-  if (user?.role === 'admin') return '/admin/dashboard';
-  if (user?.role === 'driver') return '/driver/dashboard';
-  return '/customer/dashboard';
+const page = usePage();
+const currentUser = computed(() => {
+    return (props.userData || (page.props.auth as any)?.user) as User;
 });
+
+type TabType = "profile" | "address" | "security" | "account";
+
+// Parse initial tab from URL query params (e.g. /profile?tab=address)
+const urlParams = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
+const initialTab = (urlParams.get("tab") as TabType) || "profile";
+const activeTab = ref<TabType>(
+    ["profile", "address", "security", "account"].includes(initialTab) ? initialTab : "profile"
+);
+
+const showPhotoModal = ref(false);
+const editProfileDirectly = ref(false);
+
+const tabTitles: Record<TabType, string> = {
+    profile: "Profil saya",
+    address: "Alamat utama",
+    security: "Keamanan akun",
+    account: "Informasi akun",
+};
+
+const currentTabTitle = computed(() => tabTitles[activeTab.value]);
+
+const handleGoToEditEmail = () => {
+    editProfileDirectly.value = true;
+    selectTab("profile");
+};
+
+const selectTab = (tab: TabType) => {
+    activeTab.value = tab;
+    if (tab !== "profile") {
+        editProfileDirectly.value = false;
+    }
+    if (typeof window !== "undefined" && window.history) {
+        const url = new URL(window.location.href);
+        if (tab === "profile") {
+            url.searchParams.delete("tab");
+        } else {
+            url.searchParams.set("tab", tab);
+        }
+        window.history.replaceState({}, "", url.toString());
+    }
+};
 </script>
 
 <template>
-  <Head title="Pengaturan Profil - Bank Sampah Digital" />
+    <Head :title="`${currentTabTitle} - Pengaturan Akun ReValue`" />
 
-  <div class="min-h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans">
-    <!-- Navbar -->
-    <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/80 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80">
-      <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center gap-3">
-          <Link :href="dashboardRoute" class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm shadow-emerald-500/20 hover:bg-emerald-500 transition">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-          </Link>
-          <div>
-            <h1 class="text-base font-bold tracking-tight text-slate-900 dark:text-white">Pengaturan Akun</h1>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Bank Sampah Digital</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <Link
-            :href="dashboardRoute"
-            class="rounded-xl border border-slate-300 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-xs hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition"
-          >
-            Kembali ke Dashboard
-          </Link>
-        </div>
-      </div>
-    </header>
-
-    <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
-      <!-- 1. Profile Information -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs dark:border-slate-800 dark:bg-slate-900">
-        <UpdateProfileInformationForm
-          :must-verify-email="mustVerifyEmail"
-          :status="status"
+    <div class="min-h-screen bg-cloud-surface text-night-ink font-sans flex flex-col lg:flex-row antialiased">
+        <!-- 1. Shared Account Sidebar -->
+        <ProfileSidebar
+            :active-tab="activeTab"
+            @select-tab="selectTab"
         />
-      </div>
 
-      <!-- 2. Update Password -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs dark:border-slate-800 dark:bg-slate-900">
-        <UpdatePasswordForm />
-      </div>
+        <!-- 2. Main Workspace -->
+        <div class="flex-1 flex flex-col min-w-0">
+            <!-- Top Shared Header -->
+            <ProfileHeader
+                :user="currentUser"
+                :current-tab-title="currentTabTitle"
+            />
 
-      <!-- 3. Delete Account -->
-      <div class="rounded-2xl border border-rose-200 bg-rose-50/30 p-6 sm:p-8 shadow-xs dark:border-rose-950 dark:bg-rose-950/20">
-        <DeleteUserForm />
-      </div>
-    </main>
-  </div>
+            <!-- Content Container -->
+            <main class="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto">
+                <!-- Status Flash Alert -->
+                <div
+                    v-if="status === 'profile-updated'"
+                    class="mb-6 p-4 rounded-xl bg-sprout-tint/80 border border-eco-green/40 text-night-ink font-bold text-sm shadow-xs animate-in fade-in duration-300"
+                >
+                    Profil berhasil diperbarui.
+                </div>
+
+                <!-- Tab 1: Profil Saya -->
+                <ProfileMainView
+                    v-if="activeTab === 'profile'"
+                    :user="currentUser"
+                    :start-in-edit-mode="editProfileDirectly"
+                    @go-to-account-info="selectTab('account')"
+                    @open-photo-modal="showPhotoModal = true"
+                    @closed-edit="editProfileDirectly = false"
+                />
+
+                <!-- Tab 2: Alamat Utama -->
+                <AddressSection
+                    v-else-if="activeTab === 'address'"
+                    :user="currentUser"
+                />
+
+                <!-- Tab 3: Keamanan Akun -->
+                <SecuritySection
+                    v-else-if="activeTab === 'security'"
+                    :user="currentUser"
+                    :must-verify-email="mustVerifyEmail"
+                    :status="status"
+                    @go-to-edit-email="handleGoToEditEmail"
+                />
+
+                <!-- Tab 4: Informasi Akun -->
+                <AccountInfoSection
+                    v-else-if="activeTab === 'account'"
+                    :user="currentUser"
+                />
+            </main>
+        </div>
+
+        <!-- Avatar Upload Modal -->
+        <AvatarUploadModal
+            :show="showPhotoModal"
+            :user="currentUser"
+            @close="showPhotoModal = false"
+        />
+    </div>
 </template>

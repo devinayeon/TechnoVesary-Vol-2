@@ -13,6 +13,13 @@ class Customer extends Model
 {
     use HasFactory;
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = ['poin', 'expired_member_date'];
+
     protected function casts(): array
     {
         return [
@@ -25,6 +32,19 @@ class Customer extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Accessors untuk kompatibilitas skema DBML/SQL (yeon-ui-dev/revalue.sql)
+     */
+    public function getPoinAttribute(): int
+    {
+        return (int) $this->points;
+    }
+
+    public function getExpiredMemberDateAttribute(): mixed
+    {
+        return $this->membership_expires_at;
     }
 
     public function subscriptionTransactions(): HasMany
