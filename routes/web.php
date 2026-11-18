@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WasteCategoryController;
 use App\Http\Controllers\MapController;
@@ -51,6 +52,10 @@ Route::middleware(['auth'])->group(function () {
                 // Manajemen Jenis Sampah (Admin Only)
                 Route::post('/waste-categories/{id}/restore', [WasteCategoryController::class, 'restore'])->name('waste-categories.restore');
                 Route::resource('waste-categories', WasteCategoryController::class)->withTrashed(['show', 'edit', 'update']);
+
+                // Manajemen Langganan (Admin Only)
+                Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
+                Route::put('/subscriptions/{subscription}', [SubscriptionController::class, 'update'])->name('subscriptions.update');
             });
 
         // 2. Driver Group

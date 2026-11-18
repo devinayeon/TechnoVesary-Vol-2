@@ -69,10 +69,9 @@ const navItems = computed<NavItem[]>(() => {
             },
             {
                 label: "Langganan",
-                href: "#",
+                href: "/admin/subscriptions",
                 icon: CreditCard,
-                isActive: false,
-                badge: "Segera",
+                isActive: url.startsWith("/admin/subscriptions"),
             },
             {
                 label: "Konversi Poin",
