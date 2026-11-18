@@ -19,6 +19,9 @@ import {
     Shield,
     Truck,
     X,
+    Eye,
+    Edit3,
+    Trash2,
 } from "lucide-vue-next";
 
 interface UserItem {
@@ -522,43 +525,46 @@ const getRoleLabel = (role: string): string => {
                                 class="py-3.5 px-6 text-right whitespace-nowrap"
                             >
                                 <div
-                                    class="inline-flex items-center gap-1.5 justify-end"
+                                    class="inline-flex items-center justify-end gap-1"
                                 >
                                     <!-- Lihat -->
                                     <Link
                                         :href="`/admin/users/${u.id}`"
-                                        class="px-2.5 py-1 text-[13px] font-extrabold text-night-ink hover:text-eco-green-dark hover:bg-cloud-surface rounded-lg transition-colors"
+                                        class="p-2 rounded-lg text-charcoal hover:text-night-ink hover:bg-cloud-surface transition-colors cursor-pointer"
+                                        title="Lihat Detail Pengguna"
                                     >
-                                        Lihat
+                                        <Eye class="size-4" />
                                     </Link>
 
                                     <!-- Ubah -->
                                     <Link
                                         :href="`/admin/users/${u.id}/edit`"
-                                        class="px-2.5 py-1 text-[13px] font-extrabold text-night-ink hover:text-eco-green-dark hover:bg-cloud-surface rounded-lg transition-colors"
+                                        class="p-2 rounded-lg text-charcoal hover:text-eco-green-dark hover:bg-sprout-tint/60 transition-colors cursor-pointer"
+                                        title="Ubah Pengguna"
                                     >
-                                        Ubah
+                                        <Edit3 class="size-4" />
                                     </Link>
 
-                                    <!-- Hapus (jika aktif) -->
+                                    <!-- Hapus/Pulihkan (disembunyikan untuk akun diri sendiri) -->
                                     <template v-if="u.id !== currentUserId">
                                         <button
                                             v-if="!u.deleted_at"
                                             type="button"
-                                            class="px-2.5 py-1 text-[13px] font-extrabold text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                            class="p-2 rounded-lg text-charcoal hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
                                             @click="openDeleteModal(u)"
+                                            title="Nonaktifkan Pengguna"
                                         >
-                                            Hapus
+                                            <Trash2 class="size-4" />
                                         </button>
 
-                                        <!-- Pulihkan (jika soft-deleted) -->
                                         <button
                                             v-else
                                             type="button"
-                                            class="px-2.5 py-1 text-[13px] font-extrabold text-eco-green-dark hover:bg-sprout-tint/60 rounded-lg transition-colors cursor-pointer"
+                                            class="p-2 rounded-lg text-eco-green-dark hover:bg-sprout-tint transition-colors cursor-pointer"
                                             @click="restoreUser(u.id)"
+                                            title="Pulihkan Pengguna"
                                         >
-                                            Pulihkan
+                                            <RotateCcw class="size-4" />
                                         </button>
                                     </template>
                                 </div>

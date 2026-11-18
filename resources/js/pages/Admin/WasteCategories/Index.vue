@@ -24,6 +24,8 @@ import {
     XCircle,
     Coins,
     X,
+    Edit3,
+    Trash2,
 } from "lucide-vue-next";
 
 export interface WasteCategoryItem {
@@ -495,18 +497,19 @@ const formatNumber = (num: number): string => {
                         />
                     </td>
 
-                    <!-- Aksi (Sesuai User Management) -->
+                    <!-- Aksi (Konsisten dengan Manajemen Artikel) -->
                     <td class="py-3.5 px-6 text-right whitespace-nowrap">
                         <div
-                            class="inline-flex items-center gap-1.5 justify-end"
+                            class="inline-flex items-center justify-end gap-1"
                         >
                             <!-- Ubah (membuka popup edit) -->
                             <button
                                 type="button"
                                 @click="openEditModal(cat)"
-                                class="px-2.5 py-1 text-[13px] font-extrabold text-night-ink hover:text-eco-green-dark hover:bg-cloud-surface rounded-lg transition-colors cursor-pointer"
+                                class="p-2 rounded-lg text-charcoal hover:text-eco-green-dark hover:bg-sprout-tint/60 transition-colors cursor-pointer"
+                                title="Ubah Kategori Sampah"
                             >
-                                Ubah
+                                <Edit3 class="size-4" />
                             </button>
 
                             <!-- Hapus (jika aktif) -->
@@ -514,9 +517,10 @@ const formatNumber = (num: number): string => {
                                 v-if="!cat.deleted_at"
                                 type="button"
                                 @click="openDeleteModal(cat)"
-                                class="px-2.5 py-1 text-[13px] font-extrabold text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                class="p-2 rounded-lg text-charcoal hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                                title="Nonaktifkan Kategori Sampah"
                             >
-                                Hapus
+                                <Trash2 class="size-4" />
                             </button>
 
                             <!-- Pulihkan (jika soft-deleted) -->
@@ -524,9 +528,10 @@ const formatNumber = (num: number): string => {
                                 v-else
                                 type="button"
                                 @click="openRestoreModal(cat)"
-                                class="px-2.5 py-1 text-[13px] font-extrabold text-eco-green-dark hover:bg-sprout-tint/60 rounded-lg transition-colors cursor-pointer"
+                                class="p-2 rounded-lg text-eco-green-dark hover:bg-sprout-tint transition-colors cursor-pointer"
+                                title="Pulihkan Kategori Sampah"
                             >
-                                Pulihkan
+                                <RotateCcw class="size-4" />
                             </button>
                         </div>
                     </td>

@@ -273,7 +273,7 @@ const getStatusLabel = (status: string): string => {
                             class="size-20 sm:size-24 rounded-2xl bg-cloud-surface border-2 border-border-gray/80 flex items-center justify-center p-2 shrink-0 shadow-2xs"
                         >
                             <img
-                                src="/assets/Badge/Badge=Kilat ReValue+, Tier=Holo.png"
+                                src="/assets/Badge/revalue-plus-badge.png"
                                 alt="ReValue Plus"
                                 class="w-full h-full object-contain"
                             />

@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\ArticleCategoryController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\PickupHistoryController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductTransactionController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WasteCategoryController;
@@ -66,6 +69,16 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/articles/upload-image', [ArticleController::class, 'uploadImage'])->name('articles.upload-image');
                 Route::post('/articles/{id}/restore', [ArticleController::class, 'restore'])->name('articles.restore');
                 Route::resource('articles', ArticleController::class)->withTrashed(['show', 'edit', 'update']);
+
+                // Manajemen Produk Upcycle Store (Admin Only)
+                Route::post('/products/{id}/restore', [ProductController::class, 'restore'])->name('products.restore');
+                Route::resource('products', ProductController::class)->withTrashed(['show', 'edit', 'update']);
+
+                // Riwayat Penjemputan (Admin Only)
+                Route::get('/pickup-history', [PickupHistoryController::class, 'index'])->name('pickup-history.index');
+
+                // Riwayat Transaksi Produk (Admin Only)
+                Route::get('/product-transactions', [ProductTransactionController::class, 'index'])->name('product-transactions.index');
             });
 
         // 2. Driver Group
