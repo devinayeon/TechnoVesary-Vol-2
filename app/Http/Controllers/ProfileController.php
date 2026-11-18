@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Customer;
+use App\Models\User;
+use App\Services\Customer\CustomerAchievementService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,19 +16,30 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    public function __construct(
+        private readonly CustomerAchievementService $achievementService
+    ) {}
+
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): Response
     {
+        /** @var User $user */
         $user = $request->user();
         $user->loadMissing(['customer', 'driver', 'admin']);
 
+        $achievements = null;
+        if ($user->customer instanceof Customer) {
+            $achievements = $this->achievementService->getAchievementsData($user->customer);
+        }
+
         return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $user instanceof MustVerifyEmail,
+            'mustVerifyEmail' => true,
             'status' => session('status'),
             'userData' => $user,
             'basemapApiKey' => config('osm.basemap_api_key'),
+            'achievements' => $achievements,
         ]);
     }
 

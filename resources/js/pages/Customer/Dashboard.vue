@@ -235,10 +235,12 @@ const userName = computed(() => props.auth?.user?.name ?? 'Customer');
                                 Pencapaian
                             </h3>
                         </div>
-                        <span class="text-[11px] font-bold text-charcoal">
-                            {{ badges.filter((b) => b.unlocked).length }} /
-                            {{ badges.length }} Terbuka
-                        </span>
+                        <Link
+                            href="/profile?tab=achievements"
+                            class="text-[12px] font-extrabold text-night-ink transition-colors hover:text-eco-green-dark"
+                        >
+                            Lihat Semua &rarr;
+                        </Link>
                     </div>
                     <div class="grid grid-cols-2 gap-2.5">
                         <div

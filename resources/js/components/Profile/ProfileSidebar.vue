@@ -7,15 +7,23 @@ import {
     Lock,
     FileText,
     ArrowLeft,
+    Trophy,
 } from 'lucide-vue-next';
 import type { User } from '@/types/auth';
 
+export type ProfileTabType =
+    | 'profile'
+    | 'achievements'
+    | 'address'
+    | 'security'
+    | 'account';
+
 const props = defineProps<{
-    activeTab: 'profile' | 'address' | 'security' | 'account';
+    activeTab: ProfileTabType;
 }>();
 
 const emit = defineEmits<{
-    (e: 'selectTab', tab: 'profile' | 'address' | 'security' | 'account'): void;
+    (e: 'selectTab', tab: ProfileTabType): void;
 }>();
 
 const page = usePage();
@@ -35,28 +43,50 @@ const dashboardRoute = computed(() => {
     return '/customer/dashboard';
 });
 
-const navItems = [
-    {
-        id: 'profile' as const,
-        label: 'Profil saya',
-        icon: UserIcon,
-    },
-    {
-        id: 'address' as const,
-        label: 'Alamat utama',
-        icon: MapPin,
-    },
-    {
-        id: 'security' as const,
-        label: 'Keamanan akun',
-        icon: Lock,
-    },
-    {
-        id: 'account' as const,
-        label: 'Informasi akun',
-        icon: FileText,
-    },
-];
+const navItems = computed(() => {
+    const isCustomer =
+        (user.value?.role as string) === 'customer' || !user.value?.role;
+
+    const items: Array<{
+        id: ProfileTabType;
+        label: string;
+        icon: any;
+    }> = [
+        {
+            id: 'profile',
+            label: 'Profil saya',
+            icon: UserIcon,
+        },
+    ];
+
+    if (isCustomer) {
+        items.push({
+            id: 'achievements',
+            label: 'Pencapaian',
+            icon: Trophy,
+        });
+    }
+
+    items.push(
+        {
+            id: 'address',
+            label: 'Alamat utama',
+            icon: MapPin,
+        },
+        {
+            id: 'security',
+            label: 'Keamanan akun',
+            icon: Lock,
+        },
+        {
+            id: 'account',
+            label: 'Informasi akun',
+            icon: FileText,
+        },
+    );
+
+    return items;
+});
 </script>
 
 <template>

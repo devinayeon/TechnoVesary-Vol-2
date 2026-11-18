@@ -9,12 +9,16 @@ import AddressSection from '@/components/Profile/AddressSection.vue';
 import SecuritySection from '@/components/Profile/SecuritySection.vue';
 import AccountInfoSection from '@/components/Profile/AccountInfoSection.vue';
 import AvatarUploadModal from '@/components/Profile/AvatarUploadModal.vue';
+import AchievementSection, {
+    type CustomerAchievementsData,
+} from '@/components/Profile/AchievementSection.vue';
 
 const props = defineProps<{
     mustVerifyEmail?: boolean;
     status?: string;
     userData?: User;
     basemapApiKey?: string;
+    achievements?: CustomerAchievementsData | null;
 }>();
 
 const page = usePage();
@@ -22,7 +26,7 @@ const currentUser = computed(() => {
     return (props.userData || (page.props.auth as any)?.user) as User;
 });
 
-type TabType = 'profile' | 'address' | 'security' | 'account';
+type TabType = 'profile' | 'achievements' | 'address' | 'security' | 'account';
 
 // Parse initial tab from URL query params (e.g. /profile?tab=address)
 const urlParams = new URLSearchParams(
@@ -30,7 +34,9 @@ const urlParams = new URLSearchParams(
 );
 const initialTab = (urlParams.get('tab') as TabType) || 'profile';
 const activeTab = ref<TabType>(
-    ['profile', 'address', 'security', 'account'].includes(initialTab)
+    ['profile', 'achievements', 'address', 'security', 'account'].includes(
+        initialTab,
+    )
         ? initialTab
         : 'profile',
 );
@@ -40,6 +46,7 @@ const editProfileDirectly = ref(false);
 
 const tabTitles: Record<TabType, string> = {
     profile: 'Profil saya',
+    achievements: 'Pencapaian saya',
     address: 'Alamat utama',
     security: 'Keamanan akun',
     account: 'Informasi akun',
@@ -104,6 +111,12 @@ const selectTab = (tab: TabType) => {
                     @go-to-account-info="selectTab('account')"
                     @open-photo-modal="showPhotoModal = true"
                     @closed-edit="editProfileDirectly = false"
+                />
+
+                <!-- Tab: Pencapaian (Achievements) -->
+                <AchievementSection
+                    v-else-if="activeTab === 'achievements'"
+                    :achievements="achievements"
                 />
 
                 <!-- Tab 2: Alamat Utama -->
