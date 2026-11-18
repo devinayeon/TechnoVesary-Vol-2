@@ -8,9 +8,13 @@ use Illuminate\Support\Facades\Log;
 class MidtransService
 {
     private string $serverKey;
+
     private string $clientKey;
+
     private bool $isProduction;
+
     private string $snapBaseUrl;
+
     private string $statusBaseUrl;
 
     public function __construct()
@@ -48,6 +52,7 @@ class MidtransService
     {
         if (empty($this->serverKey)) {
             Log::warning('Midtrans Server Key is empty, using mock token.');
+
             return $this->getMockSnapResponse($params);
         }
 
@@ -62,16 +67,19 @@ class MidtransService
 
             if ($response->successful()) {
                 $data = $response->json();
+
                 return [
                     'token' => $data['token'] ?? null,
                     'redirect_url' => $data['redirect_url'] ?? null,
                 ];
             }
 
-            Log::error('Midtrans Snap Error: ' . $response->body());
+            Log::error('Midtrans Snap Error: '.$response->body());
+
             return $this->getMockSnapResponse($params);
         } catch (\Throwable $e) {
-            Log::error('Midtrans Exception: ' . $e->getMessage());
+            Log::error('Midtrans Exception: '.$e->getMessage());
+
             return $this->getMockSnapResponse($params);
         }
     }
@@ -82,19 +90,20 @@ class MidtransService
      */
     public function isValidSignature(string $orderId, string $statusCode, string $grossAmount, string $signatureKey): bool
     {
-        $calculated1 = hash('sha512', $orderId . $statusCode . $grossAmount . $this->serverKey);
+        $calculated1 = hash('sha512', $orderId.$statusCode.$grossAmount.$this->serverKey);
         if (hash_equals($calculated1, $signatureKey)) {
             return true;
         }
 
         $formatted = number_format((float) $grossAmount, 2, '.', '');
-        $calculated2 = hash('sha512', $orderId . $statusCode . $formatted . $this->serverKey);
+        $calculated2 = hash('sha512', $orderId.$statusCode.$formatted.$this->serverKey);
         if (hash_equals($calculated2, $signatureKey)) {
             return true;
         }
 
         $intVal = (string) (int) ((float) $grossAmount);
-        $calculated3 = hash('sha512', $orderId . $statusCode . $intVal . $this->serverKey);
+        $calculated3 = hash('sha512', $orderId.$statusCode.$intVal.$this->serverKey);
+
         return hash_equals($calculated3, $signatureKey);
     }
 
@@ -146,21 +155,22 @@ class MidtransService
             return [
                 'success' => false,
                 'status_code' => $response->status(),
-                'message' => 'Gagal memeriksa status ke Midtrans: ' . ($response->json('status_message') ?? $response->body()),
+                'message' => 'Gagal memeriksa status ke Midtrans: '.($response->json('status_message') ?? $response->body()),
             ];
         } catch (\Throwable $e) {
-            Log::error('Midtrans Check Status Exception: ' . $e->getMessage());
+            Log::error('Midtrans Check Status Exception: '.$e->getMessage());
+
             return [
                 'success' => false,
-                'message' => 'Koneksi ke Midtrans gagal: ' . $e->getMessage(),
+                'message' => 'Koneksi ke Midtrans gagal: '.$e->getMessage(),
             ];
         }
     }
 
     private function getMockSnapResponse(array $params): array
     {
-        $orderId = $params['transaction_details']['order_id'] ?? ('TRX-' . time());
-        $token = 'mock-snap-token-' . md5($orderId . time());
+        $orderId = $params['transaction_details']['order_id'] ?? ('TRX-'.time());
+        $token = 'mock-snap-token-'.md5($orderId.time());
         $url = "https://app.sandbox.midtrans.com/snap/v2/vtweb/{$token}";
 
         return [

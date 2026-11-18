@@ -39,7 +39,8 @@ class MidtransWebhookController extends Controller
 
         // Khusus pengujian konektivitas dari dashboard Midtrans (tombol "Test notification URL")
         if (str_starts_with((string) $orderId, 'payment_notif_test_')) {
-            Log::info('Midtrans Webhook: Test notification ping diterima untuk ' . $orderId);
+            Log::info('Midtrans Webhook: Test notification ping diterima untuk '.$orderId);
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Test notification received successfully.',
@@ -47,7 +48,7 @@ class MidtransWebhookController extends Controller
         }
 
         if (! $this->midtransService->isValidSignature($orderId, $statusCode, $grossAmount, $signatureKey)) {
-            Log::warning('Midtrans Webhook: Invalid signature received for ' . $orderId . '. Pastikan MIDTRANS_SERVER_KEY di .env sesuai dengan merchant Midtrans.');
+            Log::warning('Midtrans Webhook: Invalid signature received for '.$orderId.'. Pastikan MIDTRANS_SERVER_KEY di .env sesuai dengan merchant Midtrans.');
 
             // Jika dalam mode produksi dan bukan di environment lokal, tolak request demi keamanan
             $isProduction = (bool) config('services.midtrans.is_production', false);

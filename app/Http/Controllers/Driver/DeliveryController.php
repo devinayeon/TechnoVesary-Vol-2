@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Driver;
 use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -19,7 +19,7 @@ class DeliveryController extends Controller
      */
     public function index(Request $request): Response
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
         $driver = $user->driver;
 
@@ -93,7 +93,7 @@ class DeliveryController extends Controller
      */
     public function show(Request $request, Transaction $transaction): Response
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
         $driver = $user->driver;
 
@@ -121,7 +121,7 @@ class DeliveryController extends Controller
      */
     public function completeDelivery(Request $request, Transaction $transaction): RedirectResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
         $driver = $user->driver;
 
@@ -143,7 +143,7 @@ class DeliveryController extends Controller
 
         DB::transaction(function () use ($request, $transaction) {
             $path = $request->file('delivery_proof_photo')->store('delivery_proofs', 'public');
-            $photoUrl = '/storage/' . $path;
+            $photoUrl = '/storage/'.$path;
 
             $transaction->update([
                 'status' => OrderStatus::DELIVERED,

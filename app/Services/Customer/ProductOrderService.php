@@ -132,7 +132,7 @@ class ProductOrderService
             if ($payableAmount > 0) {
                 $itemDetails = [
                     [
-                        'id' => 'PROD-' . $product->id,
+                        'id' => 'PROD-'.$product->id,
                         'price' => $product->price_rupiah,
                         'quantity' => $quantity,
                         'name' => substr($product->name, 0, 50),
@@ -148,7 +148,7 @@ class ProductOrderService
                     ];
                 }
 
-                $orderId = 'TRX-' . $transaction->id . '-' . time();
+                $orderId = 'TRX-'.$transaction->id.'-'.time();
                 $params = [
                     'transaction_details' => [
                         'order_id' => $orderId,
@@ -232,7 +232,7 @@ class ProductOrderService
             throw new InvalidArgumentException('Pesanan ini tidak memerlukan pembayaran lagi.');
         }
 
-        $orderId = 'TRX-' . $transaction->id . '-' . time();
+        $orderId = 'TRX-'.$transaction->id.'-'.time();
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
